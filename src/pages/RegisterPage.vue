@@ -1,17 +1,11 @@
 <script lang="ts" setup>
+  import HeaderBasic from '../components/common/HeaderBasic.vue';
+  import RegisterForm from '../components/register/RegisterForm.vue';
 </script>
 
 <template>
-    <main>
-        <section>
-            <h1>Crear cuenta</h1>
-            <form>
-                <label for="name">Nombre</label>
-                <div>
-                    <img src="../assets/user-icon.png" alt="icono de usuario" width="24px">
-                    <input type="text" name="name" id="name">
-                </div>
-            </form>
-        </section>
-    </main>
+  <div class="flex justify-center flex-col items-center">
+    <HeaderBasic />
+    <RegisterForm />
+  </div>
 </template>

@@ -3,7 +3,7 @@
 </script>
 
 <template>
-    <header>
-        <img src="../../assets/logo-basic.svg" alt="Logo de Medac" width="500">
+    <header class="m-5">
+        <img src="../../assets/logo-basic.svg" alt="Logo de Medac" width="400">
     </header>
 </template>
