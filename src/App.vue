@@ -8,5 +8,6 @@ import CompanyInformation from './components/services/companyInformation/company
   <div>
     <CompanyInformation/>
   </div>
+  <router-view /> 
 </template>
 
