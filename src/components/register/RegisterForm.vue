@@ -11,8 +11,8 @@
             <img
               src="../../assets/user-icon.png"
               alt="icono de usuario"
-              width="30"
-              class="absolute top-[5px] left-[7px]"
+              width="25"
+              class="absolute top-[6px] left-[7px]"
             />
             <input
               type="text"
@@ -29,15 +29,15 @@
             <img
               src="../../assets/email-icon.png"
               alt="icono de email"
-              width="27"
-              class="absolute top-[5px] left-[8px]"
+              width="22"
+              class="absolute top-[7px] left-[8px]"
             />
             <input
               type="text"
               name="email"
               id="email"
               class="border-1 w-[300px] py-1 pr-1 pl-10 text-[1.1rem]"
-              placeholder="Introduce tu emal"
+              placeholder="Introduce tu email"
             />
           </div>
         </div>
@@ -47,8 +47,8 @@
             <img
               src="../../assets/pass-icon.png"
               alt="icono de password"
-              width="27"
-              class="absolute top-[5px] left-[8px]"
+              width="22"
+              class="absolute top-[7px] left-[8px]"
             />
             <input
               type="password"
@@ -67,8 +67,8 @@
             <img
               src="../../assets/pass-icon.png"
               alt="icono de password"
-              width="27"
-              class="absolute top-[5px] left-[8px]"
+              width="22"
+              class="absolute top-[7px] left-[8px]"
             />
             <input
               type="password"
@@ -80,7 +80,7 @@
           </div>
         </div>
         <button
-          class="w-full mt-9 bg-[#002E4C] rounded-md py-2 px-5 text-white hover:cursor-pointer hover:ring-2 hover:ring-[#68b3fa] hover:outline-none transition-all"
+          class="w-full mt-9 bg-[#0834ac] rounded-md py-2 px-5 text-white hover:cursor-pointer hover:ring-2 hover:ring-[#68b3fa] hover:outline-none transition-all"
         >
           Registrarse
         </button>
