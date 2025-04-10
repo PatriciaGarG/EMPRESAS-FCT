@@ -1,10 +1,106 @@
-<script lang="ts" setup></script>
+<script lang="ts" setup>
+  import { reactive, ref } from 'vue';
+  import type { DataUser } from '../../types/auth';
+  import { signUpNewUser } from '../services/auth';
+
+  //Datos del formulario
+  const dataUser = reactive({
+    email: '',
+    password: '',
+    passwordConfirm: '',
+  });
+
+  //Errores
+  const errors = reactive({
+    email: '',
+    password: '',
+    passwordConfirm: '',
+    registro: '',
+  });
+
+  //Carga
+  const isLoading = ref<boolean>(false);
+
+  //Función para enviar el formulario
+  async function handleSubmit(e: Event) {
+    e.preventDefault();
+
+    // Limpiar errores
+    errors.email = '';
+    errors.password = '';
+    errors.passwordConfirm = '';
+
+    // Validación básica
+    if (!dataUser.email) {
+      errors.email = 'Campo obligatorio';
+    } else {
+      const emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
+
+      if (!emailPattern.test(dataUser.email)) {
+        errors.email = 'Formato de email incorrecto';
+      }
+    }
+
+    if (!dataUser.password) {
+      errors.password = 'Campo obligatorio';
+    } else if (dataUser.password.length < 6) {
+      errors.password = 'La contraseña debe tener al menos 6 caracteres';
+    }
+
+    if (!dataUser.passwordConfirm) {
+      errors.passwordConfirm = 'Campo obligatorio';
+    }
+
+    if (dataUser.password !== dataUser.passwordConfirm) {
+      errors.password = 'Las contraseñas no coinciden';
+      errors.passwordConfirm = 'Las contraseñas no coinciden';
+    }
+
+    // Si hay errores, no continuar
+    if (errors.email || errors.password || errors.passwordConfirm) {
+      return;
+    }
+
+    // Preparar datos limpios para enviar
+    const cleanData: DataUser = {
+      email: dataUser.email,
+      pass: dataUser.password,
+    };
+
+    // Cambiar el estado de carga a true
+    isLoading.value = true;
+
+    // Llamada a la API Supabase
+    try {
+      await signUpNewUser(cleanData);
+    } catch (error) {
+      console.error('Error durante el registro:', error);
+      errors.registro = 'Ha ocurrido un error inesperado, inténtalo más tarde';
+    } finally {
+      isLoading.value = false;
+      dataUser.email = '';
+      dataUser.password = '';
+      dataUser.passwordConfirm = '';
+    }
+  }
+
+  function handleInput(field: keyof typeof dataUser) {
+    dataUser[field] = dataUser[field].trim();
+
+    // Si el campo está vacío después de escribir, mostramos el error
+    if (!dataUser[field]) {
+      errors[field] = `Campo obligatorio`;
+    } else {
+      errors[field] = '';
+    }
+  }
+</script>
 
 <template>
   <main class="flex justify-center mt-5">
     <section class="border-2 px-10 pt-5 pb-10 border-gray-400 rounded-2xl">
       <h1 class="text-[1.7rem] font-light">Crear cuenta</h1>
-      <form>
+      <form @submit="handleSubmit">
         <div class="mt-5">
           <label for="name" class="font-bold">Nombre</label>
           <div class="relative mt-1">
@@ -37,8 +133,14 @@
               name="email"
               id="email"
               class="border-1 w-[300px] py-1 pr-1 pl-10 text-[1.1rem]"
+              :class="{ 'border-red-500': errors.email }"
               placeholder="Introduce tu email"
+              v-model="dataUser.email"
+              @input="handleInput('email')"
             />
+            <p v-if="errors.email" class="text-red-500 text-sm mt-1">
+              {{ errors.email }}
+            </p>
           </div>
         </div>
         <div class="mt-5">
@@ -55,8 +157,14 @@
               name="password"
               id="password"
               class="border-1 w-[300px] py-1 pr-1 pl-10 text-[1.1rem]"
+              :class="{ 'border-red-500': errors.password }"
               placeholder="Introduce tu contraseña"
+              v-model="dataUser.password"
+              @input="handleInput('password')"
             />
+            <p v-if="errors.password" class="text-red-500 text-sm mt-1">
+              {{ errors.password }}
+            </p>
           </div>
         </div>
         <div class="mt-5">
@@ -75,15 +183,29 @@
               name="password-confirm"
               id="password-confirm"
               class="border-1 w-[300px] py-1 pr-1 pl-10 text-[1.1rem]"
+              :class="{ 'border-red-500': errors.passwordConfirm }"
               placeholder="Introduce tu contraseña"
+              v-model="dataUser.passwordConfirm"
+              @input="handleInput('passwordConfirm')"
             />
+            <p v-if="errors.passwordConfirm" class="text-red-500 text-sm mt-1">
+              {{ errors.passwordConfirm }}
+            </p>
           </div>
         </div>
         <button
-          class="w-full mt-9 bg-[#0834ac] rounded-md py-2 px-5 text-white hover:cursor-pointer hover:ring-2 hover:ring-[#68b3fa] hover:outline-none transition-all"
+          class="w-full mt-9 rounded-md py-2 px-5 text-white hover:ring-2 hover:outline-none transition-all"
+          :disabled="isLoading"
+          :class="{
+            'bg-primary hover:ring-secondary cursor-pointer': !isLoading,
+            'bg-gray-400 cursor-not-allowed': isLoading,
+          }"
         >
           Registrarse
         </button>
+        <p v-if="errors.registro" class="text-red-500 text-sm mt-1">
+          {{ errors.registro }}
+        </p>
       </form>
     </section>
   </main>
