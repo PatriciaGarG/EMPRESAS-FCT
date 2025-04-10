@@ -2,6 +2,10 @@
   import { reactive, ref } from 'vue';
   import type { DataUser } from '../../types/auth';
   import { signUpNewUser } from '../services/auth';
+  import { useRouter } from 'vue-router';
+
+  //Router
+  const router = useRouter();
 
   //Datos del formulario
   const dataUser = reactive({
@@ -72,15 +76,22 @@
 
     // Llamada a la API Supabase
     try {
-      await signUpNewUser(cleanData);
-    } catch (error) {
-      console.error('Error durante el registro:', error);
-      errors.registro = 'Ha ocurrido un error inesperado, inténtalo más tarde';
+      const { data, error } = await signUpNewUser(cleanData);
+
+      if (error) {
+        if (error.message === 'User already registered') {
+          errors.email = 'Este correo ya está registrado';
+        } else {
+          errors.registro = 'Ha ocurrido un error inesperado, inténtalo más tarde';
+        }
+      } else {
+        router.push('/');
+        dataUser.email = '';
+        dataUser.password = '';
+        dataUser.passwordConfirm = '';
+      }
     } finally {
       isLoading.value = false;
-      dataUser.email = '';
-      dataUser.password = '';
-      dataUser.passwordConfirm = '';
     }
   }
 
@@ -101,24 +112,6 @@
     <section class="border-2 px-10 pt-5 pb-10 border-gray-400 rounded-2xl">
       <h1 class="text-[1.7rem] font-light">Crear cuenta</h1>
       <form @submit="handleSubmit">
-        <div class="mt-5">
-          <label for="name" class="font-bold">Nombre</label>
-          <div class="relative mt-1">
-            <img
-              src="../../assets/user-icon.png"
-              alt="icono de usuario"
-              width="25"
-              class="absolute top-[6px] left-[7px]"
-            />
-            <input
-              type="text"
-              name="name"
-              id="name"
-              class="border-1 w-[300px] py-1 pr-1 pl-10 text-[1.1rem]"
-              placeholder="Introduce tu nombre"
-            />
-          </div>
-        </div>
         <div class="mt-5">
           <label for="email" class="font-bold">E-mail</label>
           <div class="relative mt-1">
