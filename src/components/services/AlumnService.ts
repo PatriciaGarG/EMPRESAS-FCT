@@ -2,7 +2,7 @@ import { supabase } from './DatabaseConnection';
 export async function getAlumn() {
   const { data, error } = await supabase
     .from('alumn')
-    .select('first_name, last_name_1, last_name_2, dni, phone, email');
+    .select('first_name, last_name_1, last_name_2, dni, phone, email, company_id(name)');
   if (data) {
     return data;
   }

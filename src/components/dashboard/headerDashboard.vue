@@ -20,7 +20,7 @@
       </button>
       <button
         src=""
-        class="relative w-[150px] h-[100px] text-white font-bold px-4 hover:bg-gray-100 hover:text-black"
+        class="relative w-[150px] h-[100px] text-black font-bold px-4 bg-gray-100 hover:bg-gray-300 hover:text-black"
       >
         Cerrar sesion
       </button>

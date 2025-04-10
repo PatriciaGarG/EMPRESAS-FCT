@@ -11,4 +11,5 @@ export type Alumn = {
   province_id: string;
   phone: string;
   email: string;
+  company_id: (string | null)[];
 };

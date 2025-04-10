@@ -62,6 +62,9 @@
               {{ alumno.email }} <br />
               {{ alumno.phone }}
             </td>
+            <td class="px-6 py-4 whitespace-nowrap">
+              {{ alumno.company_id }}
+            </td>
           </tr>
         </tbody>
       </table>
