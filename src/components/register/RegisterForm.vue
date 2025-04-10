@@ -68,7 +68,7 @@
     // Preparar datos limpios para enviar
     const cleanData: DataUser = {
       email: dataUser.email,
-      pass: dataUser.password,
+      password: dataUser.password,
     };
 
     // Cambiar el estado de carga a true
@@ -76,19 +76,20 @@
 
     // Llamada a la API Supabase
     try {
-      const { data, error } = await signUpNewUser(cleanData);
+      const { error } = await signUpNewUser(cleanData);
 
       if (error) {
         if (error.message === 'User already registered') {
           errors.email = 'Este correo ya está registrado';
         } else {
-          errors.registro = 'Ha ocurrido un error inesperado, inténtalo más tarde';
+          dataUser.email = '';
+          dataUser.password = '';
+          dataUser.passwordConfirm = '';
+          errors.registro =
+            'Ha ocurrido un error inesperado, inténtalo más tarde';
         }
       } else {
-        router.push('/');
-        dataUser.email = '';
-        dataUser.password = '';
-        dataUser.passwordConfirm = '';
+        router.push('/dashboard');
       }
     } finally {
       isLoading.value = false;
@@ -104,14 +105,21 @@
     } else {
       errors[field] = '';
     }
+
+    if (field === 'password' || field === 'passwordConfirm') {
+      if (dataUser.password && dataUser.passwordConfirm) {
+        errors.password = '';
+        errors.passwordConfirm = '';
+      }
+    }
   }
 </script>
 
 <template>
   <main class="flex justify-center mt-5">
-    <section class="border-2 px-10 pt-5 pb-10 border-gray-400 rounded-2xl">
+    <section class="border-2 px-10 pt-5 pb-7 border-gray-400 rounded-2xl">
       <h1 class="text-[1.7rem] font-light">Crear cuenta</h1>
-      <form @submit="handleSubmit">
+      <form @submit="handleSubmit" class="line relative pb-8">
         <div class="mt-5">
           <label for="email" class="font-bold">E-mail</label>
           <div class="relative mt-1">
@@ -200,6 +208,16 @@
           {{ errors.registro }}
         </p>
       </form>
+      <div class="flex justify-center pt-4">
+        <p>
+          ¿Ya tienes cuenta?
+          <router-link
+            to="/"
+            class="text-secondary text-center underline cursor-pointer"
+            >Iniciar sesión</router-link
+          >
+        </p>
+      </div>
     </section>
   </main>
 </template>
