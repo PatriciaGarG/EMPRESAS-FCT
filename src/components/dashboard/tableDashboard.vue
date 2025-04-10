@@ -6,6 +6,7 @@
   import { onMounted } from 'vue';
 
   const alumnData: Ref<Alumn[] | null> = ref([]);
+
   const getAlumnData = async () => {
     try {
       const response = await getAlumn();
@@ -21,34 +22,18 @@
 </script>
 <template>
   <form class="flex flex-col items-center justify-center h-screen bg-gray-100">
-    <div class="p-8 space-y-3 rounded-xl shadow-md bg-white">
+    <div
+      class="border-2 border-blue-950 w-full h-full mt-[250px] ml-[25%] space-y-3 shadow-md bg-white"
+    >
       <table class="min-w-full divide-y divide-gray-200">
-        <thead class="bg-gray-50">
+        <thead
+          class="bg-blue-950 text-white text-left uppercase tracking-wider font-bond text-2xs"
+        >
           <tr>
-            <th
-              scope="col"
-              class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-            >
-              Nombre
-            </th>
-            <th
-              scope="col"
-              class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-            >
-              DNI
-            </th>
-            <th
-              scope="col"
-              class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-            >
-              Contacto
-            </th>
-            <th
-              scope="col"
-              class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-            >
-              Empresa
-            </th>
+            <th scope="col" class="px-6 py-3">Nombre</th>
+            <th scope="col" class="px-6 py-3">DNI</th>
+            <th scope="col" class="px-6 py-3">Contacto</th>
+            <th scope="col" class="px-6 py-3">Empresa</th>
           </tr>
         </thead>
         <tbody class="bg-white divide-y divide-gray-200">
@@ -63,7 +48,7 @@
               {{ alumno.phone }}
             </td>
             <td class="px-6 py-4 whitespace-nowrap">
-              {{ alumno.company_id }}
+              {{ alumno.company?.name || 'Sin empresa' }}
             </td>
           </tr>
         </tbody>
