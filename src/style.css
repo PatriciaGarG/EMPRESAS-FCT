@@ -3,6 +3,8 @@
 @theme {
   --color-primary: #0834ac;
   --color-secondary: #ff5b41;
+  --color-gray-light: #e8e4e4;
+  --color-gray-dark: #5c5c5c;
 }
 
 @layer components {
