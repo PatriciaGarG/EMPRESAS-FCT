@@ -43,7 +43,12 @@
       </button>
     </section>
     <AlumnInfo />
-    <CurrentCompany />
+    <section
+      class="w-full border-2 text-xl bg-white rounded-2xl shadow-lg p-6 hover:shadow-xl transition-shadow"
+    >
+      <CurrentCompany v-if="alumnData.status !== 'sin empresa'" />
+      <p v-else>Aquí hay que ver que información poner cuando el alumno no tiene empresa</p>
+    </section>
     <ExtraInfo />
   </main>
 </template>

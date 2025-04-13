@@ -7,7 +7,7 @@
 
 <script lang="ts" setup>
   import { useRoute } from 'vue-router';
-  import { onMounted, provide } from 'vue';
+  import { onMounted, provide, watch } from 'vue';
   import AlumnData from '../components/alumn-data/AlumnData.vue';
   import HeaderCommon from '../components/common/HeaderCommon.vue';
   import { useAlumnData } from '../composables/useAlumnData';
@@ -25,16 +25,21 @@
     useCurrentCompanyData(id);
 
   // Proporcionar la info a los hijos y nietos
-  if (alumnData.status !== 'sin empresa') {
-    provide('currentCompanyData', currentCompanyData);
-  }
+  provide('currentCompanyData', currentCompanyData);
   provide('alumnData', alumnData);
 
   // Llamamos a las funciones cuando el componente se monta
   onMounted(() => {
     getAlumnData();
-    if (alumnData.status !== 'sin empresa') {
-      getCurrentCompanyData();
-    }
   });
+
+  // Esperar a los datos del alumno y si hay una empresa, llamar a la DB
+  watch(
+    () => alumnData.status,
+    (newStatus) => {
+      if (newStatus && newStatus.toLowerCase() !== 'sin empresa') {
+        getCurrentCompanyData();
+      }
+    }
+  );
 </script>

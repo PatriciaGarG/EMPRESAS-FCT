@@ -13,7 +13,6 @@
     () => currentCompany.result,
     (newStatus) => {
       if (newStatus) {
-        console.log(newStatus);
         const { colorByStatusResult } = useStatusColor(newStatus);
         statusColor.value = colorByStatusResult.value;
       }
@@ -21,38 +20,34 @@
   );
 </script>
 <template>
-  <section
-    class="w-full border-2 text-xl bg-white rounded-2xl shadow-lg p-6 hover:shadow-xl transition-shadow"
-  >
-    <h1 class="text-2xl font-bold text-gray-800">🏢 Empresa actual</h1>
-    <ul class="text-gray-700 space-y-2 mt-3">
-      <li>
-        <div class="flex items-center cursor-pointer">
-          <img
-            src="../../assets/external-link-icon.png"
-            alt="icono de enlace externo"
-            width="15"
-            class="h-fit inline mr-3"
-          />
-          <strong class="underline">{{ currentCompany.company }}</strong>
-        </div>
-      </li>
-      <li><strong>Ciclo:</strong> {{ currentCompany.cycle }}</li>
-      <li><strong>Fecha de inicio:</strong> {{ currentCompany.start_date }}</li>
-      <li><strong>Fecha fin:</strong> {{ currentCompany.end_date }}</li>
-      <li>
-        <strong>Resultado:</strong>
-        <span
-          class="ml-2 px-3 py-1 text-sm font-semibold text-white rounded-full"
-          :class="statusColor"
-          >{{
-            currentCompany.result
-              ? currentCompany.result.charAt(0).toUpperCase() +
-                currentCompany.result.slice(1)
-              : 'NULL'
-          }}</span
-        >
-      </li>
-    </ul>
-  </section>
+  <h1 class="text-2xl font-bold text-gray-800">🏢 Empresa actual</h1>
+  <ul class="text-gray-700 space-y-2 mt-3">
+    <li>
+      <div class="flex items-center cursor-pointer">
+        <img
+          src="../../assets/external-link-icon.png"
+          alt="icono de enlace externo"
+          width="15"
+          class="h-fit inline mr-3"
+        />
+        <strong class="underline">{{ currentCompany.company }}</strong>
+      </div>
+    </li>
+    <li><strong>Ciclo:</strong> {{ currentCompany.cycle }}</li>
+    <li><strong>Fecha de inicio:</strong> {{ currentCompany.start_date }}</li>
+    <li><strong>Fecha fin:</strong> {{ currentCompany.end_date }}</li>
+    <li>
+      <strong>Resultado:</strong>
+      <span
+        class="ml-2 px-3 py-1 text-sm font-semibold text-white rounded-full"
+        :class="statusColor"
+        >{{
+          currentCompany.result
+            ? currentCompany.result.charAt(0).toUpperCase() +
+              currentCompany.result.slice(1)
+            : 'NULL'
+        }}</span
+      >
+    </li>
+  </ul>
 </template>

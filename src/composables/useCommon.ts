@@ -16,6 +16,7 @@ export function useStatusColor(status: string) {
 
       case 'finalizado':
       case 'suspendido':
+      case 'sin empresa':
         return 'bg-red-500';
 
       default:

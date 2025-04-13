@@ -1,5 +1,6 @@
 import { reactive } from 'vue';
 import { fetchCurrentCompanyData } from '../components/services/alumn-data';
+import type { CurrentCompany, CurrentCompanyDB } from '../types/alumnData';
 
 export const useCurrentCompanyData = (id: string) => {
   const currentCompanyData: CurrentCompany = reactive({
