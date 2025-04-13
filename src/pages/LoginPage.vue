@@ -4,7 +4,7 @@
 </script>
 
 <template>
-  <div class="flex justify-center flex-col items-center">
+  <div class="flex justify-center flex-col items-center mt-10">
     <HeaderBasic />
     <LoginForm />
   </div>

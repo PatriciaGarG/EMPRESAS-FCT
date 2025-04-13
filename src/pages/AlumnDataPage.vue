@@ -1,95 +1,40 @@
 <template>
   <div class="bg-gray-light h-screen">
+    <HeaderCommon />
     <AlumnData />
   </div>
 </template>
 
 <script lang="ts" setup>
   import { useRoute } from 'vue-router';
-  import { onMounted, provide, reactive } from 'vue';
+  import { onMounted, provide } from 'vue';
   import AlumnData from '../components/alumn-data/AlumnData.vue';
-  import {
-    fetchAlumnData,
-    fetchCurrentCompanyData,
-  } from '../components/services/alumn-data';
+  import HeaderCommon from '../components/common/HeaderCommon.vue';
+  import { useAlumnData } from '../composables/useAlumnData';
+  import { useCurrentCompanyData } from '../composables/useCurrentCompanyData';
 
-  // [*] INFORMACIÓN DEL ALUMNO [*]
+  // Id del alumno de la URL
   const route = useRoute();
   const id = route.params.id as string;
 
-  const alumnData: AlumnData = reactive({
-    id: '',
-    name: '',
-    enrollment_center: '',
-    dni: '',
-    phone: '',
-    email: '',
-    cycle: '',
-    modality: '',
-    province: '',
-    status: '',
-  });
+  // Información del alumno
+  const { alumnData, getAlumnData } = useAlumnData(id);
 
-  //Función para obtener los datos del alumno de Supabase e insertalos en el objeto
-  const getAlumnData = async () => {
-    const { data, error } = await fetchAlumnData(id);
+  // Información de la empresa
+  const { currentCompanyData, getCurrentCompanyData } =
+    useCurrentCompanyData(id);
 
-    if (error) {
-      console.log(error);
-    } else {
-      //Guardamos los datos en el reactive
-      const alumn: AlumnDataDB = data[0];
-      alumnData.id = id;
-      alumnData.name =
-        `${alumn.first_name} ${alumn.last_name_1} ${alumn.last_name_2 ? alumn.last_name_2 : ''}`.trim();
-      alumnData.enrollment_center = alumn.enrollment_center;
-      alumnData.dni = alumn.dni;
-      alumnData.phone = alumn.phone;
-      alumnData.email = alumn.email;
-      alumnData.status = alumn.status;
-      alumnData.province = alumn.province_id?.name;
-      alumnData.cycle = alumn.cycle_id?.name;
-      alumnData.modality = alumn.modality_id?.name;
-    }
-  };
-
-  // Llamamos a la función cuando el componente se monta
-  onMounted(() => {
-    getAlumnData();
-  });
-
-  // Proporcionamos la variable a los hijos, nietos, etc...
+  // Proporcionar la info a los hijos y nietos
+  if (alumnData.status !== 'sin empresa') {
+    provide('currentCompanyData', currentCompanyData);
+  }
   provide('alumnData', alumnData);
 
-  // [*] INFORMACIÓN DE LA EMPRESA ACTUAL [*]
-  if (alumnData.status !== 'sin empresa') {
-    const currentCompanyData = reactive({
-      company_id: {
-        name: '',
-      },
-      cycle_id: {
-        name: '',
-      },
-      end_date: '',
-      start_date: '',
-      result: ''
-    });
-
-    const getCurrentCompanyData = async () => {
-      const { data, error } = await fetchCurrentCompanyData(id);
-
-      if (error) {
-        console.log(error);
-      } else {
-        console.log(data);
-      }
-    };
-
-    onMounted(() => {
+  // Llamamos a las funciones cuando el componente se monta
+  onMounted(() => {
+    getAlumnData();
+    if (alumnData.status !== 'sin empresa') {
       getCurrentCompanyData();
-    });
-
-    // Proporcionamos la variable a los hijos, nietos, etc...
-    provide('alumnData', alumnData);
-  }
+    }
+  });
 </script>

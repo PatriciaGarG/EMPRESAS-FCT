@@ -1,4 +1,4 @@
-interface AlumnDataDB {
+export interface AlumnDataDB {
   first_name: string;
   last_name_1: string;
   last_name_2: string;
@@ -12,7 +12,7 @@ interface AlumnDataDB {
   province_id: { name: string };
 }
 
-interface AlumnData {
+export interface AlumnData {
   id: string;
   name: string;
   dni: string;
@@ -23,4 +23,20 @@ interface AlumnData {
   modality: string;
   cycle: string;
   province: string;
+}
+
+export interface CurrentCompanyDB {
+  company_id: { name: string };
+  cycle_id: { name: string };
+  end_date: string;
+  start_date: string;
+  result: string;
+}
+
+interface CurrentCompany {
+  company: string;
+  cycle: string;
+  end_date: string;
+  start_date: string;
+  result: string;
 }
