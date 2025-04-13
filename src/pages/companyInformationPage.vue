@@ -11,9 +11,9 @@
       
       <div id="nameTag" className=" w-auto  mt-8 border-2 border-blue-900 rounded-lg p-4 text-left text-5xl font-bold text-white bg-blue-900">{{ company.name }}</div>
       <div id="modifyAndDeleteButtons">
-        <button id="modifyButton" className="mt-20 w-35 h-10 ml-270 border-2 rounded-full bg-orange-400 text-2xl text-white border-orange-400">Modificar</button>
+        <button @click="showModifyCompany = true" id="modifyButton" className="mt-20 w-35 h-10 ml-270 border-2 rounded-full bg-orange-400 text-2xl text-white border-orange-400">Modificar</button>
         <button id="deleteButton" className="ml-5 w-35 h-10 border-2 rounded-full bg-red-500 text-2xl text-white border-red-500">Eliminar</button>
-        <!-- Ponerlo como componentes ambos botones-->
+      
       </div>
     </div>
       <div id="dataContainer" className="flex space-x-4">
@@ -26,7 +26,7 @@
           Teléfono: {{ company.phone }} <br />
           E-mail: {{ company.email }}<br />
           Modalidad/es: {{ company?.modality.name }} <br />
-          <!--Buscar desde otra tabla porque sino me da un uuid-->
+       
         </div>
     </div>
 
@@ -49,54 +49,99 @@
       <div v-if="loadingAlumn">Cargando alumnos...</div>
       <div v-else-if="errorAlumn">{{ errorAlumn }}</div>
       <div v-else-if="alumnDetails.length > 0">
-        <div id="currentlyStudents">
-          <h2>Alumnos actuales</h2>
+        <div id="currentlyStudents" className="w-full max-w-445 overflow-x-auto border-2 item-center border-gray-950 rounded-lg shadow-md p-4 mt-2 ml-15">
+          <h2 className="text-3xl font-bold border-b-2 border-gray-200">Alumnos actuales</h2>
+          <div className="grid gap-4">
           <ul>
-            <li v-for="(alumn, index) in currentStudents" :key="index">
-              <div v-if="alumn.first_name">
-                Nombre: {{ alumn.first_name }} <br />
-                Apellidos: {{ alumn.last_name_1 }} {{ alumn.last_name_2 }}
-                <br />
-                DNI: {{ alumn.dni }} <br />
-                Centro de matriculación: {{ alumn.enrollment_center }} <br />
-                Ciclo cursado y modalidad: {{ alumn?.cycle?.name }},{{alumn?.modality?.name}}<br />
-                Provincia:{{ alumn.province?.name}} <br />
-                Teléfono: {{ alumn.phone }} <br />
-                E-mail: {{ alumn.email }} <br />
-                Fecha de inicio: {{ alumn.start_date }} <br />
-                Fecha de fin: {{ alumn.end_date }} <br />
-                Estado: {{ alumn.status }} <br />
+            <li v-for="(alumn, index) in currentStudents" :key="index" >
+              <div v-if="alumn.first_name" className="bg-white p-6 rounded-lg shadow-md mb-4 border border-gray-300 overflow-x-auto">
+                <div className="grid grid-cols-11 gap-2 text-gray-600 font-semibold text-xl mb-1">
+                  <p>Nombre</p>
+                  <p>Apellidos</p>
+                  <p>DNI</p>
+                  <p>Centro de matriculación</p>
+                  <p>Ciclo cursado y modalidad</p>
+                  <p>Provincia</p>
+                  <p>Teléfono</p>
+                  <p>E-mail</p>
+                  <p>Fecha de inicio</p>
+                  <p>Fecha de fin</p>
+                  <p>Estado</p>
+                </div>
+                <div className="grid grid-cols-11 gap-2 text-gray-800 text-lg mb-4">
+                  <p>{{ alumn.first_name }}</p>
+                  <p>{{ alumn.last_name_1 }} {{ alumn.last_name_2 }}</p>
+                  <p>{{ alumn.dni }}</p>
+                  <p>{{ alumn.enrollment_center }}</p>
+                  <p>{{ alumn?.cycle?.name }} <br/>{{alumn?.modality?.name}}</p>
+                  <p>{{ alumn.province?.name}}</p>
+                  <p>{{ alumn.phone }}</p>
+                  <p>{{ alumn.email }}</p>
+                  <p>{{ alumn.start_date }}</p>
+                  <p>{{ alumn.end_date }}</p>
+                  <p>{{ alumn.status }}</p>
+                </div>
+                
+                
               </div>
             </li>
           </ul>
-          <div id="oldStudents">
-            <h2>Alumnos antiguos</h2>
+          </div>
+          </div>
+          <div id="oldStudents" className="w-full max-w-445 overflow-x-auto border-2 item-center border-gray-950 rounded-lg shadow-md p-4 mt-2 ml-15">
+            <h2 className="text-3xl font-bold border-b-2 border-gray-200">Alumnos antiguos</h2>
             <ul>
               <li v-for="(alumn, index) in oldStudents" :key="index">
-                <div v-if="alumn.first_name">
-                  Nombre: {{ alumn.first_name }} <br />
-                  Apellidos: {{ alumn.last_name_1 }} {{ alumn.last_name_2 }}<br />
-                  DNI: {{ alumn.dni }} <br />
-                  Centro de matriculación: {{ alumn.enrollment_center }} <br />
-                  Ciclo cursado y modalidad: {{ alumn?.cycle?.name }},{{alumn?.modality?.name}}<br />
-                  Email: {{ alumn.email }} <br />
-                  Fecha de inicio: {{ alumn.start_date }} <br />
-                  Fecha de fin: {{ alumn.end_date }} <br />
-                  Resultado de la práctica: {{ alumn.result }} <br />
+                <div v-if="alumn.first_name" className="bg-white p-6 rounded-lg shadow-md mb-4 border border-gray-300 overflow-x-auto">
+                  <div className="grid grid-cols-11 gap-2 text-gray-600 font-semibold text-xl mb-1">
+                    <p>Nombre</p>
+                    <p>Apellidos</p>
+                    <p>DNI</p>
+                    <p>Centro de matriculación</p>
+                    <p>Ciclo cursado y modalidad</p>
+                    <p>Provincia</p>
+                    <p>Teléfono</p>
+                    <p>E-mail</p>
+                    <p>Fecha de inicio</p>
+                    <p>Fecha de fin</p>
+                    <p>Resultado de la práctica</p>
+                  </div>
+                  <div className="grid grid-cols-11 gap-2 text-gray-800 text-lg mb-4">
+                    <p>{{ alumn.first_name }}</p>
+                    <p>{{ alumn.last_name_1 }} {{ alumn.last_name_2 }}</p>
+                    <p>{{ alumn.dni }}</p>
+                    <p>{{ alumn.enrollment_center }}</p>
+                    <p>{{ alumn?.cycle?.name }} <br/>{{alumn?.modality?.name}}</p>
+                    <p>{{ alumn.province?.name}}</p>
+                    <p>{{ alumn.phone }}</p>
+                    <p>{{ alumn.email }}</p>
+                    <p>{{ alumn.start_date }}</p>
+                    <p>{{ alumn.end_date }}</p>
+                    <p>{{ alumn.result }}</p>
+
+                  </div>
                 </div>
               </li>
             </ul>
           </div>
-        </div>
       </div>
     </div>
   </body>
+  <ModifyCompany 
+  v-if="showModifyCompany"
+  :company-id="route.params.id"
+  :company-data="company"
+  @close="showModifyCompany = false"
+  @update="fetchCompany"/>
 </template>
 
 <script setup lang="ts">
 import { ref, onMounted } from "vue";
 import { useRoute } from "vue-router";
 import { supabase } from "../components/services/DatabaseConnection";
+import ModifyCompany from "../components/services/companyInformation/ModifyCompany.vue";
+
+const showModifyCompany = ref(false);
 
 interface Company {
   name: string;
@@ -256,7 +301,7 @@ onMounted(async () => {
       }
     });
 
-  const oldStudents = alumnDetails.value
+  const oldStudentsFilter = alumnDetails.value
     .filter((alumn: any) => {
       return (
         alumn.status &&
@@ -281,7 +326,7 @@ onMounted(async () => {
     currentStudents.value = currentlyStudents;
 
   // OBTENER LOS ALUMNOS ANTIGUOS
-    oldStudents.value = oldStudents;
+    oldStudents.value = oldStudentsFilter;
 
   loadingIntership.value = false;
   loadingCycles.value = false;
