@@ -48,7 +48,7 @@
               {{ alumno.phone }}
             </td>
             <td class="px-6 py-4 whitespace-nowrap">
-              {{ alumno.company?.name || 'Sin empresa' }}
+              {{ alumno.id[0]?.company_id?.name || 'Sin empresa' }}
             </td>
           </tr>
         </tbody>
