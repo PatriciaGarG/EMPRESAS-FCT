@@ -1,7 +1,7 @@
 //DATOS
 export type Alumn = {
   id: string;
-  company_name: string;
+  company_name: string | null;
   name: string;
   dni: string;
   phone: string;
@@ -15,7 +15,7 @@ export type Alumn = {
 
 //DATOS DE LA DB
 export type CompanyDB = {
-  company_id: [{ name: string }];
+  company_id: { name: string };
 };
 
 export type AlumnDB = {
