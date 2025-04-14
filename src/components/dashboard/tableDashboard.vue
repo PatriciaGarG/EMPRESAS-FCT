@@ -14,7 +14,6 @@
         const alumnDataDB = data as unknown as AlumnDB[];
 
         alumnDataDB.forEach((alumnDB) => {
-
           // Añadir el nuevo alumno a alumnData
           alumnData.push({
             id: alumnDB.id,
@@ -22,7 +21,7 @@
             dni: alumnDB.dni,
             phone: alumnDB.phone,
             company_name:
-              alumnDB.internship
+              alumnDB.internship && alumnDB.internship[0]
                 ? alumnDB.internship[0].company_id?.name
                 : null,
             email: alumnDB.email,
