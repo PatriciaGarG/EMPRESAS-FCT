@@ -1,17 +1,36 @@
 <script lang="ts" setup>
-  import { ref } from 'vue';
+  import { reactive } from 'vue';
   import { getAlumn } from '../services/AlumnService';
-  import type { Alumn } from '../../types/alumn.d.ts';
+  import type { Alumn, AlumnDB } from '../../types/alumn.d.ts';
   import type { Ref } from 'vue';
   import { onMounted } from 'vue';
 
-  const alumnData: Ref<Alumn[] | null> = ref([]);
+  //const alumnData: Ref<Alumn[] | null> = ref([]);
+
+  const alumnData: Ref<Alumn[] | null> = reactive([
+    {
+      id: '',
+      company_name: '',
+      name: '',
+      dni: '',
+      phone: '',
+      email: '',
+      enrollment_center: '',
+      modality_id: '',
+      cycle_id: '',
+      province_id: '',
+      status: '',
+    },
+  ]);
 
   const getAlumnData = async () => {
     try {
+      const alumnDataDB: Ref<AlumnDB[] | null> = reactive([]);
+
       const response = await getAlumn();
-      alumnData.value = response;
-      console.log('Alumn data fetched successfully:', alumnData.value);
+
+      console.log('Alumn data fetched successfully:', alumnDataDB);
+      
     } catch (error) {
       console.error('Error fetching alumn data:', error);
     }
@@ -48,7 +67,7 @@
               {{ alumno.phone }}
             </td>
             <td class="px-6 py-4 whitespace-nowrap">
-              {{ alumno.id[0]?.company_id?.name || 'Sin empresa' }}
+              {{ alumno.company_name || 'Sin empresa' }}
             </td>
           </tr>
         </tbody>
