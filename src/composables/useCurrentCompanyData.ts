@@ -4,6 +4,7 @@ import type { CurrentCompany, CurrentCompanyDB } from '../types/alumnData';
 
 export const useCurrentCompanyData = (id: string) => {
   const currentCompanyData: CurrentCompany = reactive({
+    id: '',
     company: '',
     cycle: '',
     end_date: '',
