@@ -1,13 +1,12 @@
 <script lang="ts" setup>
-  import { reactive } from 'vue';
+  import { reactive, type Ref } from 'vue';
   import { getAlumn } from '../services/AlumnService';
   import type { Alumn, AlumnDB } from '../../types/alumn.d.ts';
-  import type { Ref } from 'vue';
   import { onMounted } from 'vue';
 
   //const alumnData: Ref<Alumn[] | null> = ref([]);
 
-  const alumnData = reactive<Alumn[]>([]);
+  const alumnData: Alumn[] = reactive([]);
 
   const getAlumnData = async () => {
     try {
@@ -16,10 +15,9 @@
       if (data) {
         const alumnDataDB = data as AlumnDB[];
 
-        alumnDataDB.forEach((alumnDB) => {
-          console.log(alumnDB.id[0]?.alumn_id)
-         //alumnData[0].id = alumnDB.id[0]?.alumn_id;
-
+        alumnDataDB.forEach((alumnDB, index) => {
+          console.log(alumnDB.id);
+          alumnData[0].id = alumnDB.id;
         });
 
         console.log('Alumn data fetched successfully:', alumnDataDB);

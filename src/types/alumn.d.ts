@@ -16,11 +16,11 @@ export type Alumn = {
 //DATOS DE LA DB
 export type CompanyDB = {
   company_id: [{ name: string }];
-  alumn_id: string;
 };
 
 export type AlumnDB = {
-  id: CompanyDB[];
+  id: string;
+  internship: CompanyDB[] | null;
   first_name: string;
   last_name_1: string;
   last_name_2: string | null;
