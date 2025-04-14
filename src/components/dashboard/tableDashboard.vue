@@ -7,38 +7,33 @@
 
   //const alumnData: Ref<Alumn[] | null> = ref([]);
 
-  const alumnData: Ref<Alumn[] | null> = reactive([
-    {
-      id: '',
-      company_name: '',
-      name: '',
-      dni: '',
-      phone: '',
-      email: '',
-      enrollment_center: '',
-      modality_id: '',
-      cycle_id: '',
-      province_id: '',
-      status: '',
-    },
-  ]);
+  const alumnData = reactive<Alumn[]>([]);
 
   const getAlumnData = async () => {
     try {
-      const alumnDataDB: Ref<AlumnDB[] | null> = reactive([]);
+      const data = await getAlumn();
 
-      const response = await getAlumn();
+      if (data) {
+        const alumnDataDB = data as AlumnDB[];
 
-      console.log('Alumn data fetched successfully:', alumnDataDB);
-      
+        alumnDataDB.forEach((alumnDB) => {
+          console.log(alumnDB.id[0]?.alumn_id)
+         //alumnData[0].id = alumnDB.id[0]?.alumn_id;
+
+        });
+
+        console.log('Alumn data fetched successfully:', alumnDataDB);
+      }
     } catch (error) {
       console.error('Error fetching alumn data:', error);
     }
   };
+
   onMounted(() => {
     getAlumnData();
   });
 </script>
+
 <template>
   <form class="flex flex-col items-center justify-center h-screen bg-gray-100">
     <div

@@ -11,12 +11,11 @@ export type Alumn = {
   cycle_id: string;
   province_id: string;
   status: string;
-}
-
+};
 
 //DATOS DE LA DB
 export type CompanyDB = {
-  company_id: { name: string };
+  company_id: [{ name: string }];
   alumn_id: string;
 };
 
