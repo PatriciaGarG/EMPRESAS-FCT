@@ -1,26 +1,50 @@
+<!--Here we give form to the table of dashboard-->
 <script lang="ts" setup>
-  import { ref } from 'vue';
+  import { reactive } from 'vue';
   import { getAlumn } from '../services/AlumnService';
-  import type { Alumn } from '../../types/alumn.d.ts';
-  import type { Ref } from 'vue';
+  import type { Alumn, AlumnDB } from '../../types/alumn.d.ts';
   import { onMounted } from 'vue';
 
-  const alumnData: Ref<Alumn[] | null> = ref([]);
-
+  const alumnData = reactive([]) as Alumn[];
+  // Define the type to be used in the table by the name we gave to the Alumn
   const getAlumnData = async () => {
     try {
-      const response = await getAlumn();
-      alumnData.value = response;
-      console.log('Alumn data fetched successfully:', alumnData.value);
+      const data = await getAlumn();
+      if (data) {
+        const alumnDataDB = data as unknown as AlumnDB[];
+        alumnDataDB.forEach((alumnDB) => {
+          alumnData.push({
+            id: alumnDB.id,
+            name: `${alumnDB.first_name} ${alumnDB.last_name_1} ${alumnDB.last_name_2}`.trim(),
+            dni: alumnDB.dni,
+            phone: alumnDB.phone,
+            company_name:
+              alumnDB.internship && alumnDB.internship[0]
+                ? alumnDB.internship[0].company_id?.name
+                : null,
+            email: alumnDB.email,
+            enrollment_center: alumnDB.enrollment_center,
+            modality_id: alumnDB.modality_id,
+            cycle_id: alumnDB.cycle_id,
+            province_id: alumnDB.province_id,
+            status: alumnDB.status,
+          });
+        });
+        console.log(alumnData);
+        console.log('Alumn data fetched successfully:', alumnDataDB);
+      }
     } catch (error) {
       console.error('Error fetching alumn data:', error);
     }
   };
+  //Here we call the function to get the data from the API and we use it in the table
   onMounted(() => {
     getAlumnData();
   });
 </script>
+
 <template>
+  <!--Here we give form to the table and call dates saved in data base-->
   <form class="flex flex-col items-center justify-center h-screen bg-gray-100">
     <div
       class="border-2 border-blue-950 w-full h-full mt-[250px] ml-[25%] space-y-3 shadow-md bg-white"
@@ -39,8 +63,7 @@
         <tbody class="bg-white divide-y divide-gray-200">
           <tr v-for="(alumno, index) in alumnData" :key="index">
             <td class="px-6 py-4 whitespace-nowrap">
-              {{ alumno.first_name }} {{ alumno.last_name_1 }}
-              {{ alumno.last_name_2 }}
+              {{ alumno.name }}
             </td>
             <td class="px-6 py-4 whitespace-nowrap">{{ alumno.dni }}</td>
             <td class="px-6 py-4 whitespace-nowrap">
@@ -48,7 +71,7 @@
               {{ alumno.phone }}
             </td>
             <td class="px-6 py-4 whitespace-nowrap">
-              {{ alumno.id[0]?.company_id?.name || 'Sin empresa' }}
+              {{ alumno.company_name || 'Sin empresa' }}
             </td>
           </tr>
         </tbody>
