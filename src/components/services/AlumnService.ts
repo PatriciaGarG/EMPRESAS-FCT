@@ -1,3 +1,5 @@
+//Here we define the AlumnService, which is responsible for fetching data from the 'alumn' table in the database.
+// This service uses Supabase as the database connection and fetches data from the 'alumn' table.
 import { supabase } from './DatabaseConnection';
 
 export async function getAlumn() {

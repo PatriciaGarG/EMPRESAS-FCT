@@ -1,3 +1,4 @@
+<!--Here we give form to the table of dashboard-->
 <script lang="ts" setup>
   import { reactive } from 'vue';
   import { getAlumn } from '../services/AlumnService';
@@ -5,16 +6,13 @@
   import { onMounted } from 'vue';
 
   const alumnData = reactive([]) as Alumn[];
-
+  // Define the type to be used in the table by the name we gave to the Alumn
   const getAlumnData = async () => {
     try {
       const data = await getAlumn();
-
       if (data) {
         const alumnDataDB = data as unknown as AlumnDB[];
-
         alumnDataDB.forEach((alumnDB) => {
-          // Añadir el nuevo alumno a alumnData
           alumnData.push({
             id: alumnDB.id,
             name: `${alumnDB.first_name} ${alumnDB.last_name_1} ${alumnDB.last_name_2}`.trim(),
@@ -32,7 +30,6 @@
             status: alumnDB.status,
           });
         });
-
         console.log(alumnData);
         console.log('Alumn data fetched successfully:', alumnDataDB);
       }
@@ -40,13 +37,14 @@
       console.error('Error fetching alumn data:', error);
     }
   };
-
+  //Here we call the function to get the data from the API and we use it in the table
   onMounted(() => {
     getAlumnData();
   });
 </script>
 
 <template>
+  <!--Here we give form to the table and call dates saved in data base-->
   <form class="flex flex-col items-center justify-center h-screen bg-gray-100">
     <div
       class="border-2 border-blue-950 w-full h-full mt-[250px] ml-[25%] space-y-3 shadow-md bg-white"
