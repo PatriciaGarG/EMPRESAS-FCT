@@ -23,10 +23,12 @@
     emit('close');
   };
 
-  // Exponer `openModal` como una función accesible desde fuera del componente
+  // Exponer funciones accesibles desde fuera del componente
   defineExpose({
     openModal,
+    closeModal
   });
+
 </script>
 
 <template>

@@ -61,7 +61,7 @@
     </section>
     <ExtraInfo />
     <Modal ref="modalAlumn" title="Modificar datos del alumn@">
-      <AlumnForm />
+      <AlumnForm @close="modalAlumn?.closeModal()" />
     </Modal>
     <Modal ref="modalCompany" title="hola"> + </Modal>
   </main>

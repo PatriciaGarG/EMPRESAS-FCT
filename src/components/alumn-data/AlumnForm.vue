@@ -9,11 +9,15 @@
 
   const alumnDataForm = reactive({ ...alumnData });
 
-  const { provincesData, modalitiesData, cyclesData, getSelectOptions} = useSelectOptions();
+  const { provincesData, modalitiesData, cyclesData, getSelectOptions } =
+    useSelectOptions();
+
+  const emit = defineEmits(['close']);
+
+  const provinces = [{ label: 'Provincia', value: '123132' }];
 
   onMounted(() => {
     getSelectOptions();
-    console.log(provincesData, modalitiesData, cyclesData)
   });
 
   // Función para eliminar tildes y mayus en el filtro en el select
@@ -116,10 +120,10 @@
           >Ciclo <span class="text-secondary">*</span></label
         >
         <VueSelect
-          v-model="alumnDataForm.province_name"
+          v-model="alumnDataForm.cycle_name"
           :options="cyclesData"
           :filter-by="customFilter"
-          placeholder="Selecciona una provincia"
+          placeholder="Selecciona una ciclo"
           class="custom-select"
         />
       </div>
@@ -128,20 +132,29 @@
           >Modalidad <span class="text-secondary">*</span></label
         >
         <VueSelect
-          v-model="alumnDataForm.province_name"
+          v-model="alumnDataForm.modality_name"
           :options="modalitiesData"
           :filter-by="customFilter"
-          placeholder="Selecciona una provincia"
+          placeholder="Selecciona una modalidad"
           class="custom-select"
         />
       </div>
     </div>
-    <button
-      type="submit"
-      class="bg-primary text-white px-4 py-2 rounded hover:outline-2 cursor-pointer hover:outline-secondary mt-5"
-    >
-      Guardar cambios
-    </button>
+    <div class="mt-10 flex gap-5">
+      <button
+        type="submit"
+        class="bg-primary text-white px-4 py-2 rounded hover:outline-2 cursor-pointer hover:outline-secondary"
+      >
+        Guardar cambios
+      </button>
+      <button
+        type="button"
+        @click="emit('close')"
+        class="bg-gray-600 text-white px-4 py-2 rounded hover:outline-2 cursor-pointer hover:bg-secondary"
+      >
+        Cancelar
+      </button>
+    </div>
   </form>
 </template>
 <style scoped>
