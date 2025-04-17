@@ -1,28 +1,37 @@
 export interface AlumnDataDB {
   first_name: string;
   last_name_1: string;
-  last_name_2: string;
+  last_name_2: string | null;
   dni: string;
   enrollment_center: string;
   phone: string;
   email: string;
   status: string;
-  modality_id: { name: string };
-  cycle_id: { name: string };
-  province_id: { name: string };
+  modality: { name: string };
+  cycle: { name: string };
+  province: { name: string };
+  modality_id: string;
+  cycle_id: string;
+  province_id: string;
 }
 
 export interface AlumnData {
   id: string;
-  name: string;
+  full_name: string;
+  first_name: string;
+  last_name_1: string;
+  last_name_2: string | null;
   dni: string;
   enrollment_center: string;
   phone: string;
   email: string;
   status: string;
-  modality: string;
-  cycle: string;
-  province: string;
+  modality_name: string;
+  cycle_name: string;
+  province_name: string;
+  modality_id: string;
+  cycle_id: string;
+  province_id: string;
 }
 
 export interface CurrentCompanyDB {

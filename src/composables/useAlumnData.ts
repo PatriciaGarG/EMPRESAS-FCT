@@ -5,15 +5,21 @@ import type { AlumnData, AlumnDataDB } from '../types/alumnData';
 export const useAlumnData = (id: string) => {
   const alumnData: AlumnData = reactive({
     id: '',
-    name: '',
+    full_name: '',
+    first_name: '',
+    last_name_1: '',
+    last_name_2: '',
     enrollment_center: '',
     dni: '',
     phone: '',
     email: '',
-    cycle: '',
-    modality: '',
-    province: '',
+    cycle_name: '',
+    modality_name: '',
+    province_name: '',
     status: '',
+    province_id: '',
+    cycle_id: '',
+    modality_id: '',
   });
 
   //Función para obtener los datos del alumno de Supabase e insertalos en el objeto
@@ -26,15 +32,21 @@ export const useAlumnData = (id: string) => {
       //Guardamos los datos en el reactive
       const alumn: AlumnDataDB = data[0];
       alumnData.id = id;
-      alumnData.name = `${alumn.first_name} ${alumn.last_name_1} ${alumn.last_name_2 ? alumn.last_name_2 : ''}`.trim();
+      alumnData.full_name = `${alumn.first_name} ${alumn.last_name_1} ${alumn.last_name_2 ? alumn.last_name_2 : ''}`.trim();
+      alumnData.first_name = alumn.first_name;
+      alumnData.last_name_1 = alumn.last_name_1;
+      alumnData.last_name_2 = alumn.last_name_2
       alumnData.enrollment_center = alumn.enrollment_center;
       alumnData.dni = alumn.dni;
       alumnData.phone = alumn.phone;
       alumnData.email = alumn.email;
       alumnData.status = alumn.status;
-      alumnData.province = alumn.province_id?.name;
-      alumnData.cycle = alumn.cycle_id?.name;
-      alumnData.modality = alumn.modality_id?.name;
+      alumnData.province_name = alumn.province?.name;
+      alumnData.cycle_name = alumn.cycle?.name;
+      alumnData.modality_name = alumn.modality?.name;
+      alumnData.province_id = alumn.province_id;
+      alumnData.cycle_id = alumn.cycle_id;
+      alumnData.modality_id = alumn.modality_id;
     }
   };
 

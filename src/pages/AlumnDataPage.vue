@@ -1,5 +1,5 @@
 <template>
-  <div class="bg-gray-light h-screen">
+  <div class="bg-gray-light grid grid-rows-[auto_1fr] h-[100%] min-h-[100vh]">
     <HeaderCommon />
     <AlumnData />
   </div>

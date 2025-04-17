@@ -3,24 +3,26 @@
   import { inject, ref } from 'vue';
   import CurrentCompany from './CurrentCompany.vue';
   import ExtraInfo from './ExtraInfo.vue';
-  import type { AlumnData } from '../../types/alumnData';
   import ActionButton from '../common/ActionButton.vue';
+  import type { AlumnData } from '../../types/alumnData';
   import Modal from '../common/Modal.vue';
+  import AlumnForm from './AlumnForm.vue';
 
   const alumnData = inject('alumnData') as AlumnData;
 
-  // Definir una función para abrir el modal
-  const openModal = () => {
-    modalRef.value.openModal();
-  };
+  const modalAlumn = ref();
+  const modalCompany = ref();
 
-  // Crear una referencia al modal
-  const modalRef = ref();
+  function openAlumnModal() {
+    modalAlumn.value?.openModal();
+  }
+
+  function openCompanyModal() {
+    modalCompany.value?.openModal();
+  }
 </script>
 
 <template>
-   <button @click="openModal" class="bg-green-600 text-white px-6 py-3 rounded-3xl hover:bg-green-700">Abrir Popup</button>
-   <Modal ref="modalRef" @close="console.log('Modal cerrado!')" />
   <main
     class="w-full p-10 grid grid-cols-[1fr_1fr] grid-rows-[auto_auto_auto] align-center gap-x-10 gap-y-5"
   >
@@ -37,18 +39,14 @@
       </div>
       <div>
         <p class="bg-primary py-4 px-6 rounded-2xl text-2xl text-white">
-          {{ alumnData.name }}
+          {{ alumnData.full_name }}
         </p>
       </div>
     </section>
     <section class="flex gap-4 h-fit justify-end self-end">
-      <ActionButton @click="console.log('editar')">
-        Modificar alumn@
-      </ActionButton>
-      <ActionButton @click="console.log('editar')">
-        Modificar empresa
-      </ActionButton>
-      <ActionButton @click="console.log('editar')">
+      <ActionButton @click="openAlumnModal"> Modificar alumn@ </ActionButton>
+      <ActionButton @click="openCompanyModal"> Modificar empresa </ActionButton>
+      <ActionButton @click="console.log('eliminar')">
         Eliminar alumn@
       </ActionButton>
     </section>
@@ -62,5 +60,9 @@
       </p>
     </section>
     <ExtraInfo />
+    <Modal ref="modalAlumn" title="Modificar datos del alumn@">
+      <AlumnForm />
+    </Modal>
+    <Modal ref="modalCompany" title="hola"> + </Modal>
   </main>
 </template>
