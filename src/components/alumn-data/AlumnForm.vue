@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-  import { inject, onMounted, reactive } from 'vue';
+  import { inject, onMounted, reactive, watch } from 'vue';
   import type { AlumnData } from '../../types/alumnData';
   import VueSelect, { type Option } from 'vue3-select-component';
   import { normalize } from '../../composables/useCommon';
@@ -7,14 +7,14 @@
 
   const alumnData = inject('alumnData') as AlumnData;
 
-  const alumnDataForm = reactive({ ...alumnData });
-
   const { provincesData, modalitiesData, cyclesData, getSelectOptions } =
     useSelectOptions();
 
   const emit = defineEmits(['close']);
 
-  const provinces = [{ label: 'Provincia', value: '123132' }];
+  const alumnDataForm = reactive({
+    ...alumnData,
+  });
 
   onMounted(() => {
     getSelectOptions();
@@ -106,7 +106,7 @@
           >Provincia <span class="text-secondary">*</span></label
         >
         <VueSelect
-          v-model="alumnDataForm.province_name"
+          v-model="alumnDataForm.province_id"
           :options="provincesData"
           :filter-by="customFilter"
           placeholder="Selecciona una provincia"
@@ -120,7 +120,7 @@
           >Ciclo <span class="text-secondary">*</span></label
         >
         <VueSelect
-          v-model="alumnDataForm.cycle_name"
+          v-model="alumnDataForm.cycle_id"
           :options="cyclesData"
           :filter-by="customFilter"
           placeholder="Selecciona una ciclo"
@@ -132,7 +132,7 @@
           >Modalidad <span class="text-secondary">*</span></label
         >
         <VueSelect
-          v-model="alumnDataForm.modality_name"
+          v-model="alumnDataForm.modality_id"
           :options="modalitiesData"
           :filter-by="customFilter"
           placeholder="Selecciona una modalidad"
@@ -158,10 +158,6 @@
   </form>
 </template>
 <style scoped>
-  input {
-    font-size: 1.2rem;
-  }
-
   input:focus {
     outline: none;
     border-color: #3b82f6;
@@ -172,8 +168,12 @@
     --vs-border: 1px solid #000000; /* Similar al borde por defecto de los inputs */
     --vs-border-radius: 0.375rem; /* Redondear los bordes, igual que en los inputs */
     --vs-padding: 0.5rem 1rem; /* Padding similar a px-4 py-2 */
-    --vs-font-size: 1.2rem; /* Ajusta el tamaño de la fuente */
+    --vs-font-size: 1rem; /* Ajusta el tamaño de la fuente */
     --vs-text-color: #000000; /* Color de texto oscuro (como en los inputs) */
     --vs-placeholder-color: #6b7280; /* Color del placeholder (gris) */
+  }
+
+  :deep(.single-value) {
+    max-width: 50px;
   }
 </style>
