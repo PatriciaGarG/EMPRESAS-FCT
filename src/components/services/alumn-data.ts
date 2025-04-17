@@ -1,3 +1,4 @@
+import type { AlumnData } from '../../types/alumnData';
 import { supabase } from './DatabaseConnection';
 
 export async function fetchAlumnData(id: string): Promise<any> {
@@ -32,5 +33,25 @@ export async function fetchCurrentCompanyData(id: string): Promise<any> {
     console.error('Error al obtener los datos:', error);
 
     return error;
+  }
+}
+
+export async function updateAlumnData(alumnData: any) {
+  try {
+    const { data, error } = await supabase
+      .from('alumn')
+      .upsert([alumnData], { onConflict: 'id' });
+
+    if (error) {
+      console.error('Error al actualizar los datos:', error.message);
+      return { success: false, error: error.message };
+    }
+
+    console.log('Datos actualizados con éxito:', data);
+    return { success: true, data };
+
+  } catch (err: any) {
+    console.error('Error al conectar con Supabase:', err);
+    return { success: false, error: err.message };
   }
 }
