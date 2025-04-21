@@ -28,7 +28,7 @@ export async function fetchCurrentCompanyData(id: string): Promise<any> {
         'company_id:company(name), start_date, end_date, cycle_id:cycle(name), result'
       )
       .eq('alumn_id', id);
-
+  
     return { data, error };
   } catch (error) {
     console.error('Error al obtener los datos:', error);

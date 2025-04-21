@@ -20,13 +20,13 @@ export function useValidation() {
       errors.dni = 'El DNI no es válido';
     }
 
-    if (!form.phone.trim()) {
+    if (!form.phone) {
       errors.phone = 'El teléfono es obligatorio.';
     } else if (!/^\d{9}$/.test(form.phone)) {
       errors.phone = 'Debe tener 9 dígitos';
     }
 
-    if (!form.email.trim()) {
+    if (!form.email) {
       errors.email = 'El email es obligatorio';
     } else if (!/^[^@]+@[^@]+\.[^@]+$/.test(form.email)) {
       errors.email = 'El email no es válido.';

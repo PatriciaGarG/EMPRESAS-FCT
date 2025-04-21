@@ -32,6 +32,7 @@ export interface AlumnData {
   modality_id: string;
   cycle_id: string;
   province_id: string;
+  has_company: boolean;
 }
 
 export interface CurrentCompanyDB {

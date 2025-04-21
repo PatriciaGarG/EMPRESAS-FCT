@@ -7,7 +7,7 @@
   import type { AlumnData } from '../../types/alumnData';
   import Modal from '../common/Modal.vue';
   import AlumnForm from './AlumnForm.vue';
-import CompanyForm from './CompanyForm.vue';
+  import CompanyForm from './CompanyForm.vue';
 
   const alumnData = inject('alumnData') as AlumnData;
 
@@ -29,7 +29,7 @@ import CompanyForm from './CompanyForm.vue';
   >
     <section class="flex h-fit gap-6 items-center">
       <div
-        class="relative min-w-[45px] min-h-[45px] bg-white rounded-full cursor-pointer hover:border-secondary hover:bg-secondary border-1 transition-all"
+        class="relative min-w-[45px] min-h-[45px] bg-white rounded-full cursor-pointer hover:border-primary hover:bg-primary border-1 transition-all"
       >
         <img
           class="absolute top-[2px] left-[3px]"
@@ -45,7 +45,7 @@ import CompanyForm from './CompanyForm.vue';
       </div>
     </section>
     <section class="flex gap-4 h-fit justify-end self-end">
-      <ActionButton @click="openAlumnModal" > Modificar alumn@ </ActionButton>
+      <ActionButton @click="openAlumnModal"> Modificar alumn@ </ActionButton>
       <ActionButton @click="openCompanyModal"> Modificar empresa </ActionButton>
       <ActionButton @click="console.log('eliminar')">
         Eliminar alumn@
@@ -55,7 +55,7 @@ import CompanyForm from './CompanyForm.vue';
     <section
       class="border-2 text-xl bg-white rounded-2xl shadow-lg p-6 hover:shadow-xl transition-shadow w-full max-w-full overflow-hidden"
     >
-      <CurrentCompany v-if="alumnData.status !== 'sin empresa'" />
+      <CurrentCompany v-if="alumnData.has_company" />
       <p v-else>
         Aquí hay que ver que información poner cuando el alumno no tiene empresa
       </p>
@@ -64,7 +64,7 @@ import CompanyForm from './CompanyForm.vue';
     <Modal ref="modalAlumn" title="Modificar datos del alumn@">
       <AlumnForm @close="modalAlumn?.closeModal()" />
     </Modal>
-    <Modal ref="modalCompany" title="Modificar datos de la empresa actual"> 
+    <Modal ref="modalCompany" title="Modificar datos de la empresa actual">
       <CompanyForm @close="modalCompany?.closeModal()" />
     </Modal>
   </main>

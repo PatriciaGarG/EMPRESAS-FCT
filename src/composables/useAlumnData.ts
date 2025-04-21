@@ -20,22 +20,24 @@ export const useAlumnData = (id: string) => {
     province_id: '',
     cycle_id: '',
     modality_id: '',
+    has_company: false,
   });
 
   //Función para obtener los datos del alumno de Supabase e insertalos en el objeto
   const getAlumnData = async () => {
     const { data, error } = await fetchAlumnData(id);
-    
+
     if (error) {
       console.log(error);
     } else {
       //Guardamos los datos en el reactive
       const alumn: AlumnDataDB = data[0];
       alumnData.id = id;
-      alumnData.full_name = `${alumn.first_name} ${alumn.last_name_1} ${alumn.last_name_2 ? alumn.last_name_2 : ''}`.trim();
+      alumnData.full_name =
+        `${alumn.first_name} ${alumn.last_name_1} ${alumn.last_name_2 ? alumn.last_name_2 : ''}`.trim();
       alumnData.first_name = alumn.first_name;
       alumnData.last_name_1 = alumn.last_name_1;
-      alumnData.last_name_2 = alumn.last_name_2
+      alumnData.last_name_2 = alumn.last_name_2;
       alumnData.enrollment_center = alumn.enrollment_center;
       alumnData.dni = alumn.dni;
       alumnData.phone = alumn.phone;

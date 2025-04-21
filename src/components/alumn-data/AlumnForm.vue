@@ -83,6 +83,7 @@
           full_name,
           modality_name,
           province_name,
+          has_company,
           ...validAlumnData
         } = alumnDataForm;
         const response = await updateAlumnData(validAlumnData);
@@ -349,7 +350,7 @@
         type="submit"
         :disabled="isLoading"
         :class="{
-          'bg-primary text-white px-4 py-2 rounded hover:outline-2 cursor-pointer hover:outline-secondary':
+          'bg-primary text-white px-4 py-2 rounded cursor-pointer hover:outline-2 hover:outline-black':
             !isLoading,
           'bg-gray-400 text-white px-4 py-2 rounded cursor-not-allowed':
             isLoading,

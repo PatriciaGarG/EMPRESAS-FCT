@@ -33,12 +33,13 @@
     getAlumnData();
   });
 
-  // Esperar a los datos del alumno y si hay una empresa, llamar a la DB
+  // Esperar a los datos del alumno y ver si tiene una empresa
   watch(
     () => alumnData.status,
-    (newStatus) => {
-      if (newStatus && newStatus.toLowerCase() !== 'sin empresa') {
-        getCurrentCompanyData();
+    async () => {
+      const hasCompany = await getCurrentCompanyData();
+      if (hasCompany) {
+        alumnData.has_company = true;
       }
     }
   );
