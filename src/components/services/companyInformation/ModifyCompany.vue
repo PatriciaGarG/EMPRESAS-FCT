@@ -1,95 +1,393 @@
 <template>
-    <body>
-    <div>
-        <div>
-            <h3>Nuevos datos de la empresa:</h3>
+  <div
+    class="w-full fixed min-h-screen inset-0 backdrop-blur-sm z-50 flex items-center justify-center"
+  >
+    <div
+      class="bg-white rounded-2xl shadow-lg p-8 w-full max-w-xl max-h-[90vh] overflow-y-auto"
+    >
+      <h3 class="text-2xl font-bold mb-6 text-center">
+        Nuevos datos de la empresa
+      </h3>
+      <div class="flex justify-end space-x-4 mt-6">
+        <button
+          type="button"
+          @click="$emit('close')"
+          class="px-4 py-2 bg-gray-300 text-gray-800 rounded hover:bg-gray-400"
+        >
+          <img src="/src/assets/x-square.svg" />
+        </button>
+      </div>
+      <form v-if="company" @submit.prevent="updateDataCompany">
+        <label class="">Nombre</label>
+        <input
+          v-model="company.name"
+          type="text"
+          placeholder="Nombre"
+          class="w-full border rounded-md p-2"
+        />
+        <label class="">Dirección</label>
+        <input
+          v-model="company.address"
+          type="text"
+          placeholder="Dirección"
+          class="w-full border rounded-md p-2"
+        />
+        <label class="">CIF</label>
+        <input
+          v-model="company.cif"
+          type="text"
+          placeholder="CIF"
+          class="w-full border rounded-md p-2"
+        />
+        <label class="">Teléfono</label>
+        <input
+          v-model="company.phone"
+          type="text"
+          placeholder="Teléfono"
+          class="w-full border rounded-md p-2"
+        />
+        <label class="">E-mail</label>
+        <input
+          v-model="company.email"
+          type="text"
+          placeholder="Email"
+          class="w-full border rounded-md p-2"
+        />
 
-            <div><button><img src="/src/assets/x-square.svg"></button></div>
-            <form>
-                <div>
-                <label for="companyName">Nombre:</label>
-                <input v-model="form.name" type="text" name="companyName" placeholder="Nuevo nombre de la empresa"><br/>
-                </div>
-                <div>
-                <label for="companyAddress">Dirección:</label>
-                <input v-model="form.address" type="text" name="companyAddress" placeholder="Nueva dirección de la empresa"><br/>
-                </div>
-                <div>
-                <label for="companyCIF">CIF:</label>
-                <input v-model="form.cif" type="text" name="companyCIF" placeholder="Nuevo CIF de la empresa"><br/>
-                </div>
-                <div>
-                <label for="companyAvailability">Disponibilidad:</label>
-                <input v-model="form.availability" type="text" name="companyAvailability" placeholder="Sí/No"><br/>
-                </div>
-                <div>
-                <label for="companyPhone">Teléfono:</label>
-                <input v-model="form.phone" type="text" name="companyPhone" placeholder="Nuevo teléfono de la empresa"><br/>
-                </div>
-                <div>
-                <label for="companyE">E-mail:</label>
-                <input v-model="form.email" type="text" name="companyE-mail" placeholder="Nuevo email de la empresa"><br/>
-                </div>
-                <div>
-                <label for="companyModality">Modalidad:</label>
-                <input v-model="form.modality" type="text" name="companyModality" placeholder="Modalidades de la empresa"><br/>
-                </div>
-                <div>
-                <label for="companyCycles">Ciclos compatibles:</label>
-                <input v-model="form.cycles" type="text" name="companyCycles" placeholder="Ciclos de la empresa"><br/>
-                </div>
+        <label class="">Provincia</label>
+        <select
+          v-model="company.province_id"
+          class="w-full border rounded-md p-2 mb-2 text-lg"
+        >
+          <option
+            v-for="province in province"
+            :key="province.id"
+            :value="province.id"
+          >
+            {{ province.name }}
+          </option>
+        </select>
+        <input
+          v-model="newProvince"
+          type="text"
+          placeholder="Nueva provincia"
+          class="w-full rounded-md p-2 mb-4"
+        />
+        <button
+          type="button"
+          @click="addProvince"
+          class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
+        >
+          Añadir provincia</button
+        ><br />
 
-                <div>
-                    <button type="submit">Aceptar</button>
-                </div>
-            </form>
+        <label class="">Modalidad</label>
+        <select
+          v-model="company.modality_id"
+          class="w-full border rounded-md p-2 mb-2 text-lg"
+        >
+          <option
+            v-for="modality in modalities"
+            :key="modality.id"
+            :value="modality.id"
+          >
+            {{ modality.name }}
+          </option>
+        </select>
+        <input
+          v-model="newModality"
+          type="text"
+          placeholder="Nueva modalidad"
+          class="w-full rounded-md p-2 mb-4"
+        />
+        <button
+          type="button"
+          @click="addModality"
+          class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
+        >
+          Añadir modalidad</button
+        ><br />
+
+        <label class="block mb-2 font-semibold">Ciclos asignados</label>
+        <div class="flex flex-wrap gap-2 mb-4">
+          <div 
+          v-for="cycleId in company.cycle_id"
+          :key="cycleId"
+          class="flex items-center bg-grar-200 px-3 py-1 rounded-full text-sm">
+            <span class="mr-2">
+              {{getCycleNameById(cycleId)}}
+            </span>
+            <button 
+              @click="removeCycle(cycleId)"
+              class="text-red-600 hover:text-red-800 font-bold">
+            <img src="/src/assets/x-square.svg"/>
+            </button>
+          </div>
         </div>
-    </div>
-    </body>
+        <button
+        v-if="company.cycle_id.lenght"
+        @click="removeAllCycles"
+        class="mb-4 text-sm text-red-600 underline hover:text-red-800">
+        Eliminar todos los ciclos
+      </button>
 
+      <label class="block font-semibold mb-1">Añadir ciclos</label>
+      <select multiple 
+      v-model="company.cycle_id"
+      class="w-full border rounded-md p-2 mb-2 text-lg">
+        <option v-for="cycle in cycles" :key="cycle.id" :value="cycle.id" :disabled="company.cycle_id.includes(cycle.id)">
+          {{ cycle.name }}
+        </option>
+      </select>
+        <input
+          v-model="newCycle"
+          type="text"
+          placeholder="Nuevo ciclo"
+          class="w-full rounded-md p-2 mb-4"
+        />
+        <button
+          type="button"
+          @click="addCycle"
+          class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
+        >
+          Añadir ciclo</button
+        ><br />
+
+        <button
+          type="submit"
+          class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
+        >
+          Actualizar
+        </button>
+      </form>
+    </div>
+  </div>
 </template>
 
 <script lang="ts" setup>
- import { ref, watch } from 'vue';
- import { supabase } from '../DatabaseConnection';
+import { ref, onMounted } from "vue";
+import { supabase } from "../DatabaseConnection";
 
- const props = defineProps<{
-    companyId: string;
-    companyData: any;
- }>();
+// OBTENER LOS DATOS BASE DE LA EMPRESA
+const props = defineProps<{
+  companyId: string;
+}>();
 
- const emit = defineEmits(["close", "update"]);
- const form = ref ({...props.companyData});
+// OBTENER LAS REFERENCIAS DE LOS DATOS
+const company = ref<any>(null);
+const province = ref<any[]>([]);
+const modalities = ref<any[]>([]);
+const cycles = ref<any[]>([]);
 
- watch(
-    () => props.companyData,
-    (newVal) => {
-        form.value = {...newVal };
+// AÑADIR NUEVAS OPCIONES
+const newProvince = ref("");
+const newModality = ref("");
+const newCycle = ref("");
+
+// CARGAR DATOS AL MONTAR EL COMPONENTE
+onMounted(async () => {
+  const { data: companyData, error: companyError } = await supabase
+    .from("company")
+    .select("*")
+    .eq("id", props.companyId)
+    .single();
+
+  if (companyError) {
+    console.error("Error al cargar los datos de la empresa:", companyError);
+  } else {
+    company.value = companyData;
+  }
+
+  const { data: existingCyclesData, error: existingCyclesError } =
+    await supabase
+      .from("company_cicle")
+      .select("cycle_id")
+      .eq("company_id", props.companyId);
+
+  if (existingCyclesError) {
+    console.error(
+      "Error al cargar los ciclos de la empresa:",
+      existingCyclesError
+    );
+  } else {
+    company.value.cycle_id = existingCyclesData.map((c: any) => c.cycle_id);
+  }
+
+  const { data: pronvinceData } = await supabase.from("province").select("*");
+  province.value = pronvinceData ?? [];
+
+  const { data: modalitiesData } = await supabase.from("modality").select("*");
+  modalities.value = modalitiesData ?? [];
+
+  const { data: cycleDataAll } = await supabase.from("cycle").select("*");
+  cycles.value = cycleDataAll ?? [];
+});
+
+// ACTUALIZAR LA EMPRESA
+const updateDataCompany = async () => {
+  const { error: updateError } = await supabase
+    .from("company")
+    .update({
+      name: company.value.name,
+      address: company.value.address,
+      cif: company.value.cif,
+      phone: company.value.phone,
+      email: company.value.email,
+      province_id: company.value.province_id,
+      modality_id: company.value.modality_id,
+    })
+    .eq("id", props.companyId);
+
+  if (updateError) {
+    console.error("Error al actualizar los datos de la empresa:", updateError);
+    alert("Error al actualizar los datos de la empresa.");
+    return;
+  }
+
+  const { data: existingCyclesData, error: existingCyclesError } =
+    await supabase
+      .from("company_cicle")
+      .select("cycle_id")
+      .eq("company_id", props.companyId);
+
+  if (existingCyclesError) {
+    console.error(
+      "Error al cargar los ciclos de la empresa:",
+      existingCyclesError
+    );
+    return;
+  }
+
+  const newCyclesToAdd = company.value.cycle_id
+    .filter(
+      (cycleId: string) =>
+        !existingCyclesData?.some(
+          (existingCyclesData: any) => existingCyclesData.cycle_id === cycleId
+        )
+    )
+    .map((cycleId: string) => ({
+      company_id: props.companyId,
+      cycle_id: cycleId,
+    }));
+
+  if (newCyclesToAdd.length > 0) {
+    const { error: cyclesError } = await supabase
+      .from("company_cicle")
+      .insert(newCyclesToAdd);
+
+    if (cyclesError) {
+      console.error("Error al añadir los ciclos de la empresa:", cyclesError);
+      alert("Error al añadir los ciclos de la empresa.");
+      return;
     }
- )
+  }
+  window.location.reload();
 
- const updateDataCompany = async () => {
-    const { error } = await supabase 
-        .from("company")
-        .update({
-            name: form.value.name,
-            address: form.value.address,
-            cif: form.value.cif,
-            availability: form.value.availability,
-            phone: form.value.phone,
-            email: form.value.email,
-            modality: form.value.modality,
-            cycles: form.value.cycles
-        })
-        .eq("id", props.companyId);
+  
+};
 
-        if(error) {
-            alert("Error al actualizar");
-            return;
-        }
+// AÑADIR NUEVA PROVINCIA
+const addProvince = async () => {
+    if (!newProvince.value.trim()) return;
+
+    const { data: newItem, error } = await supabase
+      .from("province")
+      .insert({ name: newProvince.value })
+      .select()
+      .single();
+
+    if (!error && newItem) {
+      province.value.push(newItem);
+      company.value.province_id = newItem.id;
+      newProvince.value = "";
+    } else {
+      console.error("Error al añadir la provincia:", error);
+    }
+  };
+
+  // AÑADIR NUEVA MODALIDAD
+  const addModality = async () => {
+    if (!newModality.value.trim()) return;
+
+    const { data: newItem, error } = await supabase
+      .from("modality")
+      .insert({ name: newModality.value })
+      .select()
+      .single();
+
+    if (!error && newItem) {
+      modalities.value.push(newItem);
+      company.value.modality_id = newItem.id;
+      newModality.value = "";
+    } else {
+      console.error("Error al añadir la modalidad:", error);
+    }
+  };
+
+  // AÑADIR NUEVO CICLO
+  const addCycle = async () => {
+    if (!newCycle.value.trim()) return;
+
+    const { data: newItem, error } = await supabase
+      .from("cycle")
+      .insert({ name: newCycle.value })
+      .select()
+      .single();
+
+    if (!error && newItem) {
+      cycles.value.push(newItem);
+      company.value.cycle_id = [...(company.value.cycle_id || []), newItem.id];
+       const { error: relationError } = await supabase 
+       .from("company_cicle")
+        .insert({ company_id: props.companyId, cycle_id: newItem.id });
+      if (relationError) {
+        console.error("Error al añadir la relación empresa-ciclo:", relationError);
+        alert("Error al añadir la relación empresa-ciclo.");
+      } else {
+      }
+      newCycle.value = "";
+    } else {
+      console.error("Error al añadir el ciclo:", error);
+      alert("Error al añadir el ciclo.");
+    }
+
     
-        emit("update");
-        emit("close");
- }
+  };
 
+// OBTENER CICLO POR ID
+const getCycleNameById = (id:string) => {
+  const found = cycles.value.find((c) => c.id === id);
+  return found ? found.name : "Ciclo no encontrado";
+}
+
+// ELIMINAR UN CICLO
+const removeCycle = async (cycleId:string) => {
+  const {error} = await supabase 
+  .from("company_cicle")
+  .delete()
+  .eq("company_id", props.companyId)
+  .eq("cycle_id", cycleId);
+
+  if(!error){
+    company.value.cycle_id = company.value.cycle_id.filter((id:string) => id !== cycleId);
+  }else{
+    console.error("Error al eliminar el ciclo:", error);
+    alert("Error al eliminar el ciclo.");
+  }
+}
+
+// ELIMINAR TODOS LOS CICLOS
+const removeAllCycles = async () => {
+  const {error} = await supabase
+  .from("company_cicle")
+  .delete()
+  .eq("company_id", props.companyId);
+
+  if(!error){
+    company.value.cycle_id = [];
+  }else{
+    console.error("Error al eliminar todos los ciclos:", error);
+    alert("Error al eliminar todos los ciclos.");
+  }
+}
 </script>
