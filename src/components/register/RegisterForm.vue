@@ -198,7 +198,7 @@
           class="w-full mt-9 rounded-md py-2 px-5 text-white hover:ring-2 hover:outline-none transition-all"
           :disabled="isLoading"
           :class="{
-            'bg-primary hover:ring-secondary cursor-pointer': !isLoading,
+            'bg-primary hover:ring-black cursor-pointer': !isLoading,
             'bg-gray-400 cursor-not-allowed': isLoading,
           }"
         >

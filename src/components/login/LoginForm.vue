@@ -34,6 +34,12 @@
     // Validación básica
     if (!dataUser.email) {
       errors.email = 'Campo obligatorio';
+    } else {
+      const emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
+
+      if (!emailPattern.test(dataUser.email)) {
+        errors.email = 'Formato de email incorrecto';
+      }
     }
 
     if (!dataUser.password) {
@@ -139,7 +145,7 @@
           class="w-full mt-9 rounded-md py-2 px-5 text-white hover:ring-2 hover:outline-none transition-all"
           :disabled="isLoading"
           :class="{
-            'bg-primary hover:ring-secondary cursor-pointer': !isLoading,
+            'bg-primary hover:ring-black cursor-pointer': !isLoading,
             'bg-gray-400 cursor-not-allowed': isLoading,
           }"
         >
