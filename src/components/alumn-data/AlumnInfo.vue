@@ -2,8 +2,16 @@
   import { inject, ref, watch } from 'vue';
   import type { AlumnData } from '../../types/alumnData';
   import { useStatusColor } from '../../composables/useCommon';
+  import Modal from '../common/Modal.vue';
+  import AlumnForm from './AlumnForm.vue';
 
   const alumnData = inject('alumnData') as AlumnData;
+
+  const modalAlumn = ref();
+
+  function openAlumnModal() {
+    modalAlumn.value?.openModal();
+  }
 
   // Variable para manejar el color
   const statusColor = ref('bg-gray-500');
@@ -22,24 +30,36 @@
 
 <template>
   <section
-    class="p-6 w-full border-2 text-xl bg-white rounded-2xl shadow-lg hover:shadow-xl transition-shadow"
+    class="p-6 border-2 text-xl w-full max-w-full overflow-hidden bg-white rounded-2xl shadow-lg hover:shadow-xl transition-shadow"
   >
-    <div class="flex items-center justify-between mb-4">
-      <div class="flex gap-5">
-        <h2 class="text-2xl font-bold text-gray-800">
-          👤 {{ alumnData.full_name }}
+    <div class="flex items-center justify-between mb-4 flex-wrap gap-y-2">
+      <div class="flex gap-5 flex-wrap w-fit max-w-[90%]">
+        <h2 class="text-2xl font-bold text-gray-800 truncate">
+          👤
+          {{ alumnData.full_name }}
         </h2>
         <span
-          class="px-3 py-1 text-sm font-semibold text-white not-first:rounded-full"
+          class="px-3 py-1 text-sm font-semibold h-fit w-fit text-white not-first:rounded-full"
           :class="statusColor"
-          >{{
-            alumnData.status.charAt(0).toUpperCase() + alumnData.status.slice(1)
-          }}</span
         >
+          {{
+            alumnData.status.charAt(0).toUpperCase() + alumnData.status.slice(1)
+          }}
+        </span>
       </div>
+      <button
+        class="text-[0.9rem] cursor-pointer bg-gray-200 p-2 rounded-2xl hover:bg-secondary"
+        @click="openAlumnModal"
+      >
+        <img
+          src="../../assets/edit-icon.png"
+          alt="icono de editar"
+          width="20"
+        />
+      </button>
     </div>
 
-    <ul class="text-gray-700 space-y-2">
+    <ul class="text-gray-700 space-y-2 break-words">
       <li><strong>DNI:</strong> {{ alumnData.dni }}</li>
       <li><strong>Email:</strong> {{ alumnData.email }}</li>
       <li><strong>Teléfono:</strong> {{ alumnData.phone }}</li>
@@ -49,4 +69,7 @@
       <li><strong>Provincia:</strong> {{ alumnData.province_name }}</li>
     </ul>
   </section>
+  <Modal ref="modalAlumn" title="Modificar datos del alumn@">
+    <AlumnForm @close="modalAlumn?.closeModal()" />
+  </Modal>
 </template>

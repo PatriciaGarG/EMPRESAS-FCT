@@ -1,3 +1,4 @@
+import { idText } from 'typescript';
 import type { AlumnData } from '../../types/alumnData';
 import { supabase } from './DatabaseConnection';
 
@@ -36,7 +37,7 @@ export async function fetchCurrentCompanyData(id: string): Promise<any> {
   }
 }
 
-export async function updateAlumnData(alumnData: any) {
+export async function updateAlumnData(alumnData: any): Promise<any> {
   try {
     const { data, error } = await supabase
       .from('alumn')
@@ -47,11 +48,44 @@ export async function updateAlumnData(alumnData: any) {
       return { success: false, error: error.message };
     }
 
-    console.log('Datos actualizados con éxito:', data);
-    return { success: true, data };
-
+    console.log('Datos actualizados con éxito:');
+    return { success: true };
   } catch (err: any) {
     console.error('Error al conectar con Supabase:', err);
     return { success: false, error: err.message };
   }
 }
+
+export const checkEmailExists = async (email: string, id: string) => {
+  const { data, error } = await supabase
+    .from('alumn')
+    .select('id')
+    .eq('email', email)
+    .neq('id', id)
+    .maybeSingle();
+
+  if (error) {
+    console.error('Error comprobando email:', error);
+    return false;
+  }
+
+  return !!data;
+};
+
+export const checkPhoneExists = async (
+  phone: string,
+  id: string
+): Promise<boolean> => {
+  const { data, error } = await supabase
+    .from('alumn')
+    .select('id')
+    .eq('phone', phone)
+    .neq('id', id)
+    .maybeSingle();
+
+  if (error) {
+    console.error('Error comprobando phone:', error);
+    return false;
+  }
+  return !!data;
+};

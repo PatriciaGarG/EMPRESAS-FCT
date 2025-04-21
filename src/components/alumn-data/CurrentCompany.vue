@@ -30,7 +30,7 @@
           width="15"
           class="h-fit inline mr-3"
         />
-        <strong class="underline">{{ currentCompany.company }}</strong>
+        <strong class="underline truncate">{{ currentCompany.company }}</strong>
       </div>
     </li>
     <li><strong>Ciclo:</strong> {{ currentCompany.cycle }}</li>

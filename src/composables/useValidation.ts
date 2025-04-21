@@ -48,10 +48,14 @@ export function useValidation() {
       errors.modality_id = 'Selecciona una modalidad';
     }
 
+    if (!form.status) {
+      errors.status = 'Selecciona un estado';
+    }
+
     return errors;
   };
 
-  const validateField = (
+  const validateAlumnField = (
     field: keyof AlumnData,
     value: string | number | null
   ) => {
@@ -101,9 +105,12 @@ export function useValidation() {
       case 'modality_id':
         if (!value) return 'Selecciona una modalidad';
         break;
+      case 'status':
+        if (!value) return 'Selecciona un estado';
+        break;
     }
-    
+
     return '';
   };
-  return { validateAlumnForm, validateField };
+  return { validateAlumnForm, validateAlumnField };
 }

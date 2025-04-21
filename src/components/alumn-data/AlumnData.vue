@@ -7,6 +7,7 @@
   import type { AlumnData } from '../../types/alumnData';
   import Modal from '../common/Modal.vue';
   import AlumnForm from './AlumnForm.vue';
+import CompanyForm from './CompanyForm.vue';
 
   const alumnData = inject('alumnData') as AlumnData;
 
@@ -28,7 +29,7 @@
   >
     <section class="flex h-fit gap-6 items-center">
       <div
-        class="relative w-[45px] h-[45px] bg-white rounded-full cursor-pointer hover:border-secondary hover:bg-secondary border-1 transition-all"
+        class="relative min-w-[45px] min-h-[45px] bg-white rounded-full cursor-pointer hover:border-secondary hover:bg-secondary border-1 transition-all"
       >
         <img
           class="absolute top-[2px] left-[3px]"
@@ -44,7 +45,7 @@
       </div>
     </section>
     <section class="flex gap-4 h-fit justify-end self-end">
-      <ActionButton @click="openAlumnModal"> Modificar alumn@ </ActionButton>
+      <ActionButton @click="openAlumnModal" > Modificar alumn@ </ActionButton>
       <ActionButton @click="openCompanyModal"> Modificar empresa </ActionButton>
       <ActionButton @click="console.log('eliminar')">
         Eliminar alumn@
@@ -52,7 +53,7 @@
     </section>
     <AlumnInfo />
     <section
-      class="w-full border-2 text-xl bg-white rounded-2xl shadow-lg p-6 hover:shadow-xl transition-shadow"
+      class="border-2 text-xl bg-white rounded-2xl shadow-lg p-6 hover:shadow-xl transition-shadow w-full max-w-full overflow-hidden"
     >
       <CurrentCompany v-if="alumnData.status !== 'sin empresa'" />
       <p v-else>
@@ -63,6 +64,8 @@
     <Modal ref="modalAlumn" title="Modificar datos del alumn@">
       <AlumnForm @close="modalAlumn?.closeModal()" />
     </Modal>
-    <Modal ref="modalCompany" title="hola"> + </Modal>
+    <Modal ref="modalCompany" title="Modificar datos de la empresa actual"> 
+      <CompanyForm @close="modalCompany?.closeModal()" />
+    </Modal>
   </main>
 </template>
