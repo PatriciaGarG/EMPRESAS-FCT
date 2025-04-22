@@ -26,7 +26,6 @@ export async function fetchCurrentCompanyData(id: string): Promise<any> {
         'id, company_id ,company(name), start_date, end_date, cycle_id, cycle(name), result'
       )
       .eq('alumn_id', id);
-    console.log(data);
     return { data, error };
   } catch (error) {
     console.error('Error al obtener los datos:', error);
@@ -99,6 +98,41 @@ export const deleteCurrentCompany = async (id: string): Promise<boolean> => {
   }
 };
 
+export const deleteAlumn = async (id: string): Promise<boolean> => {
+  const { error } = await supabase.from('alumn').delete().eq('id', id);
+
+  if (error) {
+    console.error('Error al eliminar:', error);
+    return false;
+  } else {
+    return true;
+  }
+};
+
+export async function updateCurrentCompanyData(
+  currentCompany: any
+): Promise<{ success: boolean; id?: string; error?: string }> {
+  try {
+    if (!currentCompany.id) {
+      currentCompany.id = crypto.randomUUID();
+    }
+
+    const { data, error } = await supabase
+      .from('internship')
+      .upsert([currentCompany], { onConflict: 'id' });
+
+    if (error) {
+      console.error('Error al actualizar los datos:', error.message);
+      return { success: false, error: error.message };
+    }
+
+    console.log('Datos actualizados con éxito:', data);
+    return { success: true, id: currentCompany.id };
+  } catch (err: any) {
+    console.error('Error al conectar con Supabase:', err);
+    return { success: false, error: err.message };
+  }
+}
 export const checkAllEmailExists = async (email: string) => {
   const { data } = await supabase.from('alumn').select('id').eq('email', email);
 

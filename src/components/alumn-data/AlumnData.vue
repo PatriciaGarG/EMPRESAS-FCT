@@ -1,6 +1,6 @@
 <script lang="ts" setup>
   import AlumnInfo from './AlumnInfo.vue';
-  import { inject, ref } from 'vue';
+  import { computed, inject, provide, ref } from 'vue';
   import CurrentCompany from './CurrentCompany.vue';
   import ExtraInfo from './ExtraInfo.vue';
   import ActionButton from '../common/ActionButton.vue';
@@ -8,11 +8,16 @@
   import Modal from '../common/Modal.vue';
   import AlumnForm from './AlumnForm.vue';
   import CompanyForm from './CompanyForm.vue';
+  import DeleteAlumn from './DeleteAlumn.vue';
 
   const alumnData = inject('alumnData') as AlumnData;
 
+  // Computed para manejar la reactividad de has_company
+  const hasCompany = computed(() => alumnData.has_company);
+
   const modalAlumn = ref();
   const modalCompany = ref();
+  const modalDelete = ref();
 
   function openAlumnModal() {
     modalAlumn.value?.openModal();
@@ -21,6 +26,16 @@
   function openCompanyModal() {
     modalCompany.value?.openModal();
   }
+  function openDeleteModal() {
+    modalDelete.value?.openModal();
+  }
+
+  // Función para actualizar has_company
+  const updateHasCompany = (newValue: boolean) => {
+    alumnData.has_company = newValue;
+  };
+
+  provide('updateHasCompany', updateHasCompany);
 </script>
 
 <template>
@@ -47,15 +62,13 @@
     <section class="flex gap-4 h-fit justify-end self-end">
       <ActionButton @click="openAlumnModal"> Modificar alumn@ </ActionButton>
       <ActionButton @click="openCompanyModal"> Modificar empresa </ActionButton>
-      <ActionButton @click="console.log('eliminar')">
-        Eliminar alumn@
-      </ActionButton>
+      <ActionButton @click="openDeleteModal"> Eliminar alumn@ </ActionButton>
     </section>
     <AlumnInfo />
     <section
       class="border-2 text-xl bg-white rounded-2xl shadow-lg p-6 hover:shadow-xl transition-shadow w-full max-w-full overflow-hidden"
     >
-      <CurrentCompany v-if="alumnData.has_company" />
+      <CurrentCompany v-if="hasCompany" />
       <p v-else>
         Aquí hay que ver que información poner cuando el alumno no tiene empresa
       </p>
@@ -66,6 +79,9 @@
     </Modal>
     <Modal ref="modalCompany" title="Modificar datos de la empresa actual">
       <CompanyForm @close="modalCompany?.closeModal()" />
+    </Modal>
+    <Modal ref="modalDelete" title="¿Seguro que quieres borrar este alumn@?">
+      <DeleteAlumn @close="modalDelete?.closeModal()" />
     </Modal>
   </main>
 </template>

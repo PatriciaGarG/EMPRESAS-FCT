@@ -13,6 +13,12 @@ export const useAllCompanyData = () => {
     } else {
       allCompanyOptions.value = data.map((company: any) => ({
         name: company.name,
+        value: company.id,
+        active: company.active,
+        cif: company.cif,
+        province: company.province.name,
+        label:
+          company.name + ' - ' + company.province.name + ' - ' + company.cif,
       }));
     }
   };

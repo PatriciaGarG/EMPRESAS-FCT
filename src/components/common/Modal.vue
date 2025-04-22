@@ -38,13 +38,13 @@
     :style="{ backgroundColor: 'rgba(0, 0, 0, 0.8)' }"
   >
     <div
-      class="bg-white p-8 rounded-xl shadow-lg w-[80vw] transition-all opacity-100"
+      class="bg-white p-8 rounded-xl shadow-lg transition-all opacity-100"
     >
       <header class="flex justify-between items-center mb-4">
-        <h3 class="text-xl font-semibold">{{ title }}</h3>
+        <h3 class="text-xl font-semibold pr-3">{{ title }}</h3>
         <button
           @click="closeModal"
-          class="text-gray-500 text-3xl hover:text-secondary cursor-pointer"
+          class="text-gray-500 text-3xl hover:text-secondary cursor-pointer ml-5"
         >
           &times;
         </button>

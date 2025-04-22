@@ -1,6 +1,5 @@
 <template>
   <div class="bg-gray-light grid grid-rows-[auto_1fr] h-[100%] min-h-[100vh]">
-    <HeaderCommon />
     <AlumnData />
   </div>
 </template>
@@ -9,10 +8,8 @@
   import { useRoute } from 'vue-router';
   import { onMounted, provide, watch } from 'vue';
   import AlumnData from '../components/alumn-data/AlumnData.vue';
-  import HeaderCommon from '../components/common/HeaderCommon.vue';
   import { useAlumnData } from '../composables/useAlumnData';
   import { useCurrentCompanyData } from '../composables/useCurrentCompanyData';
-  import { useAllCompanyData } from '../composables/useAllCompanyData';
 
   // Id del alumno de la URL
   const route = useRoute();

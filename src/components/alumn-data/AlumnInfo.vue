@@ -47,16 +47,18 @@
           }}
         </span>
       </div>
-      <button
-        class="text-[0.9rem] cursor-pointer p-2 rounded-2xl hover:bg-gray-200"
-        @click="openAlumnModal"
-      >
+      <div class="flex items-center justify-center p-2 rounded-2xl bg-gray-200 gap-2 cursor-pointer font-semibold hover:bg-gray-300">
         <img
           src="../../assets/edit-icon.png"
           alt="icono de editar"
-          width="20"
+          class="size-5 cursor-pointer"
         />
-      </button>
+        <button
+          class="text-[0.9rem] cursor-pointer "
+          @click="openAlumnModal"
+        > Editar
+        </button>
+      </div>
     </div>
 
     <ul class="text-gray-700 space-y-2 break-words">

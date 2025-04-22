@@ -158,7 +158,7 @@
 </script>
 
 <template>
-  <form @submit.prevent="handleSubmit" class="space-y-4">
+  <form @submit.prevent="handleSubmit" class="space-y-4 min-w-[60vw]">
     <fieldset class="border-1 p-5 pb-8 rounded-2xl border-gray-700">
       <legend class="font-semibold px-2">Datos personales</legend>
       <div class="flex gap-5">

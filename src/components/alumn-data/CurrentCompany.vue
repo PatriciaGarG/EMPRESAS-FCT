@@ -1,15 +1,27 @@
 <script lang="ts" setup>
-  import { inject, ref } from 'vue';
-  import type { CurrentCompany } from '../../types/alumnData';
+  import { inject, ref, watch } from 'vue';
+  import type { AlumnData, CurrentCompany } from '../../types/alumnData';
   import { useStatusColor } from '../../composables/useCommon';
 
   const currentCompany = inject('currentCompanyData') as CurrentCompany;
+
+  const alumnData = inject('alumnData') as AlumnData;
 
   // Variable para manejar el color
   const statusColor = ref('bg-gray-500');
 
   const { colorByStatusResult } = useStatusColor(currentCompany.result);
   statusColor.value = colorByStatusResult.value;
+
+  watch(
+    () => currentCompany.result,
+    (newStatus) => {
+      if (newStatus) {
+        const { colorByStatusResult } = useStatusColor(newStatus);
+        statusColor.value = colorByStatusResult.value;
+      }
+    }
+  );
 </script>
 <template>
   <h1 class="text-2xl font-bold text-gray-800">🏢 Empresa actual</h1>
