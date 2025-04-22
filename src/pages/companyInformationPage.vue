@@ -185,6 +185,17 @@
         </div>
       </div>
     </div>
+
+    <div class="flex space-x-4">
+      <div class="w-full max-w-1/2 mx-auto border-2 border-gray 950 rounded-lg shadow-md p-6 mt-4 ml-15 mb-15">
+        <StudentsChart/>
+      </div>
+      <div class="w-full max-w-1/2 mx-auto border-2 border-gray 950 rounded-lg shadow-md p-6 mt-4 ml-5 mr-16 mb-15">
+        <RatingsChart/>
+      </div>
+    </div>
+    
+
   </body>
 
   <ModifyCompany
@@ -210,6 +221,7 @@ import { supabase } from "../components/services/DatabaseConnection";
 import ModifyCompany from "../components/services/companyInformation/ModifyCompany.vue";
 import DeleteCompany from "../components/services/companyInformation/DeleteCompany.vue";
 import StudentsChart from "../components/services/companyInformation/StudentChart.vue";
+import RatingsChart from "../components/services/companyInformation/RatingsChart.vue";
 
 const showModifyCompany = ref(false);
 const showDeleteCompany = ref(false);
