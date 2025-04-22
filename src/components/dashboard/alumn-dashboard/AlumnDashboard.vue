@@ -1,71 +1,98 @@
 <script setup lang="ts">
-  import { inject, computed, ref } from 'vue';
+  import { inject, computed, ref, onMounted } from 'vue';
   import type { Alumn } from '../../../types/alumn.d.ts';
   import AlumnSidebarFilters from './AlumnSidebarFilters.vue';
   import tableDashboard from './tableDashboard.vue';
+  import { useAllCompanyData } from '../../../composables/useAllCompanyData';
+  import { useSelectOptions } from '../../../composables/useSelectOptions';
 
   const alumnData = inject('alumn') as Alumn[];
 
   const selectedCompany = ref('');
   const selectedModality = ref('');
   const selectedCycle = ref('');
-  const selectedCenter = ref('');
+  const selectedProvince = ref('');
   const searchTerm = ref('');
 
-  function update(target: any, value: string) {
-    target.value = value;
-  }
+  const { allCompanyOptions, getAllCompanyData } = useAllCompanyData();
+  const { getSelectOptions, provincesData, cyclesData, modalitiesData } =
+    useSelectOptions();
 
-  const companies = computed(() => {
-    return alumnData
-      .map((a) => a.company_name)
-      .filter((name): name is string => !!name)
-      .map((name) => ({ id: name, name }));
+  onMounted(() => {
+    getAllCompanyData();
+    getSelectOptions();
   });
 
-  const modalities = computed(() => {
-    return [
-      ...new Set(alumnData.map((a) => a.modality_id).filter(Boolean)),
-    ].map((id) => ({ id, name: id }));
-  });
+  const updateFilter = (type: string, value: string) => {
+    switch (type) {
+      case 'company':
+        selectedCompany.value = value;
+        break;
+      case 'modality':
+        selectedModality.value = value;
+        break;
+      case 'cycle':
+        selectedCycle.value = value;
+        break;
+      case 'province':
+        selectedProvince.value = value;
+        break;
+      case 'search':
+        searchTerm.value = value;
+        break;
+    }
+  };
 
-  const cycles = computed(() => {
-    return [
-      ...new Set(alumnData.map((a) => a.cycle_id).filter(Boolean)),
-    ].map((id) => ({ id, name: id }));
-  });
+  const companies = computed(() => [
+    { id: 'null', name: 'Sin empresa' },
+    ...allCompanyOptions.value.map((a) => ({ id: a.id, name: a.name })),
+  ]);
 
-  const centers = computed(() => {
-    return [
-      ...new Set(
-        alumnData.map((a) => a.enrollment_center).filter(Boolean)
-      ),
-    ].map((id) => ({ id, name: id }));
-  });
+  const modalities = computed(() =>
+    modalitiesData.value
+      .filter((a) => a.value && a.label)
+      .map((a) => ({ id: a.value, name: a.label }))
+  );
+
+  const cycles = computed(() =>
+    cyclesData.value
+      .filter((a) => a.value && a.label)
+      .map((a) => ({ id: a.value, name: a.label }))
+  );
+
+  const provinces = computed(() =>
+    provincesData.value
+      .filter((a) => a.value && a.label)
+      .map((a) => ({ id: a.value, name: a.label }))
+  );
 
   const filteredAlumns = computed(() => {
+    const normalizedSearch = searchTerm.value.toLowerCase().trim();
+
     return alumnData.filter((alumn) => {
       const matchCompany =
-        selectedCompany.value === '' ||
-        alumn.company_name === selectedCompany.value;
+        !selectedCompany.value ||
+        (selectedCompany.value === 'null' && !alumn.company_id) ||
+        alumn.company_id === selectedCompany.value;
       const matchModality =
-        selectedModality.value === '' ||
-        alumn.modality_id === selectedModality.value;
+        !selectedModality.value || alumn.modality_id === selectedModality.value;
       const matchCycle =
-        selectedCycle.value === '' || alumn.cycle_id === selectedCycle.value;
-      const matchCenter =
-        selectedCenter.value === '' ||
-        alumn.enrollment_center === selectedCenter.value;
+        !selectedCycle.value || alumn.cycle_id === selectedCycle.value;
+      const matchProvince =
+        !selectedProvince.value || alumn.province_id === selectedProvince.value;
       const matchSearch =
-        searchTerm.value === '' ||
-        alumn.name.toLowerCase().includes(searchTerm.value.toLowerCase()) ||
-        alumn.email.toLowerCase().includes(searchTerm.value.toLowerCase());
+        !normalizedSearch ||
+        alumn.name?.toLowerCase().includes(normalizedSearch) ||
+        alumn.email?.toLowerCase().includes(normalizedSearch) ||
+        alumn.dni?.toLowerCase().includes(normalizedSearch) ||
+        alumn.phone?.toLowerCase().includes(normalizedSearch) ||
+        alumn.company_name?.toLowerCase().includes(normalizedSearch);
 
       return (
         matchCompany &&
         matchModality &&
         matchCycle &&
-        matchCenter &&
+        matchProvince &&
         matchSearch
       );
     });
@@ -78,12 +105,12 @@
       :companies="companies"
       :modalities="modalities"
       :cycles="cycles"
-      :centers="centers"
-      @filterCompany="(val) => update(selectedCompany, val)"
-      @filterModality="(val) => update(selectedModality, val)"
-      @filterCycle="(val) => update(selectedCycle, val)"
-      @filterCenter="(val) => update(selectedCenter, val)"
-      @filterSearch="(val) => update(searchTerm, val)"
+      :provinces="provinces"
+      @filterCompany="(val) => updateFilter('company', val)"
+      @filterModality="(val) => updateFilter('modality', val)"
+      @filterCycle="(val) => updateFilter('cycle', val)"
+      @filterProvince="(val) => updateFilter('province', val)"
+      @filterSearch="(val) => updateFilter('search', val)"
     />
 
     <div class="flex-1 p-4 overflow-auto">

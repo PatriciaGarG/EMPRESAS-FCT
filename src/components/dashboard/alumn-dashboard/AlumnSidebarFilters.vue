@@ -1,18 +1,26 @@
 <script setup lang="ts">
+  import { ref } from 'vue';
+
   const emit = defineEmits<{
     (e: 'filterCompany', value: string): void;
     (e: 'filterModality', value: string): void;
     (e: 'filterCycle', value: string): void;
-    (e: 'filterCenter', value: string): void;
+    (e: 'filterProvince', value: string): void;
     (e: 'filterSearch', value: string): void;
   }>();
 
-  const { companies, modalities, cycles, centers } = defineProps<{
+  const { companies, modalities, cycles, provinces } = defineProps<{
     companies: { id: string; name: string }[];
     modalities: { id: string; name: string }[];
     cycles: { id: string; name: string }[];
-    centers: { id: string; name: string }[];
+    provinces: { id: string; name: string }[];
   }>();
+
+  const searchTerm = ref('');
+  const selectedCompany = ref('');
+  const selectedModality = ref('');
+  const selectedCycle = ref('');
+  const selectedProvince = ref('');
 </script>
 
 <template>
@@ -26,13 +34,12 @@
         Buscar
       </label>
       <input
+        v-model="searchTerm"
         type="text"
         id="search"
         placeholder="Buscar por nombre o email"
         class="w-full border border-gray-300 rounded px-3 py-1 text-sm"
-        @input="
-          (e) => emit('filterSearch', (e.target as HTMLInputElement).value)
-        "
+        @input="() => emit('filterSearch', searchTerm)"
       />
     </div>
 
@@ -45,16 +52,15 @@
       </label>
       <select
         id="company-select"
+        v-model="selectedCompany"
         class="w-full border border-gray-300 rounded px-3 py-1 text-sm"
-        @input="
-          (e) => emit('filterCompany', (e.target as HTMLSelectElement).value)
-        "
+        @change="() => emit('filterCompany', selectedCompany)"
       >
         <option value="">Todas</option>
         <option
           v-for="company in companies"
           :key="company.id"
-          :value="company.name"
+          :value="company.id"
         >
           {{ company.name }}
         </option>
@@ -70,10 +76,9 @@
       </label>
       <select
         id="modality-select"
+        v-model="selectedModality"
         class="w-full border border-gray-300 rounded px-3 py-1 text-sm"
-        @input="
-          (e) => emit('filterModality', (e.target as HTMLSelectElement).value)
-        "
+        @change="() => emit('filterModality', selectedModality)"
       >
         <option value="">Todas</option>
         <option
@@ -95,10 +100,9 @@
       </label>
       <select
         id="cycle-select"
+        v-model="selectedCycle"
         class="w-full border border-gray-300 rounded px-3 py-1 text-sm"
-        @input="
-          (e) => emit('filterCycle', (e.target as HTMLSelectElement).value)
-        "
+        @change="() => emit('filterCycle', selectedCycle)"
       >
         <option value="">Todos</option>
         <option v-for="cycle in cycles" :key="cycle.id" :value="cycle.id">
@@ -109,21 +113,24 @@
 
     <div>
       <label
-        for="center-select"
+        for="province-select"
         class="block text-sm font-medium text-gray-700 mb-1"
       >
-        Centro de trabajo
+        Provincia
       </label>
       <select
-        id="center-select"
+        id="province-select"
+        v-model="selectedProvince"
         class="w-full border border-gray-300 rounded px-3 py-1 text-sm"
-        @input="
-          (e) => emit('filterCenter', (e.target as HTMLSelectElement).value)
-        "
+        @change="() => emit('filterProvince', selectedProvince)"
       >
         <option value="">Todos</option>
-        <option v-for="center in centers" :key="center.id" :value="center.id">
-          {{ center.name }}
+        <option
+          v-for="province in provinces"
+          :key="province.id"
+          :value="province.id"
+        >
+          {{ province.name }}
         </option>
       </select>
     </div>

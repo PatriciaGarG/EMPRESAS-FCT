@@ -99,6 +99,27 @@ export const deleteCurrentCompany = async (id: string): Promise<boolean> => {
   }
 };
 
+export const checkAllEmailExists = async (email: string) => {
+  const { data } = await supabase.from('alumn').select('id').eq('email', email);
+
+  if (data && data.length > 0) {
+    return true;
+  } else {
+    return false;
+  }
+};
+
+export const checkAllPhoneExists = async (phone: string): Promise<boolean> => {
+  const { data } = await supabase.from('alumn').select('id').eq('phone', phone);
+
+  console.log('data', data);
+  if (data && data.length > 0) {
+    return true;
+  } else {
+    return false;
+  }
+};
+
 // export async function updateCurrenteCompany(alumnData: any): Promise<any> {
 //   try {
 //     const { data, error } = await supabase

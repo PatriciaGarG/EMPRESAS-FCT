@@ -11,14 +11,9 @@ export const useAllCompanyData = () => {
     if (error) {
       console.log(error);
     } else {
-      allCompanyOptions.value = [
-        { label: 'Sin empresa', value: null },
-        ...data.map((company: any) => ({
-          label:
-            company.name + ' - ' + company.province?.name + ' - ' + company.cif,
-          value: company.id,
-        })),
-      ];
+      allCompanyOptions.value = data.map((company: any) => ({
+        name: company.name,
+      }));
     }
   };
 
