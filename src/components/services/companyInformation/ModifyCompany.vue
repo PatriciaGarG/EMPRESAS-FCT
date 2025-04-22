@@ -24,35 +24,50 @@
           type="text"
           placeholder="Nombre"
           class="w-full border rounded-md p-2"
+          :class="errorTitle.name ? 'border-red-500' : 'border-gray-300'"
+          @input="validateTitles"
         />
+        <p v-if="errorTitle.name" class="text-red-500 text-sm mt-1">Debe ser un nombre válido</p>
         <label class="">Dirección</label>
         <input
           v-model="company.address"
           type="text"
           placeholder="Dirección"
           class="w-full border rounded-md p-2"
+          :class="errorTitle.address ? 'border-red-500' : 'border-gray-300'"
+          @input="validateTitles"
         />
+        <p v-if="errorTitle.address" class="text-red-500 text-sm mt-1">Debe ser una dirección válida</p>
         <label class="">CIF</label>
         <input
           v-model="company.cif"
           type="text"
           placeholder="CIF"
           class="w-full border rounded-md p-2"
+          :class="errorTitle.cif ? 'border-red-500' : 'border-gray-300'"
+          @input="validateTitles"
         />
+        <p v-if="errorTitle.cif" class="text-red-500 text-sm mt-1">Debe ser un CIF válido y con mayúsculas</p>
         <label class="">Teléfono</label>
         <input
           v-model="company.phone"
           type="text"
           placeholder="Teléfono"
           class="w-full border rounded-md p-2"
+          :class="errorTitle.phone ? 'border-red-500' : 'border-gray-300'"
+          @input="validateTitles"
         />
+        <p v-if="errorTitle.phone" class="text-red-500 text-sm mt-1">Debe ser un número de teléfono válido</p>
         <label class="">E-mail</label>
         <input
           v-model="company.email"
           type="text"
           placeholder="Email"
           class="w-full border rounded-md p-2"
+          :class="errorTitle.email ? 'border-red-500' : 'border-gray-300'"
+          @input="validateTitles"
         />
+        <p v-if="errorTitle.email" class="text-red-500 text-sm mt-1">Debe ser un email válido</p>
 
         <label class="">Provincia</label>
         <select
@@ -153,12 +168,16 @@
           Añadir ciclo</button
         ><br />
 
-        <button
-          type="submit"
-          class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
-        >
-          Actualizar
-        </button>
+        <div class="flex justify-end mt-4">
+          <button
+            type="submit"
+            :disabled="!isValidate"
+            :class="isValidate ? 'bg-blue-600 text-white' : 'bg-gray-300 text-gray-500 cursor-not-allowed'"
+            class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
+          >
+            Actualizar
+          </button>
+      </div>
       </form>
     </div>
   </div>
@@ -167,6 +186,7 @@
 <script lang="ts" setup>
 import { ref, onMounted } from "vue";
 import { supabase } from "../DatabaseConnection";
+import { computed } from "vue";
 
 // OBTENER LOS DATOS BASE DE LA EMPRESA
 const props = defineProps<{
@@ -183,6 +203,35 @@ const cycles = ref<any[]>([]);
 const newProvince = ref("");
 const newModality = ref("");
 const newCycle = ref("");
+
+// ERRORES
+const errorTitle = ref ({
+  name: false,
+  address: false,
+  cif: false,
+  phone: false,
+  email: false,
+});
+
+const validateTitles = () =>{
+  errorTitle.value.name = !/^[a-zA-ZÀ-ÿ\s]{1,40}$/.test(company.value.name);
+  errorTitle.value.address = !/^[a-zA-ZÀ-ÿ0-9/\\\\\s]{1,40}$/.test(company.value.address);
+  errorTitle.value.cif = !/^[ABCDEFGHJKLMNPQRSUVW][0-9]{7}[0-9A-J]$/.test(company.value.cif);
+  errorTitle.value.phone = !/^[0-9]{9,15}$/.test(company.value.phone);
+  errorTitle.value.email = !/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(company.value.email);
+
+  return !Object.values(errorTitle.value).includes(true);
+}
+
+const isValidate = computed(() =>{
+  return ( company.value &&
+  !Object.values(errorTitle.value).includes(true) &&  
+  company.value.name &&
+  company.value.address &&
+  company.value.cif &&
+  company.value.phone &&
+  company.value.email)
+})
 
 // CARGAR DATOS AL MONTAR EL COMPONENTE
 onMounted(async () => {
@@ -255,6 +304,10 @@ const updateDataCompany = async () => {
       "Error al cargar los ciclos de la empresa:",
       existingCyclesError
     );
+
+    if(!validateTitles()){
+      return;
+    }
     return;
   }
 

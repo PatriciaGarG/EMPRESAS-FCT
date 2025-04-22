@@ -201,16 +201,6 @@
     @close="showDeleteCompany = false"
   />
 
-  <div class="ml-8 w-full max-w-1/2 p-7 mt-30">
-    <div class="flex flex-wrap gap-6">
-      <div class="flex min-w-[300px] bg-white rounded-xl p-4 shadow-md">
-        <h3 class="text-4xl text-center font-semibold mb-4">
-          Histórico de alumnos
-        </h3>
-        <StudentsChart :company-id="route.params.id" />
-      </div>
-    </div>
-  </div>
 </template>
 
 <script setup lang="ts">
