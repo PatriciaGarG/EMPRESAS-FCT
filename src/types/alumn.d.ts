@@ -2,6 +2,7 @@
 export type Alumn = {
   id: string;
   company_name: string | null;
+  company_id: string | null;
   name: string;
   dni: string;
   phone: string;

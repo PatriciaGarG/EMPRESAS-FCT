@@ -1,5 +1,3 @@
-import { idText } from 'typescript';
-import type { AlumnData } from '../../types/alumnData';
 import { supabase } from './DatabaseConnection';
 
 export async function fetchAlumnData(id: string): Promise<any> {
@@ -28,7 +26,7 @@ export async function fetchCurrentCompanyData(id: string): Promise<any> {
         'company_id:company(name), start_date, end_date, cycle_id:cycle(name), result'
       )
       .eq('alumn_id', id);
-  
+
     return { data, error };
   } catch (error) {
     console.error('Error al obtener los datos:', error);
@@ -39,7 +37,7 @@ export async function fetchCurrentCompanyData(id: string): Promise<any> {
 
 export async function updateAlumnData(alumnData: any): Promise<any> {
   try {
-    const { data, error } = await supabase
+    const { error } = await supabase
       .from('alumn')
       .upsert([alumnData], { onConflict: 'id' });
 
@@ -56,7 +54,7 @@ export async function updateAlumnData(alumnData: any): Promise<any> {
   }
 }
 
-export const checkEmailExists = async (email: string, id: string) => {
+export const checkEmailExists = async (email: string, id?: string) => {
   const { data, error } = await supabase
     .from('alumn')
     .select('id')
@@ -74,7 +72,7 @@ export const checkEmailExists = async (email: string, id: string) => {
 
 export const checkPhoneExists = async (
   phone: string,
-  id: string
+  id?: string
 ): Promise<boolean> => {
   const { data, error } = await supabase
     .from('alumn')
@@ -89,3 +87,36 @@ export const checkPhoneExists = async (
   }
   return !!data;
 };
+export const checkAllEmailExists = async (email: string) => {
+  const { data } = await supabase.from('alumn').select('id').eq('email', email);
+
+  if (data && data.length > 0) {
+    return true;
+  } else {
+    return false;
+  }
+};
+
+export const checkAllPhoneExists = async (phone: string): Promise<boolean> => {
+  const { data } = await supabase.from('alumn').select('id').eq('phone', phone);
+
+  console.log('data', data);
+  if (data && data.length > 0) {
+    return true;
+  } else {
+    return false;
+  }
+};
+
+// export const checkAllDni = async (phone: string): Promise<boolean> => {
+//   const { data, error } = await supabase
+//     .from('alumn')
+//     .select('id')
+//     .eq('phone', phone);
+
+//   if (data && data.length > 0) {
+//     return true;
+//   } else {
+//     return false;
+//   }
+// };
