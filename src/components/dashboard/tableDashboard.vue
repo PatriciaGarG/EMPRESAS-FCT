@@ -1,10 +1,9 @@
 <!--Here we give form to the table of dashboard-->
 <script lang="ts" setup>
-  import { reactive, onMounted, ref, inject } from 'vue';
-  import { getAlumn } from '../services/AlumnService';
-  import type { Alumn, AlumnDB } from '../../types/alumn.d.ts';
+  import { inject } from 'vue';
+  import type { Alumn } from '../../types/alumn.d.ts';
 
-  const alumnData = inject('alumnData') as Alumn[];
+  const alumn = inject('alumn') as Alumn[];
 </script>
 
 <template>
@@ -28,7 +27,7 @@
             </tr>
           </thead>
           <tbody class="bg-white divide-y divide-gray-200">
-            <tr v-for="(alumno, index) in alumnData" :key="index">
+            <tr v-for="(alumno, index) in alumn" :key="index">
               <td class="px-6 py-4 whitespace-nowrap">
                 <router-link :to="`/alumn/${alumno.id}`">
                   {{ alumno.name }}
