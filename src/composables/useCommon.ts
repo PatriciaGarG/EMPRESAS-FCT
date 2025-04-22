@@ -7,7 +7,7 @@ export function useStatusColor(status: string) {
 
     switch (estado) {
       case 'cursando':
-      case 'aprobado':
+      case 'apto':
         return 'bg-green-500';
 
       case 'a la espera':
@@ -15,7 +15,7 @@ export function useStatusColor(status: string) {
         return 'bg-yellow-500';
 
       case 'finalizado':
-      case 'suspendido':
+      case 'no apto':
       case 'sin empresa':
         return 'bg-red-500';
 

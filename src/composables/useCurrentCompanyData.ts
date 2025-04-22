@@ -5,8 +5,10 @@ import type { CurrentCompany, CurrentCompanyDB } from '../types/alumnData';
 export const useCurrentCompanyData = (id: string) => {
   const currentCompanyData: CurrentCompany = reactive({
     id: '',
+    company_id: '',
     company: '',
     cycle: '',
+    cycle_id: '',
     end_date: '',
     start_date: '',
     result: '',
@@ -20,9 +22,11 @@ export const useCurrentCompanyData = (id: string) => {
       return false;
     } else if (Array.isArray(data) && data.length > 0) {
       const currentCompany: CurrentCompanyDB = data[0];
-
-      currentCompanyData.company = currentCompany.company_id.name;
-      currentCompanyData.cycle = currentCompany.cycle_id.name;
+      currentCompanyData.id = currentCompany.id;
+      currentCompanyData.company_id = currentCompany.company_id;
+      currentCompanyData.company = currentCompany.company.name;
+      currentCompanyData.cycle_id = currentCompany.cycle_id;
+      currentCompanyData.cycle = currentCompany.cycle.name;
       currentCompanyData.end_date = currentCompany.end_date;
       currentCompanyData.start_date = currentCompany.start_date;
       currentCompanyData.result = currentCompany.result;

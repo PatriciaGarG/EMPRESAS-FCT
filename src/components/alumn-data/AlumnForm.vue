@@ -10,20 +10,20 @@
     checkPhoneExists,
     updateAlumnData,
   } from '../services/alumn-data';
-
-  const alumnData = inject('alumnData') as AlumnData;
-
+  
   const { provincesData, modalitiesData, cyclesData, getSelectOptions } =
-    useSelectOptions();
-
+  useSelectOptions();
+  
   const statusData = [
     { label: 'Cursando', value: 'cursando' },
     { label: 'Finalizado', value: 'finalizado' },
     { label: 'A la espera', value: 'a la espera' },
     { label: 'Sin empresa', value: 'sin empresa' },
   ];
-
+  
   const emit = defineEmits(['close', 'dataSaved']);
+  
+  const alumnData = inject('alumnData') as AlumnData;
 
   const { validateAlumnForm, validateAlumnField } = useValidation();
 
@@ -163,11 +163,12 @@
       <legend class="font-semibold px-2">Datos personales</legend>
       <div class="flex gap-5">
         <div class="basis-1/3">
-          <label class="block font-semibold"
+          <label for="name" class="block font-semibold"
             >Nombre <span class="text-secondary">*</span></label
           >
           <input
             v-model="alumnDataForm.first_name"
+            id="name"
             class="w-full border rounded px-4 py-2 border-gray-400"
             :class="{ 'border-red-500': errors.first_name }"
             @input="handleInputChange('first_name', alumnDataForm.first_name)"
@@ -177,7 +178,7 @@
           </p>
         </div>
         <div class="basis-1/3">
-          <label class="block font-semibold"
+          <label for="last_name" class="block font-semibold"
             >Primer apellido <span class="text-secondary">*</span></label
           >
           <input
@@ -185,27 +186,32 @@
             class="w-full border rounded px-4 py-2 border-gray-400"
             :class="{ 'border-red-500': errors.last_name_1 }"
             @input="handleInputChange('last_name_1', alumnDataForm.last_name_1)"
+            id="last_name"
           />
           <p v-if="errors.last_name_1" class="text-red-500 text-sm mt-1">
             {{ errors.last_name_1 }}
           </p>
         </div>
         <div class="basis-1/3">
-          <label class="block font-semibold">Segundo apellido</label>
+          <label name="last_name_2" class="block font-semibold"
+            >Segundo apellido</label
+          >
           <input
             v-model="alumnDataForm.last_name_2"
             class="w-full border rounded px-4 py-2 border-gray-400"
             placeholder="Opcional"
+            id="last_name_2"
           />
         </div>
       </div>
       <div class="flex gap-5 mt-8">
         <div class="basis-1/4">
-          <label class="block font-semibold"
+          <label name="dni" class="block font-semibold"
             >DNI <span class="text-secondary">*</span></label
           >
           <input
             v-model="alumnDataForm.dni"
+            id="dni"
             class="w-full border rounded px-4 py-2 border-gray-400"
             :class="{ 'border-red-500': errors.dni }"
             @input="handleInputChange('dni', alumnDataForm.dni)"
@@ -215,11 +221,12 @@
           </p>
         </div>
         <div class="basis-1/4">
-          <label class="block font-semibold"
+          <label for="phone" class="block font-semibold"
             >Teléfono <span class="text-secondary">*</span></label
           >
           <input
             v-model="alumnDataForm.phone"
+            id="phone"
             class="w-full border rounded px-4 py-2 border-gray-400"
             :class="{ 'border-red-500': errors.phone }"
             @input="handleInputChange('phone', alumnDataForm.phone)"
@@ -229,11 +236,12 @@
           </p>
         </div>
         <div class="basis-2/4">
-          <label class="block font-semibold"
+          <label class="block font-semibold" for="email"
             >Email <span class="text-secondary">*</span></label
           >
           <input
             v-model="alumnDataForm.email"
+            id="email"
             type="email"
             class="w-full border rounded px-4 py-2 border-gray-400"
             :class="{ 'border-red-500': errors.email }"
@@ -249,11 +257,12 @@
       <legend class="font-semibold px-2">Datos académicos</legend>
       <div class="flex gap-5">
         <div class="basis-1/3">
-          <label class="block font-semibold"
+          <label class="block font-semibold" for="enrollment_center"
             >Centro <span class="text-secondary">*</span></label
           >
           <input
             v-model="alumnDataForm.enrollment_center"
+            id="enrollment_center"
             class="w-full border rounded px-4 py-2 border-gray-400"
             :class="{ 'border-red-500': errors.enrollment_center }"
             @input="
