@@ -3,7 +3,7 @@
 
 <template>
   <div
-    class="absolute w-full h-[100px] flex bg-blue-950 items-center justify-between"
+    class="w-full h-[100px] flex bg-blue-950 items-center justify-between"
   >
     <h1 class="relative text-white">Davante icon</h1>
     <div class="relative flex justify-end w-[750px] text-center font-bold">

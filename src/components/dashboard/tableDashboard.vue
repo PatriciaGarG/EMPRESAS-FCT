@@ -1,9 +1,10 @@
 <!--Here we give form to the table of dashboard-->
 <script lang="ts" setup>
-  import { reactive, onMounted } from 'vue';
+  import { reactive, onMounted, ref } from 'vue';
   import { getAlumn } from '../services/AlumnService';
   import type { Alumn, AlumnDB } from '../../types/alumn.d.ts';
 
+  
   const alumnData = reactive([]) as Alumn[];
   // Define the type to be used in the table by the name we gave to the Alumn
   const getAlumnData = async () => {
@@ -46,9 +47,10 @@
   });
 </script>
 
+
 <template>
-  <button onclick="">Insertar alumn@</button>
   <!--Here we give form to the table and call dates saved in data base-->
+  <div>
   <form class="flex flex-col items-center justify-center h-screen bg-gray-100">
     <div
       class="border-2 border-blue-950 w-full h-full mt-[250px] ml-[25%] space-y-3 shadow-md bg-white"
@@ -67,7 +69,7 @@
         <tbody class="bg-white divide-y divide-gray-200">
           <tr v-for="(alumno, index) in alumnData" :key="index">
             <td class="px-6 py-4 whitespace-nowrap">
-              <router-link to="/alumnos/id"> {{ alumno.name }} </router-link>
+              <router-link :to="`/alumn/${alumno.id}`"> {{ alumno.name }} </router-link>
             </td>
             <td class="px-6 py-4 whitespace-nowrap">{{ alumno.dni }}</td>
             <td class="px-6 py-4 whitespace-nowrap">
@@ -75,7 +77,7 @@
               {{ alumno.phone }}
             </td>
             <td id="company_id" class="px-6 py-4 whitespace-nowrap">
-              <router-link to="/empresa/id">
+              <router-link >
                 {{ alumno.company_name || 'Sin empresa' }}
               </router-link>
             </td>
@@ -84,4 +86,5 @@
       </table>
     </div>
   </form>
+</div>
 </template>
