@@ -1,13 +1,16 @@
 <script lang="ts" setup>
-  import { inject, onMounted, reactive, ref } from 'vue';
+  import { inject, onMounted, reactive, ref, watch } from 'vue';
   import { normalize } from '../../composables/useCommon';
   import type { Option } from 'vue3-select-component';
   import VueSelect from 'vue3-select-component';
-  import type { CurrentCompany } from '../../types/alumnData';
+  import type { AlumnData, CurrentCompany } from '../../types/alumnData';
   import { useAllCompanyData } from '../../composables/useAllCompanyData';
   import { useCyclesOptions } from '../../composables/useCyclesOptions';
   import { useValidation } from '../../composables/useValidation';
-  import { deleteCurrentCompany } from '../services/alumn-data';
+  import {
+    deleteCurrentCompany,
+    updateCurrentCompanyData,
+  } from '../services/alumn-data';
 
   const emit = defineEmits(['close', 'dataSaved']);
 
@@ -21,6 +24,14 @@
   const currentCompanyForm = reactive({
     ...currentCompanyData,
   });
+
+  const alumnData = inject('alumnData') as AlumnData;
+
+  const alumn_id = ref(alumnData.id);
+
+  const updateHasCompany = inject('updateHasCompany') as (
+    newValue: boolean
+  ) => void;
 
   //Datos de las compañias
   const { allCompanyOptions, getAllCompanyData } = useAllCompanyData();
@@ -53,12 +64,41 @@
       if (currentCompanyForm.company_id) {
         const validationErrors = validateCurrentCompanyForm(currentCompanyForm);
         Object.assign(errors, validationErrors);
-        
+
+        if (Object.keys(errors).length === 0) {
+          console.log(alumn_id.value);
+          // Eliminar datos inncesarios para guardar en la DB y guardarlo
+          const { cycle, company, ...validCurrentCompanyData } =
+            currentCompanyForm as any;
+          validCurrentCompanyData.alumn_id = alumn_id.value;
+          const response = await updateCurrentCompanyData(
+            validCurrentCompanyData
+          );
+          if (response.success) {
+            console.log(currentCompanyForm);
+            Object.assign(currentCompanyData, currentCompanyForm);
+            currentCompanyData.id = String(response.id);
+            updateHasCompany(true);
+            emit('close');
+            emit('dataSaved', 'Datos guardados correctamente');
+          }
+        } else {
+          console.log('Errores:', errors);
+        }
       } else {
         try {
           const isDeleted = await deleteCurrentCompany(currentCompanyForm.id);
           if (isDeleted) {
-            emit('dataSaved', "La empresa ha sido eliminada.");
+            updateHasCompany(false);
+            currentCompanyData.id = '';
+            currentCompanyData.company = '';
+            currentCompanyData.cycle = '';
+            currentCompanyData.company_id = '';
+            currentCompanyData.cycle_id = '';
+            currentCompanyData.end_date = '';
+            currentCompanyData.start_date = '';
+            currentCompanyData.result = '';
+            emit('dataSaved', 'La empresa ha sido eliminada.');
             emit('close');
           }
         } catch (error) {
@@ -81,10 +121,34 @@
       delete errors[field];
     }
   };
+
+  // Cambiar los campos "_name" de modality, province y cycle.
+  watch(
+    () => [currentCompanyForm.company_id, currentCompanyForm.cycle_id],
+    ([newCompanyId, newCycleId]) => {
+      if (newCompanyId) {
+        const selectedCompany = allCompanyOptions.value.find(
+          (company) => company.value === newCompanyId
+        );
+        if (selectedCompany) {
+          currentCompanyForm.company = selectedCompany.label;
+        }
+        if (newCycleId) {
+          const selectedCycle = cyclesOptions.value.find(
+            (cycle) => cycle.value === newCycleId
+          );
+          if (selectedCycle) {
+            currentCompanyForm.cycle = selectedCycle.label;
+          }
+        }
+      }
+    },
+    { immediate: true }
+  );
 </script>
 
 <template>
-  <form @submit.prevent="handleSubmit" class="space-y-4">
+  <form @submit.prevent="handleSubmit" class="space-y-4 min-w-[50vw]">
     <div>
       <label class="block font-semibold"
         >Empresa <span class="text-secondary">*</span></label
@@ -163,11 +227,15 @@
             class="w-fit border rounded px-4 py-2 border-gray-400"
             :class="{ 'border-red-500': errors.result }"
             id="result"
+            @change="handleInputChange('result', currentCompanyForm.result)"
           >
             <option value="apto">Apto</option>
             <option value="no apto">No apto</option>
             <option value="pendiente">Pendiente</option>
           </select>
+          <p v-if="errors.result" class="text-red-500 text-sm mt-1">
+            {{ errors.result }}
+          </p>
         </div>
       </div>
     </fieldset>

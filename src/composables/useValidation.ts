@@ -138,9 +138,19 @@ export function useValidation() {
     field: keyof CurrentCompany,
     value: string | number | null
   ) => {
+    console.log(value);
     switch (field) {
       case 'cycle_id':
         if (!value) return 'Selecciona un ciclo';
+        break;
+      case 'start_date':
+        if (!value) return 'Selecciona una fecha de inicio';
+        break;
+      case 'end_date':
+        if (!value) return 'Selecciona una fecha de finalización';
+        break;
+      case 'result':
+        if (!value) return 'Selecciona un resultado';
         break;
     }
 
