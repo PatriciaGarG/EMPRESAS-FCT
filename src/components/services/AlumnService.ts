@@ -6,7 +6,7 @@ export async function getAlumn() {
   const { data, error } = await supabase
     .from('alumn')
     .select(
-      'first_name, last_name_1, last_name_2, dni, phone, email, enrollment_center, modality_id, cycle_id, province_id, status, id, internship(company_id: company(name, id))'
+      'first_name, last_name_1, last_name_2, dni, phone, email, enrollment_center, modality_id, cycle_id, province_id, status, id, internship(company_id: company(name, id)), cycle(name), province(name), modality(name)'
     );
   if (data) {
     return data;
