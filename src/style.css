@@ -1,1 +1,18 @@
-@import "tailwindcss";
+@import 'tailwindcss';
+
+@theme {
+  --color-primary: #0834ac; /*Azul de Dabante*/
+  --color-secondary: #ff5b41; /*Naranja de Dabante*/
+  --color-gray-light: #e8e4e4; /*Gris claro de Dabante*/
+}
+
+@layer components {
+  .line::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: -10px; /* Desplaza el borde a la izquierda */
+    width: calc(100% + 20px); /* Hace que el borde sea más largo */
+    border-bottom: 2px solid #a0a4ac; /* El borde que quieres */
+  }
+}
