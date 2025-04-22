@@ -6,16 +6,15 @@
   import { useSelectOptions } from '../../composables/useSelectOptions';
   import { useValidation } from '../../composables/useValidation';
   import {
-    checkAllEmailExists,
-    checkAllPhoneExists,
+    checkEmailExists,
+    checkPhoneExists,
     updateAlumnData,
   } from '../services/alumn-data';
-  import type { Alumn } from '../../types/alumn';
+
+  const alumnData = inject('alumnData') as AlumnData;
 
   const { provincesData, modalitiesData, cyclesData, getSelectOptions } =
     useSelectOptions();
-
-  const alumnData = inject('alumnData') as Alumn[];
 
   const statusData = [
     { label: 'Cursando', value: 'cursando' },
@@ -30,24 +29,8 @@
 
   const errors = reactive<Record<string, string>>({});
 
-  const alumnDataForm: AlumnData = reactive({
-    id: '',
-    full_name: '',
-    first_name: '',
-    last_name_1: '',
-    last_name_2: '',
-    dni: '',
-    enrollment_center: '',
-    phone: '',
-    email: '',
-    status: '',
-    modality_name: '',
-    cycle_name: '',
-    province_name: '',
-    modality_id: '',
-    cycle_id: '',
-    province_id: '',
-    has_company: false,
+  const alumnDataForm = reactive({
+    ...alumnData,
   });
 
   //Carga
@@ -74,14 +57,22 @@
       Object.assign(errors, validationErrors);
 
       //Chequear si el email o el teléfono ya estan registrados
-      const emailExists = await checkAllEmailExists(alumnDataForm.email);
+      const emailExists = await checkEmailExists(
+        alumnDataForm.email,
+        alumnDataForm.id
+      );
       if (emailExists) {
         errors.email = 'Este email ya está registrado por otro alumno.';
+        return;
       }
 
-      const phoneExists = await checkAllPhoneExists(alumnDataForm.phone);
+      const phoneExists = await checkPhoneExists(
+        alumnDataForm.phone,
+        alumnDataForm.id
+      );
       if (phoneExists) {
         errors.phone = 'Este teléfono ya está registrado por otro alumno.';
+        return;
       }
 
       //Comprobar si no hay errores
@@ -95,12 +86,14 @@
           has_company,
           ...validAlumnData
         } = alumnDataForm;
-
-        delete validAlumnData.id;
-
         const response = await updateAlumnData(validAlumnData);
         if (response.success) {
-          //Meter lógica para que el alumno se actualice directamente
+          alumnDataForm.full_name =
+            alumnDataForm.first_name +
+            ' ' +
+            alumnDataForm.last_name_1 +
+            alumnDataForm.last_name_2;
+          Object.assign(alumnData, alumnDataForm);
           emit('close');
           emit('dataSaved', 'Datos guardados correctamente');
         }

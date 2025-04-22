@@ -1,32 +1,47 @@
-import { ref } from 'vue';
-import type { Alumn, AlumnDB } from '../types/alumn.d.ts';
-import { getAlumn } from '../components/services/AlumnService';
+import { reactive } from 'vue';
+import type { Alumn, AlumnDB } from '../types/alumn';
+import { fetchAlumn } from '../components/services/AlumnService';
 
-const alumnData = ref<Alumn[]>([]);
-let loaded = false;
+export const useAlumn = () => {
+  const alumn: Alumn[] = reactive([]);
 
-export const useAlumn = async () => {
-  if (!loaded) {
-    const data = await getAlumn();
-    if (data) {
-      const alumnDataDB = data as unknown as AlumnDB[];
-      alumnData.value = alumnDataDB.map((a) => ({
-        id: a.id,
-        name: `${a.first_name} ${a.last_name_1} ${a.last_name_2 ?? ''}`.trim(),
-        dni: a.dni,
-        phone: a.phone,
-        email: a.email,
-        enrollment_center: a.enrollment_center,
-        modality_id: a.modality_id,
-        cycle_id: a.cycle_id,
-        province_id: a.province_id,
-        status: a.status,
-        company_name: a.internship?.[0]?.company_id?.name ?? null,
-        company_id: a.internship?.[0]?.company_id?.id ?? null,
-      }));
-      loaded = true;
+  const getAlumn = async () => {
+    try {
+      const data = await fetchAlumn();
+      if (data) {
+        const alumnDataDB = data as unknown as AlumnDB[];
+        alumnDataDB.forEach((alumnDB) => {
+          alumn.push({
+            id: alumnDB.id,
+            name: `${alumnDB.first_name} ${alumnDB.last_name_1} ${alumnDB.last_name_2}`.trim(),
+            dni: alumnDB.dni,
+            phone: alumnDB.phone,
+            company_name:
+              alumnDB.internship && alumnDB.internship[0]
+                ? alumnDB.internship[0].company_id?.name
+                : null,
+            company_id:
+              alumnDB.internship && alumnDB.internship[0]
+                ? alumnDB.internship[0].company_id?.id
+                : null,
+            email: alumnDB.email,
+            enrollment_center: alumnDB.enrollment_center,
+            modality_id: alumnDB.modality_id,
+            cycle_id: alumnDB.cycle_id,
+            province_id: alumnDB.province_id,
+            status: alumnDB.status,
+          });
+        });
+        console.log(alumn);
+        console.log('Alumn data fetched successfully:', alumnDataDB);
+      }
+    } catch (error) {
+      console.error('Error fetching alumn data:', error);
     }
-  }
+  };
 
-  return { alumnData };
+  return {
+    alumn,
+    getAlumn,
+  };
 };
