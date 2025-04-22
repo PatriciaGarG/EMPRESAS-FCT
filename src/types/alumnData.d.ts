@@ -36,15 +36,21 @@ export interface AlumnData {
 }
 
 export interface CurrentCompanyDB {
-  company_id: { name: string };
-  cycle_id: { name: string };
+  id: string;
+  company_id: string;
+  company: { name: string };
+  cycle_id: string;
+  cycle: { name: string };
   end_date: string;
   start_date: string;
   result: string;
 }
 
 interface CurrentCompany {
+  id: string;
+  company_id: string;
   company: string;
+  cycle_id: string;
   cycle: string;
   end_date: string;
   start_date: string;

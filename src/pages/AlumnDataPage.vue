@@ -12,6 +12,7 @@
   import HeaderCommon from '../components/common/HeaderCommon.vue';
   import { useAlumnData } from '../composables/useAlumnData';
   import { useCurrentCompanyData } from '../composables/useCurrentCompanyData';
+  import { useAllCompanyData } from '../composables/useAllCompanyData';
 
   // Id del alumno de la URL
   const route = useRoute();

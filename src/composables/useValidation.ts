@@ -1,6 +1,6 @@
 // src/composables/useValidation.ts
 
-import type { AlumnData } from '../types/alumnData';
+import type { AlumnData, CurrentCompany } from '../types/alumnData';
 
 export function useValidation() {
   const validateAlumnForm = (form: AlumnData) => {
@@ -112,5 +112,45 @@ export function useValidation() {
 
     return '';
   };
-  return { validateAlumnForm, validateAlumnField };
+
+  const validateCurrentCompanyForm = (form: CurrentCompany) => {
+    const errors: Record<string, string> = {};
+
+    if (form.company_id) {
+      if (!form.cycle_id) {
+        errors.cycle_id = 'Selecciona un ciclo';
+      }
+      if (!form.start_date) {
+        errors.start_date = 'Selecciona una fecha de inicio';
+      }
+      if (!form.end_date) {
+        errors.end_date = 'Selecciona una fecha de finalización';
+      }
+      if (!form.result) {
+        errors.result = 'Selecciona un resultado';
+      }
+    }
+
+    return errors;
+  };
+
+  const validateCurrentCompanyField = (
+    field: keyof CurrentCompany,
+    value: string | number | null
+  ) => {
+    switch (field) {
+      case 'cycle_id':
+        if (!value) return 'Selecciona un ciclo';
+        break;
+    }
+
+    return '';
+  };
+
+  return {
+    validateAlumnForm,
+    validateAlumnField,
+    validateCurrentCompanyForm,
+    validateCurrentCompanyField,
+  };
 }

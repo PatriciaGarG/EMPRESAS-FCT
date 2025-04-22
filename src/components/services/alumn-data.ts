@@ -1,5 +1,3 @@
-import { idText } from 'typescript';
-import type { AlumnData } from '../../types/alumnData';
 import { supabase } from './DatabaseConnection';
 
 export async function fetchAlumnData(id: string): Promise<any> {
@@ -25,10 +23,10 @@ export async function fetchCurrentCompanyData(id: string): Promise<any> {
     const { data, error } = await supabase
       .from('internship')
       .select(
-        'company_id:company(name), start_date, end_date, cycle_id:cycle(name), result'
+        'id, company_id ,company(name), start_date, end_date, cycle_id, cycle(name), result'
       )
       .eq('alumn_id', id);
-  
+    console.log(data);
     return { data, error };
   } catch (error) {
     console.error('Error al obtener los datos:', error);
@@ -48,7 +46,7 @@ export async function updateAlumnData(alumnData: any): Promise<any> {
       return { success: false, error: error.message };
     }
 
-    console.log('Datos actualizados con éxito:');
+    console.log('Datos actualizados con éxito:' + data);
     return { success: true };
   } catch (err: any) {
     console.error('Error al conectar con Supabase:', err);
@@ -89,3 +87,33 @@ export const checkPhoneExists = async (
   }
   return !!data;
 };
+
+export const deleteCurrentCompany = async (id: string): Promise<boolean> => {
+  const { error } = await supabase.from('internship').delete().eq('id', id);
+
+  if (error) {
+    console.error('Error al eliminar:', error);
+    return false;
+  } else {
+    return true;
+  }
+};
+
+// export async function updateCurrenteCompany(alumnData: any): Promise<any> {
+//   try {
+//     const { data, error } = await supabase
+//       .from('alumn')
+//       .upsert([alumnData], { onConflict: 'id' });
+
+//     if (error) {
+//       console.error('Error al actualizar los datos:', error.message);
+//       return { success: false, error: error.message };
+//     }
+
+//     console.log('Datos actualizados con éxito:' + data);
+//     return { success: true };
+//   } catch (err: any) {
+//     console.error('Error al conectar con Supabase:', err);
+//     return { success: false, error: err.message };
+//   }
+// }

@@ -48,7 +48,7 @@
         </span>
       </div>
       <button
-        class="text-[0.9rem] cursor-pointer  p-2 rounded-2xl hover:bg-gray-200"
+        class="text-[0.9rem] cursor-pointer p-2 rounded-2xl hover:bg-gray-200"
         @click="openAlumnModal"
       >
         <img

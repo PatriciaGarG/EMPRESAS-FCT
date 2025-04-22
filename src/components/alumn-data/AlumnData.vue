@@ -67,5 +67,6 @@
     <Modal ref="modalCompany" title="Modificar datos de la empresa actual">
       <CompanyForm @close="modalCompany?.closeModal()" />
     </Modal>
+    <br>
   </main>
 </template>
