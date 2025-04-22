@@ -26,7 +26,6 @@ export async function fetchCurrentCompanyData(id: string): Promise<any> {
         'id, company_id ,company(name), start_date, end_date, cycle_id, cycle(name), result'
       )
       .eq('alumn_id', id);
-    console.log(data);
     return { data, error };
   } catch (error) {
     console.error('Error al obtener los datos:', error);
@@ -134,3 +133,42 @@ export async function updateCurrentCompanyData(
     return { success: false, error: err.message };
   }
 }
+export const checkAllEmailExists = async (email: string) => {
+  const { data } = await supabase.from('alumn').select('id').eq('email', email);
+
+  if (data && data.length > 0) {
+    return true;
+  } else {
+    return false;
+  }
+};
+
+export const checkAllPhoneExists = async (phone: string): Promise<boolean> => {
+  const { data } = await supabase.from('alumn').select('id').eq('phone', phone);
+
+  console.log('data', data);
+  if (data && data.length > 0) {
+    return true;
+  } else {
+    return false;
+  }
+};
+
+// export async function updateCurrenteCompany(alumnData: any): Promise<any> {
+//   try {
+//     const { data, error } = await supabase
+//       .from('alumn')
+//       .upsert([alumnData], { onConflict: 'id' });
+
+//     if (error) {
+//       console.error('Error al actualizar los datos:', error.message);
+//       return { success: false, error: error.message };
+//     }
+
+//     console.log('Datos actualizados con éxito:' + data);
+//     return { success: true };
+//   } catch (err: any) {
+//     console.error('Error al conectar con Supabase:', err);
+//     return { success: false, error: err.message };
+//   }
+// }

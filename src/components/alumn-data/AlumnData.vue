@@ -1,6 +1,6 @@
 <script lang="ts" setup>
   import AlumnInfo from './AlumnInfo.vue';
-  import { computed, inject, provide, ref, watch } from 'vue';
+  import { computed, inject, provide, ref } from 'vue';
   import CurrentCompany from './CurrentCompany.vue';
   import ExtraInfo from './ExtraInfo.vue';
   import ActionButton from '../common/ActionButton.vue';
@@ -36,13 +36,6 @@
   };
 
   provide('updateHasCompany', updateHasCompany);
-
-  watch(
-    () => alumnData.has_company,
-    (newVal) => {
-      console.log('has_company cambió a:', newVal);
-    }
-  );
 </script>
 
 <template>

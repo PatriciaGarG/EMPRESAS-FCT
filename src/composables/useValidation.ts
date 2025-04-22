@@ -138,7 +138,6 @@ export function useValidation() {
     field: keyof CurrentCompany,
     value: string | number | null
   ) => {
-    console.log(value);
     switch (field) {
       case 'cycle_id':
         if (!value) return 'Selecciona un ciclo';

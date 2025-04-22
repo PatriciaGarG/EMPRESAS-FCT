@@ -11,6 +11,7 @@
     deleteCurrentCompany,
     updateCurrentCompanyData,
   } from '../services/alumn-data';
+  import { all } from 'axios';
 
   const emit = defineEmits(['close', 'dataSaved']);
 
@@ -33,7 +34,7 @@
     newValue: boolean
   ) => void;
 
-  //Datos de las compañias
+  // Datos de las compañías
   const { allCompanyOptions, getAllCompanyData } = useAllCompanyData();
 
   //Datos de los grados
@@ -43,9 +44,16 @@
   const { validateCurrentCompanyForm, validateCurrentCompanyField } =
     useValidation();
 
-  onMounted(() => {
-    getAllCompanyData();
+  onMounted(async () => {
     getCyclesOptions();
+    await getAllCompanyData();
+
+    allCompanyOptions.value = allCompanyOptions.value
+      .filter((company: any) => company.active)
+      .map((company: any) => ({
+        label: `${company.name} - ${company.province} - ${company.cif}`,
+        value: company.value,
+      }));
   });
 
   // Función para eliminar tildes y mayus en el filtro en el select
@@ -59,6 +67,7 @@
   };
 
   const handleSubmit = async () => {
+    console.log(allCompanyOptions);
     isLoading.value = true;
     try {
       if (currentCompanyForm.company_id) {
