@@ -30,6 +30,9 @@ export const useAlumn = () => {
             cycle_id: alumnDB.cycle_id,
             province_id: alumnDB.province_id,
             status: alumnDB.status,
+            province_name: alumnDB.province.name,
+            modality_name: alumnDB.modality.name,
+            cycle_name: alumnDB.cycle.name,
           });
         });
         console.log(alumn);

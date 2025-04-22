@@ -1,16 +1,16 @@
 <script lang="ts" setup>
   import { inject, onMounted, reactive, ref, watch } from 'vue';
-  import type { AlumnData } from '../../types/alumnData';
+  import type { AlumnData } from '../../../types/alumnData';
   import VueSelect, { type Option } from 'vue3-select-component';
-  import { normalize } from '../../composables/useCommon';
-  import { useSelectOptions } from '../../composables/useSelectOptions';
-  import { useValidation } from '../../composables/useValidation';
+  import { normalize } from '../../../composables/useCommon';
+  import { useSelectOptions } from '../../../composables/useSelectOptions';
+  import { useValidation } from '../../../composables/useValidation';
   import {
     checkAllEmailExists,
     checkAllPhoneExists,
     updateAlumnData,
-  } from '../services/alumn-data';
-  import type { Alumn } from '../../types/alumn';
+  } from '../../services/alumn-data';
+  import type { Alumn } from '../../../types/alumn';
 
   const { provincesData, modalitiesData, cyclesData, getSelectOptions } =
     useSelectOptions();

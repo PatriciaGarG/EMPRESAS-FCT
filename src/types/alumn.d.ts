@@ -12,11 +12,14 @@ export type Alumn = {
   cycle_id: string;
   province_id: string;
   status: string;
+  province_name: string;
+  cycle_name: string;
+  modality_name: string;
 };
 
 //DATOS DE LA DB
 export type CompanyDB = {
-  company_id: { name: string, id: string };
+  company_id: { name: string; id: string };
 };
 
 export type AlumnDB = {
@@ -33,4 +36,7 @@ export type AlumnDB = {
   cycle_id: string;
   province_id: string;
   status: string;
+  province: { name: string };
+  modality: { name: string };
+  cycle: { name: string };
 };

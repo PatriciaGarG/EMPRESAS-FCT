@@ -1,10 +1,10 @@
 <script setup lang="ts">
-  import { inject, computed, ref, type Ref } from 'vue';
+  import { inject, computed, ref } from 'vue';
   import type { Alumn } from '../../../types/alumn.d.ts';
   import AlumnSidebarFilters from './AlumnSidebarFilters.vue';
   import tableDashboard from './tableDashboard.vue';
 
-  const alumnData = inject<Ref<Alumn[]>>('alumnData')!;
+  const alumnData = inject('alumn') as Alumn[];
 
   const selectedCompany = ref('');
   const selectedModality = ref('');
@@ -17,7 +17,7 @@
   }
 
   const companies = computed(() => {
-    return alumnData.value
+    return alumnData
       .map((a) => a.company_name)
       .filter((name): name is string => !!name)
       .map((name) => ({ id: name, name }));
@@ -25,26 +25,26 @@
 
   const modalities = computed(() => {
     return [
-      ...new Set(alumnData.value.map((a) => a.modality_id).filter(Boolean)),
+      ...new Set(alumnData.map((a) => a.modality_id).filter(Boolean)),
     ].map((id) => ({ id, name: id }));
   });
 
   const cycles = computed(() => {
     return [
-      ...new Set(alumnData.value.map((a) => a.cycle_id).filter(Boolean)),
+      ...new Set(alumnData.map((a) => a.cycle_id).filter(Boolean)),
     ].map((id) => ({ id, name: id }));
   });
 
   const centers = computed(() => {
     return [
       ...new Set(
-        alumnData.value.map((a) => a.enrollment_center).filter(Boolean)
+        alumnData.map((a) => a.enrollment_center).filter(Boolean)
       ),
     ].map((id) => ({ id, name: id }));
   });
 
   const filteredAlumns = computed(() => {
-    return alumnData.value.filter((alumn) => {
+    return alumnData.filter((alumn) => {
       const matchCompany =
         selectedCompany.value === '' ||
         alumn.company_name === selectedCompany.value;

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-  import Modal from '../common/Modal.vue';
+  import Modal from '../../common/Modal.vue';
   import { ref } from 'vue';
   import addAlumn from './addAlumn.vue';
 
@@ -12,7 +12,9 @@
 </script>
 
 <template>
-  <Modal ref="modalAddAlumn" title="Añadir alumnos"><addAlumn @close="modalAddAlumn?.closeModal()" /></Modal>
+  <Modal ref="modalAddAlumn" title="Añadir alumnos"
+    ><addAlumn @close="modalAddAlumn?.closeModal()"
+  /></Modal>
   <div class="bg-gray-100">
     <button
       @click="openAddAlumnModal"
