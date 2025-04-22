@@ -1,9 +1,8 @@
 <!--Here we give form to the table of dashboard-->
 <script lang="ts" setup>
-  import { reactive } from 'vue';
+  import { reactive, onMounted } from 'vue';
   import { getAlumn } from '../services/AlumnService';
   import type { Alumn, AlumnDB } from '../../types/alumn.d.ts';
-  import { onMounted } from 'vue';
 
   const alumnData = reactive([]) as Alumn[];
   // Define the type to be used in the table by the name we gave to the Alumn
@@ -21,6 +20,10 @@
             company_name:
               alumnDB.internship && alumnDB.internship[0]
                 ? alumnDB.internship[0].company_id?.name
+                : null,
+            company_id:
+              alumnDB.internship && alumnDB.internship[0]
+                ? alumnDB.internship[0].company_id?.id
                 : null,
             email: alumnDB.email,
             enrollment_center: alumnDB.enrollment_center,
@@ -44,6 +47,7 @@
 </script>
 
 <template>
+  <button onclick="">Insertar alumn@</button>
   <!--Here we give form to the table and call dates saved in data base-->
   <form class="flex flex-col items-center justify-center h-screen bg-gray-100">
     <div
@@ -63,15 +67,17 @@
         <tbody class="bg-white divide-y divide-gray-200">
           <tr v-for="(alumno, index) in alumnData" :key="index">
             <td class="px-6 py-4 whitespace-nowrap">
-              {{ alumno.name }}
+              <router-link to="/alumnos/id"> {{ alumno.name }} </router-link>
             </td>
             <td class="px-6 py-4 whitespace-nowrap">{{ alumno.dni }}</td>
             <td class="px-6 py-4 whitespace-nowrap">
               {{ alumno.email }} <br />
               {{ alumno.phone }}
             </td>
-            <td class="px-6 py-4 whitespace-nowrap">
-              {{ alumno.company_name || 'Sin empresa' }}
+            <td id="company_id" class="px-6 py-4 whitespace-nowrap">
+              <router-link to="/empresa/id">
+                {{ alumno.company_name || 'Sin empresa' }}
+              </router-link>
             </td>
           </tr>
         </tbody>
