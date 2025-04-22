@@ -1,9 +1,8 @@
 <!--Here we give form to the table of dashboard-->
 <script lang="ts" setup>
-  import { reactive } from 'vue';
+  import { reactive, onMounted } from 'vue';
   import { getAlumn } from '../services/AlumnService';
   import type { Alumn, AlumnDB } from '../../types/alumn.d.ts';
-  import { onMounted } from 'vue';
 
   const alumnData = reactive([]) as Alumn[];
   // Define the type to be used in the table by the name we gave to the Alumn
@@ -22,9 +21,10 @@
               alumnDB.internship && alumnDB.internship[0]
                 ? alumnDB.internship[0].company_id?.name
                 : null,
-            company_id: alumnDB.internship && alumnDB.internship[0]
-              ? alumnDB.internship[0].company_id?.id
-              : null,
+            company_id:
+              alumnDB.internship && alumnDB.internship[0]
+                ? alumnDB.internship[0].company_id?.id
+                : null,
             email: alumnDB.email,
             enrollment_center: alumnDB.enrollment_center,
             modality_id: alumnDB.modality_id,
@@ -47,7 +47,7 @@
 </script>
 
 <template>
-  <router-link to="/"><button>Insertar alumn@</button></router-link>
+  <button onclick="">Insertar alumn@</button>
   <!--Here we give form to the table and call dates saved in data base-->
   <form class="flex flex-col items-center justify-center h-screen bg-gray-100">
     <div
@@ -75,7 +75,9 @@
               {{ alumno.phone }}
             </td>
             <td id="company_id" class="px-6 py-4 whitespace-nowrap">
-             <router-link to="/empresa/id"> {{ alumno.company_name || 'Sin empresa' }} </router-link>
+              <router-link to="/empresa/id">
+                {{ alumno.company_name || 'Sin empresa' }}
+              </router-link>
             </td>
           </tr>
         </tbody>
