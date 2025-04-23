@@ -4,7 +4,6 @@ export type Company = {
   name: string;
   cif: string;
   address: string;
-  student_count: number;
   active: boolean;
   phone: string;
   email: string;
