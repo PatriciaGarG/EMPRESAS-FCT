@@ -13,7 +13,7 @@ export const useAllCompanyData = () => {
     } else {
       allCompanyOptions.value = data.map((company: any) => ({
         name: company.name,
-        id: company.id,
+        value: company.id,
         active: company.active,
         cif: company.cif,
         province: company.province.name,
