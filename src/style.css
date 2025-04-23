@@ -1,15 +1,9 @@
 @import 'tailwindcss';
 
 @theme {
-<<<<<<< HEAD
   --color-primary: #0834ac;
   --color-secondary: #ff5b41;
   --color-gray-light: #e8e4e4;
-=======
-  --color-primary: #0834ac; /*Azul de Dabante*/
-  --color-secondary: #ff5b41; /*Naranja de Dabante*/
-  --color-gray-light: #e8e4e4; /*Gris claro de Dabante*/
->>>>>>> logica-header
 }
 
 @layer components {
@@ -17,8 +11,8 @@
     content: '';
     position: absolute;
     bottom: 0;
-    left: -10px; 
-    width: calc(100% + 20px); 
-    border-bottom: 2px solid #a0a4ac; 
+    left: -10px;
+    width: calc(100% + 20px);
+    border-bottom: 2px solid #a0a4ac;
   }
 }

@@ -9,7 +9,7 @@
     <div class="relative flex justify-end w-[750px] text-center font-bold not-supports-[display:grid]:flex">
       <button
         
-        class="w-[200px] h-[100px] px-4 bg-gray-light hover:bg-orange-600 hover:not-focus:bg-secondary  text-black text-[19px] hover:text-[20px]"
+        class="w-[200px] h-[100px] px-4 bg-gray-light hover:bg-orange-600 hover:not-focus:bg-secondary  text-black text-[19px] ]"
       >
         Alumn@s
       </button>

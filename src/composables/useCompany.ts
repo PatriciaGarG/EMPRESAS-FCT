@@ -1,17 +1,25 @@
 import { reactive } from 'vue';
-import type { Company } from '../types/company';
+import type { CompanyWithCycles } from '../types/company';
 import { fetchCompany } from '../components/services/CompanyService';
 
 export const useCompany = () => {
-  const company: Company[] = reactive([]);
+  const company: CompanyWithCycles[] = reactive([]);
 
   const getCompany = async () => {
     try {
       const data = await fetchCompany();
       if (data) {
-        const companyDataDB = data as unknown as Company[];
+        const companyDataDB = data as any[];
+
+        console.log('🔎 companyDataDB:', companyDataDB);
 
         companyDataDB.forEach((companyDB) => {
+          console.log(
+            '➡️ Ciclos de',
+            companyDB.name,
+            ':',
+            companyDB.company_cycle
+          );
           company.push({
             id: companyDB.id,
             name: companyDB.name,
@@ -25,10 +33,15 @@ export const useCompany = () => {
             province_id: companyDB.province_id,
             modality: { name: companyDB.modality.name },
             province: { name: companyDB.province.name },
+            cycles:
+              companyDB.company_cycle?.map((c: any) => ({
+                id: c.cycle_id.id,
+                name: c.cycle_id.name,
+              })) ?? [],
           });
         });
-        console.log(company);
-        console.log('Company data fetched successfully:', companyDataDB);
+
+        console.log('Company data with cycles fetched:', company);
       }
     } catch (error) {
       console.error('Error fetching company data:', error);

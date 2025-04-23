@@ -1,4 +1,3 @@
-//DATOS
 export type Company = {
   id: string;
   name: string;
@@ -12,4 +11,17 @@ export type Company = {
   modality: { name: string };
   province_id: string;
   province: { name: string };
+};
+
+export type CompanyDB = Company & {
+  company_cycle?: {
+    cycle_id: {
+      id: string;
+      name: string;
+    };
+  }[];
+};
+
+export type CompanyWithCycles = Company & {
+  cycles: { id: string; name: string }[];
 };
