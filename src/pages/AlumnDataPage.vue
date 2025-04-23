@@ -11,7 +11,7 @@
   import AlumnData from '../components/alumn-data/AlumnData.vue';
   import { useAlumnData } from '../composables/useAlumnData';
   import { useCurrentCompanyData } from '../composables/useCurrentCompanyData';
-  import HeaderDashboard from '../components/common/headerDashboard.vue';
+  import HeaderDashboard from '../components/common/HeaderDashboard.vue';
 
   // Id del alumno de la URL
   const route = useRoute();

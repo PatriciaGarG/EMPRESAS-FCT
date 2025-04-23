@@ -2,7 +2,7 @@
   import { provide, onMounted } from 'vue';
   import { useAlumn } from '../composables/useAlumn';
   import AlumnDashboard from '../components/dashboard/alumn-dashboard/AlumnDashboard.vue';
-  import headerDashboard from '../components/common/headerDashboard.vue';
+  import headerDashboard from '../components/common/HeaderDashboard.vue';
   import AddAlumnButton from '../components/dashboard/alumn-dashboard/addAlumnButton.vue';
 
   const { alumn, getAlumn } = useAlumn();
