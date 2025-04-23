@@ -1,6 +1,5 @@
 <template>
   <div class="bg-gray-light grid grid-rows-[auto_1fr] h-[100%] min-h-[100vh]">
-    <HeaderDashboard />
     <AlumnData />
   </div>
 </template>
@@ -11,7 +10,6 @@
   import AlumnData from '../components/alumn-data/AlumnData.vue';
   import { useAlumnData } from '../composables/useAlumnData';
   import { useCurrentCompanyData } from '../composables/useCurrentCompanyData';
-  import HeaderDashboard from '../components/common/HeaderDashboard.vue';
 
   // Id del alumno de la URL
   const route = useRoute();

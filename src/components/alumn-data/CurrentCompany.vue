@@ -34,7 +34,7 @@
           width="15"
           class="h-fit inline mr-3"
         />
-        <router-link :to="`/company/${currentCompany.company_id}`"><strong class="underline truncate">{{ currentCompany.company }}</strong></router-link>
+        <strong class="underline truncate">{{ currentCompany.company }}</strong>
       </div>
     </li>
     <li><strong>Ciclo:</strong> {{ currentCompany.cycle }}</li>

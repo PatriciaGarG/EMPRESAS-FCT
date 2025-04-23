@@ -45,7 +45,7 @@
 
   const companies = computed(() => [
     { id: 'null', name: 'Sin empresa' },
-    ...allCompanyOptions.value.map((a) => ({ id: a.value, name: a.name })),
+    ...allCompanyOptions.value.map((a) => ({ id: a.id, name: a.name })),
   ]);
 
   const modalities = computed(() =>
@@ -100,7 +100,7 @@
 </script>
 
 <template>
-  <div class="relative flex min-h-full">
+  <div class="flex min-h-screen">
     <AlumnSidebarFilters
       :companies="companies"
       :modalities="modalities"

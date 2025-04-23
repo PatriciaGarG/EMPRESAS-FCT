@@ -14,7 +14,7 @@
 <template>
   <div>
     <div
-      class="relative max-w-[99%] border-2 border-primary w-full h-full space-y-3 shadow-md bg-white m-5"
+      class="border-2 border-primary w-full h-full mt-[250px] space-y-3 shadow-md bg-white"
     >
       <table class="min-w-full divide-y divide-gray-200">
         <thead

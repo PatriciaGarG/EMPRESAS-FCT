@@ -11,6 +11,7 @@
     deleteCurrentCompany,
     updateCurrentCompanyData,
   } from '../services/alumn-data';
+  import { all } from 'axios';
 
   const emit = defineEmits(['close', 'dataSaved']);
 
