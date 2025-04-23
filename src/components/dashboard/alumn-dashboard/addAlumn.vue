@@ -1,36 +1,53 @@
 <script lang="ts" setup>
   import { inject, onMounted, reactive, ref, watch } from 'vue';
-  import type { AlumnData } from '../../types/alumnData';
+  import type { AlumnData } from '../../../types/alumnData';
   import VueSelect, { type Option } from 'vue3-select-component';
-  import { normalize } from '../../composables/useCommon';
-  import { useSelectOptions } from '../../composables/useSelectOptions';
-  import { useValidation } from '../../composables/useValidation';
+  import { normalize } from '../../../composables/useCommon';
+  import { useSelectOptions } from '../../../composables/useSelectOptions';
+  import { useValidation } from '../../../composables/useValidation';
   import {
-    checkEmailExists,
-    checkPhoneExists,
+    checkAllEmailExists,
+    checkAllPhoneExists,
     updateAlumnData,
-  } from '../services/alumn-data';
-  
+  } from '../../services/alumn-data';
+  import type { Alumn } from '../../../types/alumn';
+
   const { provincesData, modalitiesData, cyclesData, getSelectOptions } =
-  useSelectOptions();
-  
+    useSelectOptions();
+
+  const alumnData = inject('alumnData') as Alumn[];
+
   const statusData = [
     { label: 'Cursando', value: 'cursando' },
     { label: 'Finalizado', value: 'finalizado' },
     { label: 'A la espera', value: 'a la espera' },
     { label: 'Sin empresa', value: 'sin empresa' },
   ];
-  
+
   const emit = defineEmits(['close', 'dataSaved']);
-  
-  const alumnData = inject('alumnData') as AlumnData;
 
   const { validateAlumnForm, validateAlumnField } = useValidation();
 
   const errors = reactive<Record<string, string>>({});
 
-  const alumnDataForm = reactive({
-    ...alumnData,
+  const alumnDataForm: AlumnData = reactive({
+    id: '',
+    full_name: '',
+    first_name: '',
+    last_name_1: '',
+    last_name_2: '',
+    dni: '',
+    enrollment_center: '',
+    phone: '',
+    email: '',
+    status: '',
+    modality_name: '',
+    cycle_name: '',
+    province_name: '',
+    modality_id: '',
+    cycle_id: '',
+    province_id: '',
+    has_company: false,
   });
 
   //Carga
@@ -57,22 +74,14 @@
       Object.assign(errors, validationErrors);
 
       //Chequear si el email o el teléfono ya estan registrados
-      const emailExists = await checkEmailExists(
-        alumnDataForm.email,
-        alumnDataForm.id
-      );
+      const emailExists = await checkAllEmailExists(alumnDataForm.email);
       if (emailExists) {
         errors.email = 'Este email ya está registrado por otro alumno.';
-        return;
       }
 
-      const phoneExists = await checkPhoneExists(
-        alumnDataForm.phone,
-        alumnDataForm.id
-      );
+      const phoneExists = await checkAllPhoneExists(alumnDataForm.phone);
       if (phoneExists) {
         errors.phone = 'Este teléfono ya está registrado por otro alumno.';
-        return;
       }
 
       //Comprobar si no hay errores
@@ -86,14 +95,12 @@
           has_company,
           ...validAlumnData
         } = alumnDataForm;
+
+        delete validAlumnData.id;
+
         const response = await updateAlumnData(validAlumnData);
         if (response.success) {
-          alumnDataForm.full_name =
-            alumnDataForm.first_name +
-            ' ' +
-            alumnDataForm.last_name_1 +
-            alumnDataForm.last_name_2;
-          Object.assign(alumnData, alumnDataForm);
+          //Meter lógica para que el alumno se actualice directamente
           emit('close');
           emit('dataSaved', 'Datos guardados correctamente');
         }
@@ -158,17 +165,16 @@
 </script>
 
 <template>
-  <form @submit.prevent="handleSubmit" class="space-y-4 min-w-[60vw]">
+  <form @submit.prevent="handleSubmit" class="space-y-4">
     <fieldset class="border-1 p-5 pb-8 rounded-2xl border-gray-700">
       <legend class="font-semibold px-2">Datos personales</legend>
       <div class="flex gap-5">
         <div class="basis-1/3">
-          <label for="name" class="block font-semibold"
+          <label class="block font-semibold"
             >Nombre <span class="text-secondary">*</span></label
           >
           <input
             v-model="alumnDataForm.first_name"
-            id="name"
             class="w-full border rounded px-4 py-2 border-gray-400"
             :class="{ 'border-red-500': errors.first_name }"
             @input="handleInputChange('first_name', alumnDataForm.first_name)"
@@ -178,7 +184,7 @@
           </p>
         </div>
         <div class="basis-1/3">
-          <label for="last_name" class="block font-semibold"
+          <label class="block font-semibold"
             >Primer apellido <span class="text-secondary">*</span></label
           >
           <input
@@ -186,32 +192,27 @@
             class="w-full border rounded px-4 py-2 border-gray-400"
             :class="{ 'border-red-500': errors.last_name_1 }"
             @input="handleInputChange('last_name_1', alumnDataForm.last_name_1)"
-            id="last_name"
           />
           <p v-if="errors.last_name_1" class="text-red-500 text-sm mt-1">
             {{ errors.last_name_1 }}
           </p>
         </div>
         <div class="basis-1/3">
-          <label name="last_name_2" class="block font-semibold"
-            >Segundo apellido</label
-          >
+          <label class="block font-semibold">Segundo apellido</label>
           <input
             v-model="alumnDataForm.last_name_2"
             class="w-full border rounded px-4 py-2 border-gray-400"
             placeholder="Opcional"
-            id="last_name_2"
           />
         </div>
       </div>
       <div class="flex gap-5 mt-8">
         <div class="basis-1/4">
-          <label name="dni" class="block font-semibold"
+          <label class="block font-semibold"
             >DNI <span class="text-secondary">*</span></label
           >
           <input
             v-model="alumnDataForm.dni"
-            id="dni"
             class="w-full border rounded px-4 py-2 border-gray-400"
             :class="{ 'border-red-500': errors.dni }"
             @input="handleInputChange('dni', alumnDataForm.dni)"
@@ -221,12 +222,11 @@
           </p>
         </div>
         <div class="basis-1/4">
-          <label for="phone" class="block font-semibold"
+          <label class="block font-semibold"
             >Teléfono <span class="text-secondary">*</span></label
           >
           <input
             v-model="alumnDataForm.phone"
-            id="phone"
             class="w-full border rounded px-4 py-2 border-gray-400"
             :class="{ 'border-red-500': errors.phone }"
             @input="handleInputChange('phone', alumnDataForm.phone)"
@@ -236,12 +236,11 @@
           </p>
         </div>
         <div class="basis-2/4">
-          <label class="block font-semibold" for="email"
+          <label class="block font-semibold"
             >Email <span class="text-secondary">*</span></label
           >
           <input
             v-model="alumnDataForm.email"
-            id="email"
             type="email"
             class="w-full border rounded px-4 py-2 border-gray-400"
             :class="{ 'border-red-500': errors.email }"
@@ -257,12 +256,11 @@
       <legend class="font-semibold px-2">Datos académicos</legend>
       <div class="flex gap-5">
         <div class="basis-1/3">
-          <label class="block font-semibold" for="enrollment_center"
+          <label class="block font-semibold"
             >Centro <span class="text-secondary">*</span></label
           >
           <input
             v-model="alumnDataForm.enrollment_center"
-            id="enrollment_center"
             class="w-full border rounded px-4 py-2 border-gray-400"
             :class="{ 'border-red-500': errors.enrollment_center }"
             @input="

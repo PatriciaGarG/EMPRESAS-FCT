@@ -23,10 +23,9 @@ export async function fetchCurrentCompanyData(id: string): Promise<any> {
     const { data, error } = await supabase
       .from('internship')
       .select(
-        'company_id:company(name), start_date, end_date, cycle_id:cycle(name), result'
+        'id, company_id ,company(name), start_date, end_date, cycle_id, cycle(name), result'
       )
       .eq('alumn_id', id);
-
     return { data, error };
   } catch (error) {
     console.error('Error al obtener los datos:', error);
@@ -37,7 +36,7 @@ export async function fetchCurrentCompanyData(id: string): Promise<any> {
 
 export async function updateAlumnData(alumnData: any): Promise<any> {
   try {
-    const { error } = await supabase
+    const { data, error } = await supabase
       .from('alumn')
       .upsert([alumnData], { onConflict: 'id' });
 
@@ -46,7 +45,7 @@ export async function updateAlumnData(alumnData: any): Promise<any> {
       return { success: false, error: error.message };
     }
 
-    console.log('Datos actualizados con éxito:');
+    console.log('Datos actualizados con éxito:' + data);
     return { success: true };
   } catch (err: any) {
     console.error('Error al conectar con Supabase:', err);
@@ -54,7 +53,7 @@ export async function updateAlumnData(alumnData: any): Promise<any> {
   }
 }
 
-export const checkEmailExists = async (email: string, id?: string) => {
+export const checkEmailExists = async (email: string, id: string) => {
   const { data, error } = await supabase
     .from('alumn')
     .select('id')
@@ -72,7 +71,7 @@ export const checkEmailExists = async (email: string, id?: string) => {
 
 export const checkPhoneExists = async (
   phone: string,
-  id?: string
+  id: string
 ): Promise<boolean> => {
   const { data, error } = await supabase
     .from('alumn')
@@ -87,6 +86,53 @@ export const checkPhoneExists = async (
   }
   return !!data;
 };
+
+export const deleteCurrentCompany = async (id: string): Promise<boolean> => {
+  const { error } = await supabase.from('internship').delete().eq('id', id);
+
+  if (error) {
+    console.error('Error al eliminar:', error);
+    return false;
+  } else {
+    return true;
+  }
+};
+
+export const deleteAlumn = async (id: string): Promise<boolean> => {
+  const { error } = await supabase.from('alumn').delete().eq('id', id);
+
+  if (error) {
+    console.error('Error al eliminar:', error);
+    return false;
+  } else {
+    return true;
+  }
+};
+
+export async function updateCurrentCompanyData(
+  currentCompany: any
+): Promise<{ success: boolean; id?: string; error?: string }> {
+  try {
+    if (!currentCompany.id) {
+      currentCompany.id = crypto.randomUUID();
+    }
+
+    const { data, error } = await supabase
+      .from('internship')
+      .upsert([currentCompany], { onConflict: 'id' });
+
+    if (error) {
+      console.error('Error al actualizar los datos:', error.message);
+      return { success: false, error: error.message };
+    }
+
+    console.log('Datos actualizados con éxito:', data);
+    return { success: true, id: currentCompany.id };
+  } catch (err: any) {
+    console.error('Error al conectar con Supabase:', err);
+    return { success: false, error: err.message };
+  }
+}
 export const checkAllEmailExists = async (email: string) => {
   const { data } = await supabase.from('alumn').select('id').eq('email', email);
 
@@ -108,15 +154,21 @@ export const checkAllPhoneExists = async (phone: string): Promise<boolean> => {
   }
 };
 
-// export const checkAllDni = async (phone: string): Promise<boolean> => {
-//   const { data, error } = await supabase
-//     .from('alumn')
-//     .select('id')
-//     .eq('phone', phone);
+// export async function updateCurrenteCompany(alumnData: any): Promise<any> {
+//   try {
+//     const { data, error } = await supabase
+//       .from('alumn')
+//       .upsert([alumnData], { onConflict: 'id' });
 
-//   if (data && data.length > 0) {
-//     return true;
-//   } else {
-//     return false;
+//     if (error) {
+//       console.error('Error al actualizar los datos:', error.message);
+//       return { success: false, error: error.message };
+//     }
+
+//     console.log('Datos actualizados con éxito:' + data);
+//     return { success: true };
+//   } catch (err: any) {
+//     console.error('Error al conectar con Supabase:', err);
+//     return { success: false, error: err.message };
 //   }
-// };
+// }

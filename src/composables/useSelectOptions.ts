@@ -1,5 +1,5 @@
 import { ref } from 'vue';
-import { fetchSelectOptions } from '../components/services/select-options';
+import { fetchSelectOptions } from '../components/services/select-alumn-options';
 
 export const useSelectOptions = () => {
   const provincesData = ref<any[]>([]);

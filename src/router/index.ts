@@ -4,6 +4,7 @@ import RegisterPage from '../pages/RegisterPage.vue';
 import AlumnDataPage from '../pages/AlumnDataPage.vue';
 import AlumnDashboardPage from '../pages/AlumnDashboardPage.vue';
 import CompanyDashboardPage from '../pages/CompanyDashboardPage.vue';
+import CompanyInformationPage from '../pages/companyInformationPage.vue';
 
 const routes = [
   { path: '/', component: LoginPage },
@@ -13,6 +14,7 @@ const routes = [
   { path: '/dashboard/', component: AlumnDashboardPage },
   { path: '/dashboard/alumn', component: AlumnDashboardPage },
   { path: '/dashboard/company', component: CompanyDashboardPage },
+  { path: '/company/:id', component: CompanyInformationPage },
 ];
 const router = createRouter({
   history: createWebHistory(),
