@@ -35,6 +35,10 @@
     alumnData.has_company = newValue;
   };
 
+  const goBack = () => {
+  history.back()
+}
+
   provide('updateHasCompany', updateHasCompany);
 </script>
 
@@ -43,6 +47,7 @@
     class="w-full p-10 grid grid-cols-[1fr_1fr] grid-rows-[auto_auto_auto] align-center gap-x-10 gap-y-5"
   >
     <section class="flex h-fit gap-6 items-center">
+      <router-link to="/dashboard/alumn">
       <div
         class="relative min-w-[45px] min-h-[45px] bg-white rounded-full cursor-pointer hover:border-primary hover:bg-primary border-1 transition-all"
       >
@@ -53,6 +58,7 @@
           width="40"
         />
       </div>
+    </router-link>
       <div>
         <p class="bg-primary py-4 px-6 rounded-2xl text-2xl text-white">
           {{ alumnData.full_name }}

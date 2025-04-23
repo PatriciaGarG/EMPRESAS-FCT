@@ -11,7 +11,6 @@ const routes = [
   { path: '/register', component: RegisterPage },
   { path: '/alumn/:id', component: AlumnDataPage },
   //{ path: '/company/:id', component: CompanyDataPage },
-  { path: '/dashboard/', component: AlumnDashboardPage },
   { path: '/dashboard/alumn', component: AlumnDashboardPage },
   { path: '/', component: AlumnDashboardPage },
   { path: '/dashboard/company', component: CompanyDashboardPage },
