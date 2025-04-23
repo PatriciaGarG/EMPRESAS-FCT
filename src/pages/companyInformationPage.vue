@@ -1,4 +1,5 @@
 <template>
+  <HeaderDashboard />
   <body class="bg-gray-200 h-screen">
     <div v-if="loading">Cargando empresa...</div>
     <div v-else-if="error">{{ error }}</div>
@@ -228,6 +229,7 @@ import DeleteCompany from "../components/services/companyInformation/DeleteCompa
 import StudentsChart from "../components/services/companyInformation/StudentChart.vue";
 import RatingsChart from "../components/services/companyInformation/RatingsChart.vue";
 import Modal from "../components/common/Modal.vue";
+import HeaderDashboard from "../components/common/HeaderDashboard.vue";
 
 const modalModifyCompany = ref();
 const modalDeleteCompany = ref();
