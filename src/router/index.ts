@@ -40,13 +40,18 @@ const router = createRouter({
 // Protección global de rutas
 router.beforeEach(async (to, _from, next) => {
   const { isLoggedIn } = useAuth();
+  const logged = await isLoggedIn();
 
-  if (to.meta.requiresAuth) {
-    const logged = await isLoggedIn();
-    if (!logged) {
-      return next('/');
-    }
+
+  if (logged && (to.path === '/' || to.path === '/register')) {
+    return next('/dashboard/alumn'); 
   }
+
+
+  if (to.meta.requiresAuth && !logged) {
+    return next('/');
+  }
+
 
   next();
 });
