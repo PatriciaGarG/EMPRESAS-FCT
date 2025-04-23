@@ -17,7 +17,6 @@ export const useCompany = () => {
             name: companyDB.name,
             cif: companyDB.cif,
             address: companyDB.address,
-            student_count: companyDB.student_count,
             active: companyDB.active,
             phone: companyDB.phone,
             email: companyDB.email,

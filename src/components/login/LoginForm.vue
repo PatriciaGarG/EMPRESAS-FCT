@@ -69,7 +69,7 @@
             'Ha ocurrido un error inesperado, inténtalo de nuevo más tarde';
         }
       } else {
-        router.push('/dashboard');
+        router.push('/dashboard/alumn');
       }
     } finally {
       isLoading.value = false;

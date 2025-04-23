@@ -4,7 +4,7 @@ export async function fetchCompany() {
   const { data, error } = await supabase
     .from('company')
     .select(
-      'id, name, cif, address, student_count, active, phone, email, modality_id, modality (name), province_id, province (name)'
+      'id, name, cif, address, active, phone, email, modality_id, modality (name), province_id, province (name)'
     );
   console.log(data);
   if (data) {
