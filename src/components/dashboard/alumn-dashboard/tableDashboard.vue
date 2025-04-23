@@ -14,11 +14,11 @@
 <template>
   <div>
     <div
-      class="border-2 border-blue-950 w-full h-full mt-[250px] ml-[25%] space-y-3 shadow-md bg-white"
+      class="border-2 border-primary w-full h-full mt-[250px] space-y-3 shadow-md bg-white"
     >
       <table class="min-w-full divide-y divide-gray-200">
         <thead
-          class="bg-blue-950 text-white text-left uppercase tracking-wider font-bold text-2xs"
+          class="bg-primary text-white text-left uppercase tracking-wider font-bold text-2xs"
         >
           <tr>
             <th scope="col" class="px-6 py-3">Nombre</th>
