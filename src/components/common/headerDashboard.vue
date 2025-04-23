@@ -1,6 +1,4 @@
-<script lang="ts" setup>
-
-</script>
+<script lang="ts" setup></script>
 
 <template>
   <div class="w-full h-[100px] flex bg-primary items-center justify-between">
