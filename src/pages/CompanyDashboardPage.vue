@@ -1,9 +1,9 @@
 <script setup lang="ts">
   import { provide, onMounted } from 'vue';
   import { useCompany } from '../composables/useCompany';
-  import headerDashboard from '../components/common/HeaderDashboard.vue';
   import tableCompanyDashboard from '../components/dashboard/company-dashboard/tableCompanyDashboard.vue';
   import AddCompanyButton from '../components/dashboard/company-dashboard/AddCompanyButton.vue';
+  import HeaderDashboard from '../components/common/HeaderDashboard.vue';
 
   //Coger la info de las comañias de la DB
   const { company, getCompany } = useCompany();
@@ -20,6 +20,7 @@
   <body class="flex flex-col h-screen w-screen bg-gray-light">
     <headerDashboard />
     <AddCompanyButton/>
+    <HeaderDashboard />
     <tableCompanyDashboard />
   </body>
 </template>

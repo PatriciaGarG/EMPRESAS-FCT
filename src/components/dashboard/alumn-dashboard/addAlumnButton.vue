@@ -15,12 +15,9 @@
   <Modal ref="modalAddAlumn" title="Añadir alumnos"
     ><addAlumn @close="modalAddAlumn?.closeModal()"
   /></Modal>
-  <div class="">
     <button
       @click="openAddAlumnModal"
-      class="relative flex justify-center h-full bg-gray-200 ring-2 ring-blue-950 p-2 rounded-2xl shadow-2xl hover:ring-3 ml-[90%] mt-[250px]"
     >
       Insertar alumn@
     </button>
-  </div>
 </template>
