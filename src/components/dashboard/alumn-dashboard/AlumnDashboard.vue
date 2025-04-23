@@ -100,7 +100,7 @@
 </script>
 
 <template>
-  <div class="flex min-h-screen">
+  <div class="relative flex min-h-full">
     <AlumnSidebarFilters
       :companies="companies"
       :modalities="modalities"

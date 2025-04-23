@@ -13,6 +13,7 @@ const routes = [
   //{ path: '/company/:id', component: CompanyDataPage },
   { path: '/dashboard/', component: AlumnDashboardPage },
   { path: '/dashboard/alumn', component: AlumnDashboardPage },
+  { path: '/', component: AlumnDashboardPage },
   { path: '/dashboard/company', component: CompanyDashboardPage },
   { path: '/company/:id', component: CompanyInformationPage },
 ];
