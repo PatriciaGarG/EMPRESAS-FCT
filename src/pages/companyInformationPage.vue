@@ -1,4 +1,5 @@
 <template>
+  <HeaderDashboard />
   <body class="bg-gray-200 h-screen">
     <div v-if="loading">Cargando empresa...</div>
     <div v-else-if="error">{{ error }}</div>
@@ -21,7 +22,7 @@
         </div>
         <div id="modifyAndDeleteButtons">
           <button
-            @click="showModifyCompany = true"
+            @click="openModifyCompany()"
             id="modifyButton"
             class="mt-20 w-35 h-10 ml-270 border-2 rounded-full bg-orange-400 text-2xl text-white border-orange-400"
           >
@@ -198,19 +199,24 @@
 
   </body>
 
-  <ModifyCompany
-    v-if="showModifyCompany"
-    :company-id="route.params.id"
-    :company-data="company"
-    @close="showModifyCompany = false"
-    @update="fetchCompany"
-  />
+  <Modal ref="modalModifyCompany" title="Modificar datos de la empresa">
+    <ModifyCompany
+      :company-id="route.params.id"
+      :company-data="company"
+      @update="fetchCompany"
+    />
+  </Modal>
 
-  <DeleteCompany
-    v-if="showDeleteCompany"
-    :company-id="route.params.id"
-    @close="showDeleteCompany = false"
-  />
+  <Modal ref="modalDeleteCompany" title="¿Seguro quieres eliminar esta empresa?">
+    <DeleteCompany
+      :company-id="route.params.id"
+      @delete="fetchCompany"
+    />
+    <DeleteCompany
+      v-if="showDeleteCompany"
+      :company-id="route.params.id"
+    />
+ </Modal>
 
 </template>
 
@@ -222,12 +228,18 @@ import ModifyCompany from "../components/services/companyInformation/ModifyCompa
 import DeleteCompany from "../components/services/companyInformation/DeleteCompany.vue";
 import StudentsChart from "../components/services/companyInformation/StudentChart.vue";
 import RatingsChart from "../components/services/companyInformation/RatingsChart.vue";
+import Modal from "../components/common/Modal.vue";
+import HeaderDashboard from "../components/common/HeaderDashboard.vue";
 
-const showModifyCompany = ref(false);
-const showDeleteCompany = ref(false);
+const modalModifyCompany = ref();
+const modalDeleteCompany = ref();
+
+const openModifyCompany = () => {
+  modalModifyCompany.value?.openModal();
+};
 
 const openDelete = () => {
-  showDeleteCompany.value = true;
+  modalDeleteCompany.value?.openModal();
 };
 
 interface Company {

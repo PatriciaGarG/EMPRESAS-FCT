@@ -35,6 +35,7 @@
     alumnData.has_company = newValue;
   };
 
+
   provide('updateHasCompany', updateHasCompany);
 </script>
 

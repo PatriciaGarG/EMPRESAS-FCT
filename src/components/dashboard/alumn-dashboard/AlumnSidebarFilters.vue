@@ -25,7 +25,7 @@
 
 <template>
   <aside
-    class="w-64 min-h-screen bg-white border-r shadow p-4 flex flex-col gap-4"
+    class="w-full h-full bg-white border-r shadow p-4 flex flex-col gap-4"
   >
     <h2 class="text-lg font-semibold">Filtros</h2>
 
