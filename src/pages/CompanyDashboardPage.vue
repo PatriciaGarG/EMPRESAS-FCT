@@ -20,7 +20,6 @@
   <body class="flex flex-col h-screen w-screen bg-gray-light">
     <headerDashboard />
     <AddCompanyButton/>
-    <HeaderDashboard />
     <tableCompanyDashboard />
   </body>
 </template>

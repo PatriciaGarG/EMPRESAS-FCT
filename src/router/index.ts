@@ -6,7 +6,7 @@ import AlumnDashboardPage from '../pages/AlumnDashboardPage.vue';
 import CompanyDashboardPage from '../pages/CompanyDashboardPage.vue';
 import CompanyInformationPage from '../pages/companyInformationPage.vue';
 import { useAuth } from '../composables/useAuth';
-import CompanyDashboardPage from '../pages/companyDashboardPage.vue';
+
 
 const routes = [
   { path: '/', component: LoginPage },
