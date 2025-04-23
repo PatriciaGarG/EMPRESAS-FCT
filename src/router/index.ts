@@ -10,9 +10,7 @@ const routes = [
   { path: '/', component: LoginPage },
   { path: '/register', component: RegisterPage },
   { path: '/alumn/:id', component: AlumnDataPage },
-  //{ path: '/company/:id', component: CompanyDataPage },
   { path: '/dashboard/alumn', component: AlumnDashboardPage },
-  { path: '/', component: AlumnDashboardPage },
   { path: '/dashboard/company', component: CompanyDashboardPage },
   { path: '/company/:id', component: CompanyInformationPage },
 ];

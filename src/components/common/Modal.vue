@@ -34,7 +34,7 @@
 <template>
   <div
     v-if="isVisible"
-    class="fixed inset-0 flex justify-center items-center z-50 transition-all"
+    class="fixed inset-0 flex justify-center items-center text-left z-50 transition-all"
     :style="{ backgroundColor: 'rgba(0, 0, 0, 0.8)' }"
   >
     <div
