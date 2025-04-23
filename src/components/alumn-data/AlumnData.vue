@@ -6,26 +6,23 @@
   import ActionButton from '../common/ActionButton.vue';
   import type { AlumnData } from '../../types/alumnData';
   import Modal from '../common/Modal.vue';
-  import AlumnForm from './AlumnForm.vue';
-  import CompanyForm from './CompanyForm.vue';
   import DeleteAlumn from './DeleteAlumn.vue';
+import CompanyForm from './CompanyForm.vue';
+
+  const modalCurrentCompany = ref();
+
+function openCurrentCompanyModal() {
+  modalCurrentCompany.value?.openModal();
+}
 
   const alumnData = inject('alumnData') as AlumnData;
 
   // Computed para manejar la reactividad de has_company
   const hasCompany = computed(() => alumnData.has_company);
 
-  const modalAlumn = ref();
-  const modalCompany = ref();
   const modalDelete = ref();
 
-  function openAlumnModal() {
-    modalAlumn.value?.openModal();
-  }
 
-  function openCompanyModal() {
-    modalCompany.value?.openModal();
-  }
   function openDeleteModal() {
     modalDelete.value?.openModal();
   }
@@ -34,10 +31,6 @@
   const updateHasCompany = (newValue: boolean) => {
     alumnData.has_company = newValue;
   };
-
-  const goBack = () => {
-  history.back()
-}
 
   provide('updateHasCompany', updateHasCompany);
 </script>
@@ -65,8 +58,6 @@
       </div>
     </section>
     <section class="flex gap-4 h-fit justify-end self-end">
-      <ActionButton @click="openAlumnModal"> Modificar alumn@ </ActionButton>
-      <ActionButton @click="openCompanyModal"> Modificar empresa </ActionButton>
       <ActionButton @click="openDeleteModal"> Eliminar alumn@ </ActionButton>
     </section>
     <AlumnInfo />
@@ -76,17 +67,25 @@
       <CurrentCompany v-if="hasCompany" />
       <p v-else>
         Aquí hay que ver que información poner cuando el alumno no tiene empresa
+        <div
+    @click="openCurrentCompanyModal"
+    class="flex items-center justify-center p-2 rounded-2xl bg-gray-200 gap-2 cursor-pointer font-semibold hover:bg-gray-300"
+  >
+    <img
+      src="../../assets/edit-icon.png"
+      alt="icono de editar"
+      class="size-5 cursor-pointer"
+    />
+    <button class="text-[0.9rem] cursor-pointer">Añadir empresa</button>
+  </div>
       </p>
     </section>
     <ExtraInfo />
-    <Modal ref="modalAlumn" title="Modificar datos del alumn@">
-      <AlumnForm @close="modalAlumn?.closeModal()" />
-    </Modal>
-    <Modal ref="modalCompany" title="Modificar datos de la empresa actual">
-      <CompanyForm @close="modalCompany?.closeModal()" />
-    </Modal>
     <Modal ref="modalDelete" title="¿Seguro que quieres borrar este alumn@?">
       <DeleteAlumn @close="modalDelete?.closeModal()" />
     </Modal>
+    <Modal ref="modalCurrentCompany" title="Modificar datos del alumn@">
+    <CompanyForm @close="modalCurrentCompany?.closeModal()" />
+  </Modal>
   </main>
 </template>
