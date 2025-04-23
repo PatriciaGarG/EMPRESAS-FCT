@@ -23,7 +23,6 @@
               <th scope="col" class="px-6 py-3">Nombre</th>
               <th scope="col" class="px-6 py-3">CIF</th>
               <th scope="col" class="px-6 py-3">Dirección</th>
-              <th scope="col" class="px-6 py-3">Estudiantes</th>
               <th scope="col" class="px-6 py-3">Contacto</th>
               <th scope="col" class="px-6 py-3">Estado</th>
             </tr>
@@ -38,9 +37,6 @@
               <td class="px-6 py-4 whitespace-nowrap">{{ companies.cif }}</td>
               <td class="px-6 py-4 whitespace-nowrap">
                 {{ companies.address || 'Sin empresa' }}
-              </td>
-              <td class="px-6 py-4 whitespace-nowrap">
-                {{ companies.student_count || 'Sin empresa' }}
               </td>
               <td class="px-6 py-4 whitespace-nowrap">
                 {{ companies.email }} <br />

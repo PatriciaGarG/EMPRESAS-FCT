@@ -114,7 +114,7 @@ const errorTitle = ref ({
 
 
 const validateTitles = () =>{
-  errorTitle.value.name = !/^[a-zA-ZÀ-ÿ\s]{1,40}$/.test(newCompany.value.name);
+  errorTitle.value.name = !/^[a-zA-ZÀ-ÿ0-9\s]{1,40}$/.test(newCompany.value.name);
   errorTitle.value.address = !/^[a-zA-ZÀ-ÿ0-9/\\\\\s]{1,40}$/.test(newCompany.value.address);
   errorTitle.value.cif = !/^[ABCDEFGHJKLMNPQRSUVW][0-9]{7}[0-9A-J]$/.test(newCompany.value.cif);
   errorTitle.value.phone = !/^[0-9]{9,15}$/.test(newCompany.value.phone);
@@ -133,9 +133,6 @@ const isValidate = computed(() =>{
   newCompany.value.email)
 })
 
-
-
-
 const newCompany = ref<Company>({
     name: '',
     cif: '',
@@ -149,6 +146,7 @@ const newCompany = ref<Company>({
 
 })
 
+const emit = defineEmits(['close']);
 const submitFormCompanies = async () => {
     const {data: insertCompany, error: insertCompanyError} = await supabase
         .from('company')
@@ -193,6 +191,7 @@ const submitFormCompanies = async () => {
                 return;
             }
 
+            emit('close');
 }
 
 onMounted(async () =>{
