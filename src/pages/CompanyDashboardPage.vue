@@ -1,7 +1,7 @@
 <script setup lang="ts">
   import { provide, onMounted } from 'vue';
   import { useCompany } from '../composables/useCompany';
-  import headerDashboard from '../components/common/HeaderDashboard.vue';
+  import HeaderDashboard from '../components/common/HeaderDashboard.vue';
   import CompanyDashboard from '../components/dashboard/company-dashboard/CompanyDashboard.vue';
 
   const { company, getCompany } = useCompany();
@@ -10,12 +10,13 @@
     getCompany();
   });
 
+  //Proporcionar la info a los hijos y nietos...
   provide('company', company);
 </script>
 
 <template>
   <body class="flex flex-col h-screen w-screen bg-gray-light">
-    <headerDashboard />
+    <HeaderDashboard />
     <CompanyDashboard />
   </body>
 </template>

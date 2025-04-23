@@ -35,9 +35,6 @@
     alumnData.has_company = newValue;
   };
 
-  const goBack = () => {
-  history.back()
-}
 
   provide('updateHasCompany', updateHasCompany);
 </script>
