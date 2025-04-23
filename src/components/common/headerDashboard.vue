@@ -1,13 +1,24 @@
 <script lang="ts" setup>
-  import { useRoute } from 'vue-router';
+  import { useRoute, useRouter } from 'vue-router';
   import { computed } from 'vue';
+  import { useAuth } from '../../composables/useAuth';
 
   const route = useRoute();
+  const router = useRouter();
+  const { logout } = useAuth();
 
+  //Comprobar en que ruta estamos
   const isAlumnActive = computed(() => route.path.includes('/dashboard/alumn'));
+
   const isCompanyActive = computed(() =>
     route.path.includes('/dashboard/company')
   );
+
+  // Función para cerrar sesión
+  const cerrarSesion = async () => {
+    await logout();
+    router.push('/');
+  };
 </script>
 
 <template>
@@ -41,13 +52,12 @@
           Empresas
         </button>
       </router-link>
-      <router-link to="/"
-        ><button
-          class="w-[200px] h-[100px] text-black px-4 bg-gray-300 hover:bg-secondary hover:text-black text-[19px] hover:text-[20px] cursor-pointer"
-        >
-          Cerrar sesión
-        </button></router-link
+      <button
+        class="w-[200px] h-[100px] text-black px-4 bg-gray-300 hover:bg-secondary hover:text-black text-[19px] hover:text-[20px] cursor-pointer"
+        @click="cerrarSesion"
       >
+        Cerrar sesión
+      </button>
     </div>
   </div>
 </template>
