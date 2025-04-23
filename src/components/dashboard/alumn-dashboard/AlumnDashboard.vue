@@ -7,6 +7,7 @@
   import { useSelectOptions } from '../../../composables/useSelectOptions';
   import AddAlumnButton from './addAlumnButton.vue';
 
+
   const alumnData = inject('alumn') as Alumn[];
 
   const selectedCompany = ref('');
@@ -121,12 +122,12 @@
       >
         <addAlumnButton />
       </div>
-
       <div
         class="relative p-4 overflow-auto max-w-[99%] border-2 border-primary h-[85%] space-y-3 shadow-md bg-white ml-3 mr-3 mt-5"
       >
         <tableDashboard :alumnData="filteredAlumns" />
       </div>
+
     </div>
   </div>
 </template>
