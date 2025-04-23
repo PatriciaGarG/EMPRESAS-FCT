@@ -166,16 +166,16 @@
 
 <template>
   <form @submit.prevent="handleSubmit" class="space-y-4">
-    <fieldset class="border-1 p-5 pb-8 rounded-2xl border-gray-700">
-      <legend class="font-semibold px-2">Datos personales</legend>
+    <fieldset class="bg-gray-100 border-1 p-5 pb-8 rounded-2xl border-gray-700">
+      <legend class="border-1 border-black rounded-2xl bg-gray-light font-semibold px-2">Datos personales</legend>
       <div class="flex gap-5">
-        <div class="basis-1/3">
+        <div class="text-left basis-1/3">
           <label class="block font-semibold"
             >Nombre <span class="text-secondary">*</span></label
           >
           <input
             v-model="alumnDataForm.first_name"
-            class="w-full border rounded px-4 py-2 border-gray-400"
+            class="bg-white w-full border rounded px-4 py-2 border-gray-400"
             :class="{ 'border-red-500': errors.first_name }"
             @input="handleInputChange('first_name', alumnDataForm.first_name)"
           />
@@ -183,13 +183,13 @@
             {{ errors.first_name }}
           </p>
         </div>
-        <div class="basis-1/3">
+        <div class="text-left basis-1/3">
           <label class="block font-semibold"
             >Primer apellido <span class="text-secondary">*</span></label
           >
           <input
             v-model="alumnDataForm.last_name_1"
-            class="w-full border rounded px-4 py-2 border-gray-400"
+            class="bg-white w-full border rounded px-4 py-2 border-gray-400"
             :class="{ 'border-red-500': errors.last_name_1 }"
             @input="handleInputChange('last_name_1', alumnDataForm.last_name_1)"
           />
@@ -197,23 +197,23 @@
             {{ errors.last_name_1 }}
           </p>
         </div>
-        <div class="basis-1/3">
+        <div class="text-left basis-1/3">
           <label class="block font-semibold">Segundo apellido</label>
           <input
             v-model="alumnDataForm.last_name_2"
-            class="w-full border rounded px-4 py-2 border-gray-400"
+            class="bg-white w-full border rounded px-4 py-2 border-gray-400"
             placeholder="Opcional"
           />
         </div>
       </div>
       <div class="flex gap-5 mt-8">
-        <div class="basis-1/4">
+        <div class="text-left basis-1/4">
           <label class="block font-semibold"
             >DNI <span class="text-secondary">*</span></label
           >
           <input
             v-model="alumnDataForm.dni"
-            class="w-full border rounded px-4 py-2 border-gray-400"
+            class="bg-white w-full border rounded px-4 py-2 border-gray-400"
             :class="{ 'border-red-500': errors.dni }"
             @input="handleInputChange('dni', alumnDataForm.dni)"
           />
@@ -221,13 +221,13 @@
             {{ errors.dni }}
           </p>
         </div>
-        <div class="basis-1/4">
+        <div class="text-left basis-1/4">
           <label class="block font-semibold"
             >Teléfono <span class="text-secondary">*</span></label
           >
           <input
             v-model="alumnDataForm.phone"
-            class="w-full border rounded px-4 py-2 border-gray-400"
+            class="bg-white w-full border rounded px-4 py-2 border-gray-400"
             :class="{ 'border-red-500': errors.phone }"
             @input="handleInputChange('phone', alumnDataForm.phone)"
           />
@@ -235,14 +235,14 @@
             {{ errors.phone }}
           </p>
         </div>
-        <div class="basis-2/4">
+        <div class="text-left basis-2/4">
           <label class="block font-semibold"
             >Email <span class="text-secondary">*</span></label
           >
           <input
             v-model="alumnDataForm.email"
             type="email"
-            class="w-full border rounded px-4 py-2 border-gray-400"
+            class="bg-white w-full border rounded px-4 py-2 border-gray-400"
             :class="{ 'border-red-500': errors.email }"
             @input="handleInputChange('email', alumnDataForm.email)"
           />
@@ -252,16 +252,16 @@
         </div>
       </div>
     </fieldset>
-    <fieldset class="border-1 p-5 pb-8 rounded-2xl border-gray-700">
-      <legend class="font-semibold px-2">Datos académicos</legend>
+    <fieldset class="bg-gray-100 border-1 p-5 pb-8 rounded-2xl border-gray-700">
+      <legend class="border-1 border-black rounded-2xl bg-gray-light font-semibold px-2">Datos académicos</legend>
       <div class="flex gap-5">
         <div class="basis-1/3">
-          <label class="block font-semibold"
+          <label class="text-left block font-semibold"
             >Centro <span class="text-secondary">*</span></label
           >
           <input
             v-model="alumnDataForm.enrollment_center"
-            class="w-full border rounded px-4 py-2 border-gray-400"
+            class="bg-white w-full border rounded px-4 py-2 border-gray-400"
             :class="{ 'border-red-500': errors.enrollment_center }"
             @input="
               handleInputChange(
@@ -275,7 +275,7 @@
           </p>
         </div>
         <div class="basis-1/3">
-          <label class="block font-semibold"
+          <label class="text-left block font-semibold"
             >Provincia <span class="text-secondary">*</span></label
           >
           <VueSelect
@@ -283,7 +283,7 @@
             :options="provincesData"
             :filter-by="customFilter"
             placeholder="Selecciona una provincia"
-            class="custom-select"
+            class="text-center custom-select"
             :class="{ 'select-error': errors.province_id }"
             @option-selected="
               handleInputChange('province_id', alumnDataForm.province_id)
@@ -294,7 +294,7 @@
           </p>
         </div>
         <div class="basis-1/3">
-          <label class="block font-semibold"
+          <label class="text-left block font-semibold"
             >Modalidad <span class="text-secondary">*</span></label
           >
           <VueSelect
@@ -315,7 +315,7 @@
       </div>
       <div class="mt-8 flex gap-5">
         <div class="basis-2/3">
-          <label class="block font-semibold"
+          <label class="text-left block font-semibold"
             >Ciclo <span class="text-secondary">*</span></label
           >
           <VueSelect
@@ -334,7 +334,7 @@
           </p>
         </div>
         <div class="basis-1/3">
-          <label class="block font-semibold"
+          <label class="text-left block font-semibold"
             >Estado actual <span class="text-secondary">*</span></label
           >
           <VueSelect
@@ -352,7 +352,7 @@
         </div>
       </div>
     </fieldset>
-    <div class="mt-10 flex gap-5">
+    <div class="justify-center mr-1.5 mt-10 flex gap-5">
       <button
         type="submit"
         :disabled="isLoading"

@@ -9,9 +9,7 @@
 <template>
   <!--Here we give form to the table and call dates saved in data base-->
   <div>
-    <form
-      class="flex flex-col items-center justify-center"
-    >
+    
       <div
         class="border-2 border-primary h-[920px] w-[75%] mb-[1px] mr-[1px] mt-[250px] ml-[25%] space-y-3 shadow-md z-2"
       >
@@ -23,7 +21,6 @@
               <th scope="col" class="px-6 py-3">Nombre</th>
               <th scope="col" class="px-6 py-3">CIF</th>
               <th scope="col" class="px-6 py-3">Dirección</th>
-              <th scope="col" class="px-6 py-3">Estudiantes</th>
               <th scope="col" class="px-6 py-3">Contacto</th>
               <th scope="col" class="px-6 py-3">Estado</th>
             </tr>
@@ -40,9 +37,6 @@
                 {{ companies.address || 'Sin empresa' }}
               </td>
               <td class="px-6 py-4 whitespace-nowrap">
-                {{ companies.student_count || 'Sin empresa' }}
-              </td>
-              <td class="px-6 py-4 whitespace-nowrap">
                 {{ companies.email }} <br />
                 {{ companies.phone }}
               </td>
@@ -53,6 +47,5 @@
           </tbody>
         </table>
       </div>
-    </form>
   </div>
 </template>

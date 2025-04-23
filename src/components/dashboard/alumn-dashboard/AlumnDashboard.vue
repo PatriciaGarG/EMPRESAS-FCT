@@ -117,7 +117,7 @@
     </div>
     <div class="relative w-full ">
       <div
-        class="relative justify-center w-[7%] font-bold text-center bg-gray-200 ring-2 ring-primary p-2 rounded-2xl shadow-2xl hover:ring-3 mt-[1%] ml-[92%]"
+        class="relative justify-center w-[7%] font-bold text-center bg-gray-300 ring-2 ring-primary p-2 rounded-2xl shadow-2xl hover:not-focus:bg-gray-400 hover:ring-3 mt-[1%] ml-[92%]"
       >
         <addAlumnButton />
       </div>

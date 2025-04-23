@@ -37,11 +37,11 @@
     class="fixed inset-0 backdrop-blur-md flex justify-center items-center z-50 transition-all"
   >
     <div
-      class="bg-white p-8 rounded-xl shadow-lg transition-all opacity-100"
+      class="bg-gray-light p-8 rounded-xl shadow-lg transition-all opacity-100"
     >
       <header class="flex justify-between items-center mb-4">
-        <div class="flex flex-1 justify-center">
-          <h3 class="text-xl font-semibold pr-3">{{ title }}</h3>
+        <div class="flex flex-1 justify-left ml-1.5">
+          <h3 class="text-2xl text-gray-600 font-semibold pr-3">{{ title }}</h3>
         </div>
         
         <button
