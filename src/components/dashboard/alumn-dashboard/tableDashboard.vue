@@ -9,12 +9,12 @@
 
   // Creamos una referencia directa a los datos
   const alumn = computed(() => props.alumnData);
+  const company = computed(() => props.alumnData);
 </script>
 
 <template>
   <div>
     <div
-      class=""
     >
       <table class="min-w-full divide-y divide-gray-200">
         <thead
@@ -40,7 +40,10 @@
               {{ alumno.phone }}
             </td>
             <td id="company_id" class="px-6 py-4 whitespace-nowrap">
-              {{ alumno.company_name || 'Sin empresa' }}
+              <router-link :to="`/company/${alumno.company_id}`" v-if="alumno.company_id">
+              {{ alumno.company_name }}
+            </router-link>
+              <span v-else>Sin empresa</span>
             </td>
           </tr>
         </tbody>
