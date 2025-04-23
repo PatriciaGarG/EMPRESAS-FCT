@@ -52,7 +52,13 @@
       .map((company: any) => ({
         label: `${company.name} - ${company.province} - ${company.cif}`,
         value: company.value,
+        name: `${company.name}`
       }));
+
+    allCompanyOptions.value.unshift({
+      label: 'Sin empresa',
+      value: null,
+    });
   });
 
   // Función para eliminar tildes y mayus en el filtro en el select
@@ -139,7 +145,7 @@
           (company) => company.value === newCompanyId
         );
         if (selectedCompany) {
-          currentCompanyForm.company = selectedCompany.label;
+          currentCompanyForm.company = selectedCompany.name;
         }
         if (newCycleId) {
           const selectedCycle = cyclesOptions.value.find(
