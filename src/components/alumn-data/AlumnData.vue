@@ -35,6 +35,9 @@
     alumnData.has_company = newValue;
   };
 
+  const goBack = () => {
+  history.back()
+}
 
   provide('updateHasCompany', updateHasCompany);
 </script>
@@ -45,6 +48,7 @@
   >
     <section class="flex h-fit gap-6 items-center">
       <div
+      @click="$router.back"
         class="relative min-w-[45px] min-h-[45px] bg-white rounded-full cursor-pointer hover:border-primary hover:bg-primary border-1 transition-all"
       >
         <img
