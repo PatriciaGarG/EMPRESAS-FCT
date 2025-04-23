@@ -1,3 +1,5 @@
+// This file is responsible for connecting to the Supabase database.
+// It uses the Supabase client to create a connection to the database using the URL and key stored in environment variables.
 import { createClient } from '@supabase/supabase-js';
 
 const supabaseURL = import.meta.env.VITE_SUPABASE_URL;
