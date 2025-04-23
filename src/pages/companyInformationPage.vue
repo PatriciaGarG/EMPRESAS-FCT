@@ -323,7 +323,7 @@ onMounted(async () => {
 
   // OBTENER CICLOS ASOCIADOS A LA EMPRESA SELECCIONADA
   const { data: cyclesData, error: cyclesErr } = await supabase
-    .from("company_cicle")
+    .from("company_cycle")
     .select(
       "cycle:cycle_id (name, education_level, modality:modality_id (name))"
     )
