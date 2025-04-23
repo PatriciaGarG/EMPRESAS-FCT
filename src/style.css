@@ -1,8 +1,8 @@
 @import 'tailwindcss';
 
 @theme {
-  --color-primary: #0834ac; /*Azul de Davante*/
-  --color-secondary: #ff5b41; /*Naranja de Davante*/
+  --color-primary: #0834ac; /*Azul de Dabante*/
+  --color-secondary: #ff5b41; /*Naranja de Dabante*/
   --color-gray-light: #e8e4e4; /*Gris claro de Dabante*/
 }
 

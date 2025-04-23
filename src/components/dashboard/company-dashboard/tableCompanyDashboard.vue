@@ -47,7 +47,7 @@
                 {{ companies.phone }}
               </td>
               <td class="px-6 py-4 whitespace-nowrap">
-                {{ companies.active || 'Sin empresa' }}
+                {{ companies.active ? 'Activo' : 'Inactivo' }}
               </td>
             </tr>
           </tbody>

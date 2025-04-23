@@ -1,23 +1,6 @@
 <template>
-  <div
-    class="w-full fixed min-h-screen inset-0 backdrop-blur-sm z-50 flex items-center justify-center"
-  >
-    <div
-      class="bg-white rounded-2xl shadow-lg p-8 w-full max-w-xl max-h-[90vh] overflow-y-auto"
-    >
-      <h3 class="text-2xl font-bold mb-6 text-center">
-        Nuevos datos de la empresa
-      </h3>
-      <div class="flex justify-end space-x-4 mt-6">
-        <button
-          type="button"
-          @click="$emit('close')"
-          class="px-4 py-2 bg-gray-300 text-gray-800 rounded hover:bg-gray-400"
-        >
-          <img src="/src/assets/x-square.svg" />
-        </button>
-      </div>
-      <form v-if="company" @submit.prevent="updateDataCompany">
+  
+      <form v-if="company" @submit.prevent="updateDataCompany" class="w-[50vw]">
         <label class="">Nombre</label>
         <input
           v-model="company.name"
@@ -179,8 +162,6 @@
           </button>
       </div>
       </form>
-    </div>
-  </div>
 </template>
 
 <script lang="ts" setup>

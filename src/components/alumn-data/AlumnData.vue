@@ -58,7 +58,6 @@
           width="40"
         />
       </div>
-
       <div>
         <p class="bg-primary py-4 px-6 rounded-2xl text-2xl text-white">
           {{ alumnData.full_name }}

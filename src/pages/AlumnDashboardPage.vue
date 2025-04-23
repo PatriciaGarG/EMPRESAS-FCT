@@ -2,8 +2,7 @@
   import { provide, onMounted } from 'vue';
   import { useAlumn } from '../composables/useAlumn';
   import AlumnDashboard from '../components/dashboard/alumn-dashboard/AlumnDashboard.vue';
-  import headerDashboard from '../components/common/headerDashboard.vue';
-  import AddAlumnButton from '../components/dashboard/alumn-dashboard/addAlumnButton.vue';
+  import HeaderDashboard from '../components/common/headerDashboard.vue';
 
   const { alumn, getAlumn } = useAlumn();
 
@@ -15,9 +14,8 @@
 </script>
 
 <template>
-  <body class="flex flex-col bg-gray-light relative">
-    <headerDashboard />
-    <AddAlumnButton />
+  <HeaderDashboard />
+  <body class="fixed w-full h-full bg-gray-light">
     <AlumnDashboard />
   </body>
 </template>

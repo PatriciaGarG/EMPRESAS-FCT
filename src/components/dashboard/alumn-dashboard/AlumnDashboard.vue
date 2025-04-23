@@ -5,6 +5,8 @@
   import tableDashboard from './tableDashboard.vue';
   import { useAllCompanyData } from '../../../composables/useAllCompanyData';
   import { useSelectOptions } from '../../../composables/useSelectOptions';
+  import AddAlumnButton from './addAlumnButton.vue';
+
 
   const alumnData = inject('alumn') as Alumn[];
 
@@ -45,7 +47,7 @@
 
   const companies = computed(() => [
     { id: 'null', name: 'Sin empresa' },
-    ...allCompanyOptions.value.map((a) => ({ id: a.value, name: a.name })),
+    ...allCompanyOptions.value.map((a) => ({ id: a.id, name: a.name })),
   ]);
 
   const modalities = computed(() =>
@@ -100,21 +102,32 @@
 </script>
 
 <template>
-  <div class="relative flex min-h-full">
-    <AlumnSidebarFilters
-      :companies="companies"
-      :modalities="modalities"
-      :cycles="cycles"
-      :provinces="provinces"
-      @filterCompany="(val) => updateFilter('company', val)"
-      @filterModality="(val) => updateFilter('modality', val)"
-      @filterCycle="(val) => updateFilter('cycle', val)"
-      @filterProvince="(val) => updateFilter('province', val)"
-      @filterSearch="(val) => updateFilter('search', val)"
-    />
+  <div class="flex w-full">
+    <div class="relative h-screen">
+      <AlumnSidebarFilters
+        :companies="companies"
+        :modalities="modalities"
+        :cycles="cycles"
+        :provinces="provinces"
+        @filterCompany="(val) => updateFilter('company', val)"
+        @filterModality="(val) => updateFilter('modality', val)"
+        @filterCycle="(val) => updateFilter('cycle', val)"
+        @filterProvince="(val) => updateFilter('province', val)"
+        @filterSearch="(val) => updateFilter('search', val)"
+      />
+    </div>
+    <div class="relative w-full ">
+      <div
+        class="relative justify-center w-[7%] font-bold text-center bg-gray-200 ring-2 ring-primary p-2 rounded-2xl shadow-2xl hover:ring-3 mt-[1%] ml-[92%]"
+      >
+        <addAlumnButton />
+      </div>
+      <div
+        class="relative p-4 overflow-auto max-w-[99%] border-2 border-primary h-[85%] space-y-3 shadow-md bg-white ml-3 mr-3 mt-5"
+      >
+        <tableDashboard :alumnData="filteredAlumns" />
+      </div>
 
-    <div class="flex-1 p-4 overflow-auto">
-      <tableDashboard :alumnData="filteredAlumns" />
     </div>
   </div>
 </template>
