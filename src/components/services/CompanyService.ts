@@ -6,7 +6,6 @@ export async function fetchCompany() {
       name,
       cif,
       address,
-      student_count,
       active,
       phone,
       email,
