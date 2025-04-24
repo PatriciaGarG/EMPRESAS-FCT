@@ -213,7 +213,7 @@
       @delete="fetchCompany"
     />
     <DeleteCompany
-      v-if="showDeleteCompany"
+      v-if="modalDeleteCompany"
       :company-id="route.params.id"
     />
  </Modal>
