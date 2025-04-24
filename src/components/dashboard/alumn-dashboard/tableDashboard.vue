@@ -9,7 +9,6 @@
 
   // Creamos una referencia directa a los datos
   const alumn = computed(() => props.alumnData);
-  const company = computed(() => props.alumnData);
 
 </script>
 
