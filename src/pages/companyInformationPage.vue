@@ -1,13 +1,15 @@
 <template>
-  <HeaderDashboard />
-  <body ref="companyInformationPDF" class="bg-gray-200 h-screen">
+  <div class="no-print">
+    <HeaderDashboard />
+  </div>
+  <body class="bg-gray-200 h-screen">
     <div v-if="loading">Cargando empresa...</div>
     <div v-else-if="error">{{ error }}</div>
     <div v-else-if="company">
       <div id="tittleAndButtons" class="flex space-x-4">
         <div
           id="goBackButtom"
-          class="mr w-15 ml-15 mt-8 border-2 border-white rounded-full p-4 text-5xl font-bold text-black bg-white"
+          class="no-print mr w-15 ml-15 mt-8 border-2 border-white rounded-full p-4 text-5xl font-bold text-black bg-white"
         >
           <button @click="$router.back">
             <img src="../assets/arrow-left.svg" />
@@ -20,7 +22,7 @@
         >
           {{ company.name }}
         </div>
-        <div id="modifyAndDeleteButtons">
+        <div id="modifyAndDeleteButtons" class="no-print">
           <button
             @click="openModifyCompany()"
             id="modifyButton"
@@ -88,7 +90,7 @@
       <div v-else-if="alumnDetails.length > 0">
         <div
           id="currentlyStudents"
-          class="w-full max-w-445 overflow-x-auto border-2 item-center border-gray-950 rounded-lg shadow-md p-4 mt-2 ml-15"
+          class="page-break w-full max-w-445 overflow-x-auto border-2 item-center border-gray-950 rounded-lg shadow-md p-4 mt-2 ml-15"
         >
           <h2 class="text-3xl font-bold border-b-2 border-gray-200">
             Alumnos actuales
@@ -139,7 +141,7 @@
         </div>
         <div
           id="oldStudents"
-          class="w-full max-w-445 overflow-x-auto border-2 item-center border-gray-950 rounded-lg shadow-md p-4 mt-2 ml-15"
+          class="page-break w-full max-w-445 overflow-x-auto border-2 item-center border-gray-950 rounded-lg shadow-md p-4 mt-2 ml-15"
         >
           <h2 class="text-3xl font-bold border-b-2 border-gray-200">
             Alumnos antiguos
@@ -187,21 +189,19 @@
       </div>
     </div>
 
-    <div class="flex space-x-4">
-      <div class="w-full max-w-1/2 mx-auto border-2 border-gray 950 rounded-lg shadow-md p-6 mt-4 ml-15 mb-15">
+      <div class=" w-full max-w-450 max-h-100 border-2 border-gray 950 rounded-lg shadow-md p-6 mt-4 ml-15 mb-15">
         <StudentsChart/>
       </div>
-      <div class="w-full max-w-1/2 mx-auto border-2 border-gray 950 rounded-lg shadow-md p-6 mt-4 ml-5 mr-16 mb-15">
+      <br/>
+      <div class="page-break w-full max-w-450 max-h-100 border-2 border-gray 950 rounded-lg shadow-md p-6 mt-4 ml-5 mr-16 mb-15">
         <RatingsChart/>
       </div>
-    </div>
+
     
     <div>
       <button
-        id="downloadButton"
-        @click="downloadPDF()"
-        class="mt-20 w-35 h-10 ml-270 border-2 rounded-full bg-blue-500 text-2xl text-white border-blue-500"
-      >
+       onclick="window.print()"
+        class="no-print bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">
         Descargar PDF
       </button>
     </div>
@@ -229,6 +229,20 @@
 
 </template>
 
+<style scoped>
+  @media print{
+    .no-print{
+      display: none;
+    }
+
+    .page-break {
+      page-break-after: always;
+    }
+
+  }
+
+</style>
+
 <script setup lang="ts">
 import { ref, onMounted } from "vue";
 import { useRoute } from "vue-router";
@@ -239,24 +253,8 @@ import StudentsChart from "../components/services/companyInformation/StudentChar
 import RatingsChart from "../components/services/companyInformation/RatingsChart.vue";
 import Modal from "../components/common/Modal.vue";
 import HeaderDashboard from "../components/common/HeaderDashboard.vue";
-import html2pdf from "html2pdf.js";
 
 
-const companyInformationPDF =ref(null);
-
-const downloadPDF = () =>{
-  if(!companyInformationPDF) return;
-
-  const options = {
-    margin: 1,
-    filename: "empresa.pdf",
-    image: { type: "jpeg", quality: 0.98 },
-    html2canvas: { scale: 2 },
-    jsPDF: { unit: "in", format: "a4", orientation: "portrait" },
-  }
-
-  html2pdf().set(options).from(companyInformationPDF.value).save();
-}
 
 const modalModifyCompany = ref();
 const modalDeleteCompany = ref();
