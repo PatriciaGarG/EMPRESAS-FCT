@@ -39,9 +39,6 @@
               {{ company.address || 'Sin dirección' }}
             </td>
             <td class="px-6 py-4 whitespace-nowrap">
-              {{ company.student_count ?? 'No especificado' }}
-            </td>
-            <td class="px-6 py-4 whitespace-nowrap">
               {{ company.email }}<br />
               {{ company.phone }}
             </td>
