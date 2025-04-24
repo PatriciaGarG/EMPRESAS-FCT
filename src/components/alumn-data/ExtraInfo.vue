@@ -1,7 +1,8 @@
 <script lang="ts" setup></script>
 <template>
   <section
-    class="mt-2 w-full border-2 text-xl bg-white rounded-2xl shadow-lg p-6 hover:shadow-xl transition-shadow row-span-2 col-span-2"
+    class="mt-2 w-full text-xl row-span-2 col-span-2"
+    id="synoptic_table"
   >
     <h1 class="text-2xl font-bold text-gray-800">Información extra</h1>
     <p>

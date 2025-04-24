@@ -67,7 +67,8 @@
     </section>
     <AlumnInfo />
     <section
-      class="border-2 text-xl bg-white rounded-2xl shadow-lg p-6 hover:shadow-xl transition-shadow w-full max-w-full overflow-hidden"
+      class="text-xl w-full max-w-full overflow-hidden"
+      id="synoptic_table"
     >
       <CurrentCompany v-if="hasCompany" />
       <p v-else>

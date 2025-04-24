@@ -16,3 +16,7 @@
     border-bottom: 2px solid #a0a4ac; 
   }
 }
+
+#synoptic_table {
+  @apply border-2 border-black rounded-2xl p-6 bg-white shadow-lg hover:shadow-xl transition-shadow
+}

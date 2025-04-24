@@ -30,7 +30,8 @@
 
 <template>
   <section
-    class="p-6 border-2 text-xl w-full max-w-full overflow-hidden bg-white rounded-2xl shadow-lg hover:shadow-xl transition-shadow"
+    class="text-xl w-full max-w-full overflow-hidden"
+    id="synoptic_table"
   >
     <div class="flex items-center justify-between mb-4 flex-wrap gap-y-2">
       <div class="flex gap-5 flex-wrap w-fit max-w-[90%]">
