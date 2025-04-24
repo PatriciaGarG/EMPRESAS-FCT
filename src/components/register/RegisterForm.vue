@@ -133,7 +133,7 @@
               type="text"
               name="email"
               id="email"
-              class="border-1 w-[300px] py-1 pr-1 pl-10 text-[1.1rem]"
+              class="border-1 w-full min-w-[300px] py-1 pr-1 pl-10 text-[1.1rem]"
               :class="{ 'border-red-500': errors.email }"
               placeholder="Introduce tu email"
               v-model="dataUser.email"
@@ -157,7 +157,7 @@
               type="password"
               name="password"
               id="password"
-              class="border-1 w-[300px] py-1 pr-1 pl-10 text-[1.1rem]"
+              class="border-1 w-full min-w-[300px] py-1 pr-1 pl-10 text-[1.1rem]"
               :class="{ 'border-red-500': errors.password }"
               placeholder="Introduce tu contraseña"
               v-model="dataUser.password"
@@ -183,7 +183,7 @@
               type="password"
               name="password-confirm"
               id="password-confirm"
-              class="border-1 w-[300px] py-1 pr-1 pl-10 text-[1.1rem]"
+              class="border-1 w-full min-w-[300px] py-1 pr-1 pl-10 text-[1.1rem]"
               :class="{ 'border-red-500': errors.passwordConfirm }"
               placeholder="Introduce tu contraseña"
               v-model="dataUser.passwordConfirm"
@@ -213,7 +213,7 @@
           ¿Ya tienes cuenta?
           <router-link
             to="/"
-            class="text-secondary text-center underline cursor-pointer"
+            class="text-center underline cursor-pointer"
             >Iniciar sesión</router-link
           >
         </p>

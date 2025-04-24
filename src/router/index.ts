@@ -6,10 +6,13 @@ import AlumnDashboardPage from '../pages/AlumnDashboardPage.vue';
 import CompanyDashboardPage from '../pages/CompanyDashboardPage.vue';
 import CompanyInformationPage from '../pages/companyInformationPage.vue';
 import { useAuth } from '../composables/useAuth';
+import NewPasswordPage from '../pages/NewPasswordPage.vue';
+
 
 const routes = [
   { path: '/', component: LoginPage },
   { path: '/register', component: RegisterPage },
+  { path: '/new-password', component: NewPasswordPage },
   {
     path: '/alumn/:id',
     component: AlumnDataPage,
@@ -30,6 +33,10 @@ const routes = [
     component: CompanyInformationPage,
     meta: { requiresAuth: true },
   },
+  { path: '/alumn/:id', component: AlumnDataPage },
+  { path: '/dashboard', component: AlumnDashboardPage },
+  { path: '/company/:id', component: CompanyInformationPage },
+  { path: '/dashboard/companies', component: CompanyDashboardPage },
 ];
 
 const router = createRouter({
@@ -42,16 +49,13 @@ router.beforeEach(async (to, _from, next) => {
   const { isLoggedIn } = useAuth();
   const logged = await isLoggedIn();
 
-
   if (logged && (to.path === '/' || to.path === '/register')) {
-    return next('/dashboard/alumn'); 
+    return next('/dashboard/alumn');
   }
-
 
   if (to.meta.requiresAuth && !logged) {
     return next('/');
   }
-
 
   next();
 });

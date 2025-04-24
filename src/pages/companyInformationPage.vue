@@ -1,5 +1,7 @@
 <template>
-  <HeaderDashboard />
+  <div class="no-print">
+    <HeaderDashboard />
+  </div>
   <body class="bg-gray-200 h-screen">
     <div v-if="loading">Cargando empresa...</div>
     <div v-else-if="error">{{ error }}</div>
@@ -7,7 +9,7 @@
       <div id="tittleAndButtons" class="flex space-x-4">
         <div
           id="goBackButtom"
-          class="mr w-15 ml-15 mt-8 border-2 border-white rounded-full p-4 text-5xl font-bold text-black bg-white"
+          class="no-print mr w-15 ml-15 mt-8 border-2 border-white rounded-full p-4 text-5xl font-bold text-black bg-white"
         >
           <button @click="$router.back">
             <img src="../assets/arrow-left.svg" />
@@ -20,7 +22,7 @@
         >
           {{ company.name }}
         </div>
-        <div id="modifyAndDeleteButtons">
+        <div id="modifyAndDeleteButtons" class="no-print">
           <button
             @click="openModifyCompany()"
             id="modifyButton"
@@ -88,7 +90,7 @@
       <div v-else-if="alumnDetails.length > 0">
         <div
           id="currentlyStudents"
-          class="w-full max-w-445 overflow-x-auto border-2 item-center border-gray-950 rounded-lg shadow-md p-4 mt-2 ml-15"
+          class="page-break w-full max-w-445 overflow-x-auto border-2 item-center border-gray-950 rounded-lg shadow-md p-4 mt-2 ml-15"
         >
           <h2 class="text-3xl font-bold border-b-2 border-gray-200">
             Alumnos actuales
@@ -139,7 +141,7 @@
         </div>
         <div
           id="oldStudents"
-          class="w-full max-w-445 overflow-x-auto border-2 item-center border-gray-950 rounded-lg shadow-md p-4 mt-2 ml-15"
+          class="page-break w-full max-w-445 overflow-x-auto border-2 item-center border-gray-950 rounded-lg shadow-md p-4 mt-2 ml-15"
         >
           <h2 class="text-3xl font-bold border-b-2 border-gray-200">
             Alumnos antiguos
@@ -187,18 +189,23 @@
       </div>
     </div>
 
-    <div class="flex space-x-4">
-      <div
-        class="w-full max-w-1/2 mx-auto border-2 border-gray 950 rounded-lg shadow-md p-6 mt-4 ml-15 mb-15"
-      >
-        <StudentsChart />
+      <div class=" w-full max-w-450 max-h-100 border-2 border-gray 950 rounded-lg shadow-md p-6 mt-4 ml-15 mb-15">
+        <StudentsChart/>
       </div>
-      <div
-        class="w-full max-w-1/2 mx-auto border-2 border-gray 950 rounded-lg shadow-md p-6 mt-4 ml-5 mr-16 mb-15"
-      >
-        <RatingsChart />
+      <br/>
+      <div class="page-break w-full max-w-450 max-h-100 border-2 border-gray 950 rounded-lg shadow-md p-6 mt-4 ml-5 mr-16 mb-15">
+        <RatingsChart/>
       </div>
+
+    
+    <div>
+      <button
+       onclick="window.print()"
+        class="no-print bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">
+        Descargar PDF
+      </button>
     </div>
+
   </body>
 
   <Modal ref="modalModifyCompany" title="Modificar datos de la empresa">
@@ -209,14 +216,30 @@
     />
   </Modal>
 
-  <Modal
-    ref="modalDeleteCompany"
-    title="¿Seguro quieres eliminar esta empresa?"
-  >
-    <DeleteCompany :company-id="route.params.id" @delete="fetchCompany" />
-    <DeleteCompany v-if="showDeleteCompany" :company-id="route.params.id" />
-  </Modal>
+  <Modal ref="modalDeleteCompany" title="¿Seguro quieres eliminar esta empresa?">
+    <DeleteCompany
+      :company-id="route.params.id"
+      @delete="fetchCompany"
+      @close="modalDeleteCompany?.closeModal()"
+    />
+    
+ </Modal>
+
 </template>
+
+<style scoped>
+  @media print{
+    .no-print{
+      display: none;
+    }
+
+    .page-break {
+      page-break-after: always;
+    }
+
+  }
+
+</style>
 
 <script setup lang="ts">
   import { ref, onMounted } from 'vue';
@@ -228,6 +251,8 @@
   import RatingsChart from '../components/services/companyInformation/RatingsChart.vue';
   import Modal from '../components/common/Modal.vue';
   import HeaderDashboard from '../components/common/HeaderDashboard.vue';
+
+
 
   const modalModifyCompany = ref();
   const modalDeleteCompany = ref();

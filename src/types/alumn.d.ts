@@ -4,6 +4,8 @@ export type Alumn = {
   company_name: string | null;
   company_id: string | null;
   name: string;
+  last_name_1: string;
+  last_name_2: string | null;
   dni: string;
   phone: string;
   email: string;
