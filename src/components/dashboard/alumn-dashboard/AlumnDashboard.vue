@@ -47,7 +47,7 @@
 
   const companies = computed(() => [
     { id: 'null', name: 'Sin empresa' },
-    ...allCompanyOptions.value.map((a) => ({ id: a.id, name: a.name })),
+    ...allCompanyOptions.value.map((a) => ({ id: a.value, name: a.name })),
   ]);
 
   const modalities = computed(() =>
