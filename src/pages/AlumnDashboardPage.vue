@@ -1,8 +1,8 @@
 <script setup lang="ts">
-  import { provide, onMounted } from 'vue';
+  import { provide } from 'vue';
   import { useAlumn } from '../composables/useAlumn';
   import AlumnDashboard from '../components/dashboard/alumn-dashboard/AlumnDashboard.vue';
-  import HeaderDashboard from '../components/alumn-data/HeaderDashboard.vue';
+  import HeaderDashboard from '../components/common/HeaderDashboard.vue';
 
   const { alumn, getAlumn } = useAlumn();
 

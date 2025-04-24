@@ -11,15 +11,7 @@ export const useCompany = () => {
       if (data) {
         const companyDataDB = data as any[];
 
-        console.log('🔎 companyDataDB:', companyDataDB);
-
         companyDataDB.forEach((companyDB) => {
-          console.log(
-            '➡️ Ciclos de',
-            companyDB.name,
-            ':',
-            companyDB.company_cycle
-          );
           company.push({
             id: companyDB.id,
             name: companyDB.name,

@@ -1,49 +1,59 @@
 <script setup lang="ts">
+  import { defineProps } from 'vue';
   import type { CompanyWithCycles } from '../../../types/company';
-  import { computed } from 'vue';
 
   const props = defineProps<{
     companyData: CompanyWithCycles[];
   }>();
-
-  const companies = computed(() => props.companyData);
 </script>
 
 <template>
-  <div>
+  <div class="flex justify-center mt-[250px]">
     <div
-      class="border-2 border-primary w-[75%] h-[920px] mt-[250px] ml-[25%] mb-[1px] mr-[1px] space-y-3 shadow-md z-2"
+      class="w-[75%] shadow-md border-2 border-primary rounded-lg overflow-hidden"
     >
       <table class="min-w-full divide-y divide-gray-200">
-        <thead
-          class="bg-primary text-white text-left uppercase tracking-wider font-bold text-2xs"
-        >
+        <thead class="bg-primary text-white uppercase text-sm tracking-wider">
           <tr>
-            <th scope="col" class="px-6 py-3">Nombre</th>
-            <th scope="col" class="px-6 py-3">CIF</th>
-            <th scope="col" class="px-6 py-3">Dirección</th>
-            <th scope="col" class="px-6 py-3">Estudiantes</th>
-            <th scope="col" class="px-6 py-3">Contacto</th>
-            <th scope="col" class="px-6 py-3">Estado</th>
+            <th class="px-6 py-3 text-left">Nombre</th>
+            <th class="px-6 py-3 text-left">CIF</th>
+            <th class="px-6 py-3 text-left">Dirección</th>
+            <th class="px-6 py-3 text-left">Contacto</th>
+            <th class="px-6 py-3 text-left">Estado</th>
           </tr>
         </thead>
         <tbody class="bg-white divide-y divide-gray-200">
-          <tr v-for="company in companies" :key="company.id">
+          <tr
+            v-for="(companyItem, index) in props.companyData"
+            :key="index"
+            class="hover:bg-gray-100"
+          >
             <td class="px-6 py-4 whitespace-nowrap">
-              <router-link :to="`/company/${company.id}`">
-                {{ company.name }}
+              <router-link
+                :to="`/company/${companyItem.id}`"
+                class="text-blue-600 hover:underline"
+              >
+                {{ companyItem.name }}
               </router-link>
             </td>
-            <td class="px-6 py-4 whitespace-nowrap">{{ company.cif }}</td>
-            <td class="px-6 py-4 whitespace-nowrap">
-              {{ company.address || 'Sin dirección' }}
+            <td class="px-6 py-4">{{ companyItem.cif }}</td>
+            <td class="px-6 py-4">
+              {{ companyItem.address || 'Sin dirección' }}
             </td>
-            <td class="px-6 py-4 whitespace-nowrap">
-              {{ company.email }}<br />
-              {{ company.phone }}
+            <td class="px-6 py-4">
+              {{ companyItem.email }}<br />
+              {{ companyItem.phone }}
             </td>
-            <td class="px-6 py-4 whitespace-nowrap">
-              {{ company.active ? 'Disponible' : 'No disponible' }}
+            <td class="px-6 py-4">
+              <span
+                :class="
+                  companyItem.active
+                    ? 'text-green-600 font-semibold'
+                    : 'text-red-500 font-semibold'
+                "
+              >
+                {{ companyItem.active ? 'Disponible' : 'No disponible' }}
+              </span>
             </td>
           </tr>
         </tbody>

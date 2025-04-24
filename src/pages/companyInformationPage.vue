@@ -255,18 +255,12 @@
     };
   }
 
-  // OBTENER CICLOS ASOCIADOS A LA EMPRESA SELECCIONADA
-  const { data: cyclesData, error: cyclesErr } = await supabase
-    .from("company_cycle")
-    .select(
-      "cycle:cycle_id (name, education_level, modality:modality_id (name))"
-    )
-    .eq("company_id", companyId);
-
-  if (cyclesErr) {
-    errorCycles.value = cyclesErr.message;
-  } else {
-    cyclesCompany.value = cyclesData.map((item: any) => item.cycle);
+  interface CyclesCompany {
+    name: string;
+    education_level: string;
+    modality: {
+      name: string;
+    };
   }
 
   interface AlumnCompany {
