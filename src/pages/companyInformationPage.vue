@@ -242,15 +242,15 @@
 </style>
 
 <script setup lang="ts">
-import { ref, onMounted } from "vue";
-import { useRoute } from "vue-router";
-import { supabase } from "../components/services/DatabaseConnection";
-import ModifyCompany from "../components/services/companyInformation/ModifyCompany.vue";
-import DeleteCompany from "../components/services/companyInformation/DeleteCompany.vue";
-import StudentsChart from "../components/services/companyInformation/StudentChart.vue";
-import RatingsChart from "../components/services/companyInformation/RatingsChart.vue";
-import Modal from "../components/common/Modal.vue";
-import HeaderDashboard from "../components/common/HeaderDashboard.vue";
+  import { ref, onMounted } from 'vue';
+  import { useRoute } from 'vue-router';
+  import { supabase } from '../components/services/DatabaseConnection';
+  import ModifyCompany from '../components/services/companyInformation/ModifyCompany.vue';
+  import DeleteCompany from '../components/services/companyInformation/DeleteCompany.vue';
+  import StudentsChart from '../components/services/companyInformation/StudentChart.vue';
+  import RatingsChart from '../components/services/companyInformation/RatingsChart.vue';
+  import Modal from '../components/common/Modal.vue';
+  import HeaderDashboard from '../components/common/HeaderDashboard.vue';
 
 
 
