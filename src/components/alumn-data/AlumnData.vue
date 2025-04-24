@@ -2,7 +2,6 @@
   import AlumnInfo from './AlumnInfo.vue';
   import { computed, inject, provide, ref } from 'vue';
   import CurrentCompany from './CurrentCompany.vue';
-  import ExtraInfo from './ExtraInfo.vue';
   import ActionButton from '../common/ActionButton.vue';
   import type { AlumnData } from '../../types/alumnData';
   import Modal from '../common/Modal.vue';
@@ -40,6 +39,7 @@ function openCurrentCompanyModal() {
     class="w-full p-10 grid grid-cols-[1fr_1fr] grid-rows-[auto_auto_auto] align-center gap-x-10 gap-y-5"
   >
     <section class="flex h-fit gap-6 items-center">
+      <router-link to="/dashboard/alumn">
       <div
       @click="$router.back"
         class="relative min-w-[45px] min-h-[45px] bg-white rounded-full cursor-pointer hover:border-primary hover:bg-primary border-1 transition-all"
@@ -51,6 +51,7 @@ function openCurrentCompanyModal() {
           width="40"
         />
       </div>
+    </router-link>
       <div>
         <p class="bg-primary py-4 px-6 rounded-2xl text-2xl text-white">
           {{ alumnData.full_name }}
@@ -66,21 +67,21 @@ function openCurrentCompanyModal() {
     >
       <CurrentCompany v-if="hasCompany" />
       <p v-else>
-        Aquí hay que ver que información poner cuando el alumno no tiene empresa
+        <h1 class="text-2xl font-bold text-gray-800">🏢 Empresa actual</h1>
+        <p class="mt-4 mb-10">{{ alumnData.full_name }} no tiene una empresa asignada en este momento</p>
         <div
     @click="openCurrentCompanyModal"
     class="flex items-center justify-center p-2 rounded-2xl bg-gray-200 gap-2 cursor-pointer font-semibold hover:bg-gray-300"
   >
     <img
-      src="../../assets/edit-icon.png"
+      src="../../assets/add-icon.png"
       alt="icono de editar"
-      class="size-5 cursor-pointer"
+      class="size-6 cursor-pointer"
     />
     <button class="text-[0.9rem] cursor-pointer">Añadir empresa</button>
   </div>
       </p>
     </section>
-    <ExtraInfo />
     <Modal ref="modalDelete" title="¿Seguro que quieres borrar este alumn@?">
       <DeleteAlumn @close="modalDelete?.closeModal()" />
     </Modal>

@@ -48,13 +48,13 @@
           <br />
           <div id="informationCompany">
             Dirección:
-            {{ company?.province?.name ?? "Sin provincia ni dirección" }},
+            {{ company?.province?.name ?? 'Sin provincia ni dirección' }},
             {{ company.address }} <br />
             CIF: {{ company.cif }} <br />
-            Disponibilidad: {{ company.active ? "Sí" : "No" }} <br />
+            Disponibilidad: {{ company.active ? 'Sí' : 'No' }} <br />
             Teléfono: {{ company.phone }} <br />
             E-mail: {{ company.email }}<br />
-            Modalidad: {{ company?.modality?.name ?? "Sin modalidad" }}
+            Modalidad: {{ company?.modality?.name ?? 'Sin modalidad' }}
             <br />
           </div>
         </div>
@@ -77,7 +77,7 @@
             >
               Nombre: {{ cycle.name }} <br />
               Nivel de grado: {{ cycle.education_level }} <br />
-              Modalidad: {{ cycle.modality?.name ?? "Sin modalidad" }} <br />
+              Modalidad: {{ cycle.modality?.name ?? 'Sin modalidad' }} <br />
             </div>
           </div>
         </div>
@@ -256,196 +256,196 @@ import HeaderDashboard from "../components/common/HeaderDashboard.vue";
 
 
 
-const modalModifyCompany = ref();
-const modalDeleteCompany = ref();
+  const modalModifyCompany = ref();
+  const modalDeleteCompany = ref();
 
-const openModifyCompany = () => {
-  modalModifyCompany.value?.openModal();
-};
-
-const openDelete = () => {
-  modalDeleteCompany.value?.openModal();
-};
-
-interface Company {
-  name: string;
-  cif: string;
-  address: string;
-  active: boolean;
-  phone: string;
-  email: string;
-  province: {
-    name: string;
+  const openModifyCompany = () => {
+    modalModifyCompany.value?.openModal();
   };
-  modality: {
-    name: string;
+
+  const openDelete = () => {
+    modalDeleteCompany.value?.openModal();
   };
-}
 
-interface CyclesCompany {
-  name: string;
-  education_level: string;
-  modality: {
+  interface Company {
     name: string;
-  };
-}
-
-interface AlumnCompany {
-  first_name: string;
-  last_name_1: string;
-  last_name_2: string;
-  dni: string;
-  enrollment_center: string;
-  modality_id: string;
-  cycle_id: {
-    name: string;
-  };
-  address: string;
-  province: string;
-  phone: string;
-  email: string;
-  start_date: Date;
-  end_date: Date;
-  status: string;
-  result: string;
-}
-
-const route = useRoute();
-const company = ref<Company | null>(null);
-const loading = ref(true);
-const error = ref<string | null>(null);
-
-const loadingAlumn = ref(true);
-const errorAlumn = ref<string | null>(null);
-const alumnDetails = ref<any[]>([]);
-
-const interships = ref<any[]>([]);
-const loadingIntership = ref(true);
-const errorIntership = ref<string | null>(null);
-
-const currentStudents = ref<AlumnCompany[]>([]);
-const oldStudents = ref<AlumnCompany[]>([]);
-
-const cyclesCompany = ref<CyclesCompany[]>([]);
-const loadingCycles = ref(true);
-const errorCycles = ref<string | null>(null);
-
-onMounted(async () => {
-  const companyId = route.params.id;
-
-  // OBTENER DATOS DE LA EMPRESA SELECCIONADA
-  const { data: companyData, error: companyErr } = await supabase
-    .from("company")
-    .select(
-      "name, cif, address, active, phone, email, province:province_id (name), modality:modality_id (name)"
-    )
-    .eq("id", companyId)
-    .single();
-
-  if (companyErr) {
-    error.value = companyErr.message;
-  } else {
-    company.value = companyData;
+    cif: string;
+    address: string;
+    active: boolean;
+    phone: string;
+    email: string;
+    province: {
+      name: string;
+    };
+    modality: {
+      name: string;
+    };
   }
 
-  // OBTENER CICLOS ASOCIADOS A LA EMPRESA SELECCIONADA
-  const { data: cyclesData, error: cyclesErr } = await supabase
-    .from("company_cycle")
-    .select(
-      "cycle:cycle_id (name, education_level, modality:modality_id (name))"
-    )
-    .eq("company_id", companyId);
-
-  if (cyclesErr) {
-    errorCycles.value = cyclesErr.message;
-  } else {
-    cyclesCompany.value = cyclesData.map((item: any) => item.cycle);
+  interface CyclesCompany {
+    name: string;
+    education_level: string;
+    modality: {
+      name: string;
+    };
   }
 
-  // OBTENER ALUMNOS ASOCIADOS A LA EMPRESA SELECCIONADA
-  const { data: internData, error: internErr } = await supabase
-    .from("internship")
-    .select("alumn_id")
-    .eq("company_id", companyId);
+  interface AlumnCompany {
+    first_name: string;
+    last_name_1: string;
+    last_name_2: string;
+    dni: string;
+    enrollment_center: string;
+    modality_id: string;
+    cycle_id: {
+      name: string;
+    };
+    address: string;
+    province: string;
+    phone: string;
+    email: string;
+    start_date: Date;
+    end_date: Date;
+    status: string;
+    result: string;
+  }
 
-  if (internErr) {
-    errorAlumn.value = internErr.message;
-  } else {
-    const alumnIds = internData.map((item: any) => item.alumn_id);
-    const { data: alumnData, error: alumnErr } = await supabase
-      .from("alumn")
+  const route = useRoute();
+  const company = ref<Company | null>(null);
+  const loading = ref(true);
+  const error = ref<string | null>(null);
+
+  const loadingAlumn = ref(true);
+  const errorAlumn = ref<string | null>(null);
+  const alumnDetails = ref<any[]>([]);
+
+  const interships = ref<any[]>([]);
+  const loadingIntership = ref(true);
+  const errorIntership = ref<string | null>(null);
+
+  const currentStudents = ref<AlumnCompany[]>([]);
+  const oldStudents = ref<AlumnCompany[]>([]);
+
+  const cyclesCompany = ref<CyclesCompany[]>([]);
+  const loadingCycles = ref(true);
+  const errorCycles = ref<string | null>(null);
+
+  onMounted(async () => {
+    const companyId = route.params.id;
+
+    // OBTENER DATOS DE LA EMPRESA SELECCIONADA
+    const { data: companyData, error: companyErr } = await supabase
+      .from('company')
       .select(
-        "*, cycle:cycle_id (name), modality:modality_id (name), province:province_id (name)"
+        'name, cif, address, active, phone, email, province:province_id (name), modality:modality_id (name)'
       )
-      .in("id", alumnIds);
+      .eq('id', companyId)
+      .single();
 
-    if (alumnErr) {
-      errorAlumn.value = alumnErr.message;
+    if (companyErr) {
+      error.value = companyErr.message;
     } else {
-      alumnDetails.value = alumnData;
+      company.value = companyData;
     }
-  }
 
-  // MOSTRAR LOS ALUMNOS EN LA TABLA ACTUALES O ANTIGUOS SEGÚN EL ESTADO
-  const { data: intershipData, error: intershipErr } = await supabase
-    .from("internship")
-    .select("*")
-    .eq("company_id", companyId);
+    // OBTENER CICLOS ASOCIADOS A LA EMPRESA SELECCIONADA
+    const { data: cyclesData, error: cyclesErr } = await supabase
+      .from('company_cycle')
+      .select(
+        'cycle:cycle_id (name, education_level, modality:modality_id (name))'
+      )
+      .eq('company_id', companyId);
 
-  if (intershipErr) {
-    errorIntership.value = intershipErr.message;
-    console.log(intershipErr);
-  } else {
-    interships.value = intershipData;
-  }
+    if (cyclesErr) {
+      errorCycles.value = cyclesErr.message;
+    } else {
+      cyclesCompany.value = cyclesData.map((item: any) => item.cycle);
+    }
 
-  // FILTRADO DE ALUMNOS ACTUALES Y ANTIGUOS
-  const currentlyStudents = alumnDetails.value
-    .filter((alumn: any) => {
-      return (
-        alumn.status &&
-        typeof alumn.status === "string" &&
-        ["activo", "sin cursar", "cursando"].includes(
-          alumn.status.toLowerCase()
+    // OBTENER ALUMNOS ASOCIADOS A LA EMPRESA SELECCIONADA
+    const { data: internData, error: internErr } = await supabase
+      .from('internship')
+      .select('alumn_id')
+      .eq('company_id', companyId);
+
+    if (internErr) {
+      errorAlumn.value = internErr.message;
+    } else {
+      const alumnIds = internData.map((item: any) => item.alumn_id);
+      const { data: alumnData, error: alumnErr } = await supabase
+        .from('alumn')
+        .select(
+          '*, cycle:cycle_id (name), modality:modality_id (name), province:province_id (name)'
         )
-      );
-    })
-    .map((alumn: any) => {
-      const intern = interships.value.find((i) => i.alumn_id === alumn.id);
-      return {
-        ...alumn,
-        start_date: intern?.start_date,
-        end_date: intern?.end_date,
-      };
-    });
+        .in('id', alumnIds);
 
-  const oldStudentsFilter = alumnDetails.value
-    .filter((alumn: any) => {
-      return (
-        alumn.status &&
-        typeof alumn.status === "string" &&
-        alumn.status.toLowerCase() === "finalizado"
-      );
-    })
-    .map((alumn: any) => {
-      const intern = interships.value.find((i) => i.alumn_id === alumn.id);
-      return {
-        ...alumn,
-        start_date: intern?.start_date,
-        end_date: intern?.end_date,
-        result: intern?.result,
-      };
-    });
+      if (alumnErr) {
+        errorAlumn.value = alumnErr.message;
+      } else {
+        alumnDetails.value = alumnData;
+      }
+    }
 
-  // OBTENER LOS ALUMNOS ACTUALES
-  currentStudents.value = currentlyStudents;
+    // MOSTRAR LOS ALUMNOS EN LA TABLA ACTUALES O ANTIGUOS SEGÚN EL ESTADO
+    const { data: intershipData, error: intershipErr } = await supabase
+      .from('internship')
+      .select('*')
+      .eq('company_id', companyId);
 
-  // OBTENER LOS ALUMNOS ANTIGUOS
-  oldStudents.value = oldStudentsFilter;
+    if (intershipErr) {
+      errorIntership.value = intershipErr.message;
+      console.log(intershipErr);
+    } else {
+      interships.value = intershipData;
+    }
 
-  loadingIntership.value = false;
-  loadingCycles.value = false;
-  loading.value = false;
-  loadingAlumn.value = false;
-});
+    // FILTRADO DE ALUMNOS ACTUALES Y ANTIGUOS
+    const currentlyStudents = alumnDetails.value
+      .filter((alumn: any) => {
+        return (
+          alumn.status &&
+          typeof alumn.status === 'string' &&
+          ['activo', 'sin cursar', 'cursando'].includes(
+            alumn.status.toLowerCase()
+          )
+        );
+      })
+      .map((alumn: any) => {
+        const intern = interships.value.find((i) => i.alumn_id === alumn.id);
+        return {
+          ...alumn,
+          start_date: intern?.start_date,
+          end_date: intern?.end_date,
+        };
+      });
+
+    const oldStudentsFilter = alumnDetails.value
+      .filter((alumn: any) => {
+        return (
+          alumn.status &&
+          typeof alumn.status === 'string' &&
+          alumn.status.toLowerCase() === 'finalizado'
+        );
+      })
+      .map((alumn: any) => {
+        const intern = interships.value.find((i) => i.alumn_id === alumn.id);
+        return {
+          ...alumn,
+          start_date: intern?.start_date,
+          end_date: intern?.end_date,
+          result: intern?.result,
+        };
+      });
+
+    // OBTENER LOS ALUMNOS ACTUALES
+    currentStudents.value = currentlyStudents;
+
+    // OBTENER LOS ALUMNOS ANTIGUOS
+    oldStudents.value = oldStudentsFilter;
+
+    loadingIntership.value = false;
+    loadingCycles.value = false;
+    loading.value = false;
+    loadingAlumn.value = false;
+  });
 </script>
