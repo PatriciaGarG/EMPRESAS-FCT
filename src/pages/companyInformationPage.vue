@@ -1,6 +1,6 @@
 <template>
   <HeaderDashboard />
-  <body class="bg-gray-200 h-screen">
+  <body ref="companyInformationPDF" class="bg-gray-200 h-screen">
     <div v-if="loading">Cargando empresa...</div>
     <div v-else-if="error">{{ error }}</div>
     <div v-else-if="company">
@@ -196,6 +196,15 @@
       </div>
     </div>
     
+    <div>
+      <button
+        id="downloadButton"
+        @click="downloadPDF()"
+        class="mt-20 w-35 h-10 ml-270 border-2 rounded-full bg-blue-500 text-2xl text-white border-blue-500"
+      >
+        Descargar PDF
+      </button>
+    </div>
 
   </body>
 
@@ -230,6 +239,24 @@ import StudentsChart from "../components/services/companyInformation/StudentChar
 import RatingsChart from "../components/services/companyInformation/RatingsChart.vue";
 import Modal from "../components/common/Modal.vue";
 import HeaderDashboard from "../components/common/HeaderDashboard.vue";
+import html2pdf from "html2pdf.js";
+
+
+const companyInformationPDF =ref(null);
+
+const downloadPDF = () =>{
+  if(!companyInformationPDF) return;
+
+  const options = {
+    margin: 1,
+    filename: "empresa.pdf",
+    image: { type: "jpeg", quality: 0.98 },
+    html2canvas: { scale: 2 },
+    jsPDF: { unit: "in", format: "a4", orientation: "portrait" },
+  }
+
+  html2pdf().set(options).from(companyInformationPDF.value).save();
+}
 
 const modalModifyCompany = ref();
 const modalDeleteCompany = ref();
