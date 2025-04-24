@@ -8,6 +8,7 @@ import CompanyInformationPage from '../pages/companyInformationPage.vue';
 import { useAuth } from '../composables/useAuth';
 import NewPasswordPage from '../pages/NewPasswordPage.vue';
 
+
 const routes = [
   { path: '/', component: LoginPage },
   { path: '/register', component: RegisterPage },
@@ -32,6 +33,10 @@ const routes = [
     component: CompanyInformationPage,
     meta: { requiresAuth: true },
   },
+  { path: '/alumn/:id', component: AlumnDataPage },
+  { path: '/dashboard', component: AlumnDashboardPage },
+  { path: '/company/:id', component: CompanyInformationPage },
+  { path: '/dashboard/companies', component: CompanyDashboardPage },
 ];
 
 const router = createRouter({
