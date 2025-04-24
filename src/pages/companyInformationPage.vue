@@ -37,10 +37,10 @@
           </button>
         </div>
       </div>
-      <div id="dataContainer" class="flex space-x-4">
+      <div id="dataContainer" class="w-[95%] flex space-x-4">
         <div
-          id="company"
-          class="w-250 mt-10 h-70 ml-15 border-2 border-gray-950 rounded-lg p-4 bg-white"
+          id="synoptic_table"
+          class="w-1/2 mt-10 h-70 ml-15"
         >
           <h2 class="text-left text-3xl font-bold text-black">Datos</h2>
           <br />
@@ -58,13 +58,13 @@
         </div>
 
         <div
-          id="vocationalTrainingCyclesCompatible"
-          class="w-190 mt-10 h-70 border-2 border-gray-950 rounded-lg p-4 bg-white"
+          id="synoptic_table"
+          class="w-1/2 mt-10 h-70 mr-15"
         >
           <div v-if="loadingCycles">Cargando ciclos...</div>
           <div v-else-if="errorCycles">{{ errorCycles }}</div>
           <div v-else-if="cyclesCompany.length > 0">
-            <h2 class="text-left text-3xl font-bold text-black">
+            <h2 class="text-left text-3xl font-bold text-black ml-1.5">
               Ciclos compatibles
             </h2>
             <br />
@@ -87,10 +87,10 @@
       <div v-else-if="errorAlumn">{{ errorAlumn }}</div>
       <div v-else-if="alumnDetails.length > 0">
         <div
-          id="currentlyStudents"
-          class="w-full max-w-445 overflow-x-auto border-2 item-center border-gray-950 rounded-lg shadow-md p-4 mt-2 ml-15"
+          id="synoptic_table"
+          class="w-[95%] overflow-x-auto border-2 item-center mt-2 ml-15"
         >
-          <h2 class="text-3xl font-bold border-b-2 border-gray-200">
+          <h2 class="text-3xl font-bold mb-6 ml-1.5">
             Alumnos actuales
           </h2>
           <div class="grid gap-4">
@@ -138,10 +138,10 @@
           </div>
         </div>
         <div
-          id="oldStudents"
-          class="w-full max-w-445 overflow-x-auto border-2 item-center border-gray-950 rounded-lg shadow-md p-4 mt-2 ml-15"
+          id="synoptic_table"
+          class="w-full max-w-445 overflow-x-auto item-center mt-2 ml-15"
         >
-          <h2 class="text-3xl font-bold border-b-2 border-gray-200">
+          <h2 class="text-3xl font-bold ml-1.5 mb-6">
             Alumnos antiguos
           </h2>
           <ul>
@@ -188,10 +188,14 @@
     </div>
 
     <div class="flex space-x-4">
-      <div class="w-full max-w-1/2 mx-auto border-2 border-gray 950 rounded-lg shadow-md p-6 mt-4 ml-15 mb-15">
+      <div 
+      id="synoptic_table"
+      class="w-full h-full max-w-1/2 mx-auto mt-4 ml-15 mb-15">
         <StudentsChart/>
       </div>
-      <div class="w-full max-w-1/2 mx-auto border-2 border-gray 950 rounded-lg shadow-md p-6 mt-4 ml-5 mr-16 mb-15">
+      <div 
+      id="synoptic_table"
+      class="w-full max-w-1/2 h-full mx-auto mt-4 ml-5 mr-16 mb-15">
         <RatingsChart/>
       </div>
     </div>
