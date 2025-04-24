@@ -32,8 +32,8 @@
   <section
     class="p-6 border-2 text-xl w-full max-w-full overflow-hidden bg-white rounded-2xl shadow-lg hover:shadow-xl transition-shadow"
   >
-    <div class="flex items-center justify-between mb-4 flex-wrap gap-y-2">
-      <div class="flex gap-5 flex-wrap w-fit max-w-[90%]">
+    <div class="flex items-start justify-between mb-4 flex-wrap gap-y-2">
+      <div class="flex items-center gap-5 flex-wrap w-fit max-w-[80%]">
         <h2 class="text-2xl font-bold text-gray-800 truncate">
           👤
           {{ alumnData.full_name }}
@@ -49,7 +49,7 @@
       </div>
       <div
         @click="openAlumnModal"
-        class="flex items-center justify-center p-2 rounded-2xl bg-gray-200 gap-2 cursor-pointer font-semibold hover:bg-gray-300"
+        class="flex justify-self-end items-center justify-center p-2 rounded-2xl bg-gray-200 gap-2 cursor-pointer font-semibold hover:bg-gray-300"
       >
         <img
           src="../../assets/edit-icon.png"
