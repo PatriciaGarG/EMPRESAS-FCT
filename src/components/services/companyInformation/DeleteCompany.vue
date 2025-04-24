@@ -1,7 +1,4 @@
 <template>
-    <div class="w-full fixed min-h-screen inset-0 backdrop-blur-sm z-50 flex items-center justify-center">
-        <div class="bg-white rounded-2xl shadow-lg p-8 w-full max-w-md">
-            <h3 class="text-2xl font-bold mb-6 text-center text-red-600 ">¿Esta seguro que quiere eliminar esta empresa?</h3>
             <p class="text-center mb-6 text-gray-700">
                 Esta acción eliminará todos los datos relacionados cona la empresa.
             </p>
@@ -9,8 +6,6 @@
                 <button @click="$emit('close')" class="px-4 py-2 bg-gray-300 text-gray-800 rounded hover:bg-gray-400">Cancelar</button>
                 <button @click="deleteCompany" class="px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700">Eliminar</button>
             </div>
-        </div>
-    </div>
 
 </template>
 

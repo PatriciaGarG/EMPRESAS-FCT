@@ -220,11 +220,9 @@
     <DeleteCompany
       :company-id="route.params.id"
       @delete="fetchCompany"
+      @close="modalDeleteCompany?.closeModal()"
     />
-    <DeleteCompany
-      v-if="modalDeleteCompany"
-      :company-id="route.params.id"
-    />
+    
  </Modal>
 
 </template>
