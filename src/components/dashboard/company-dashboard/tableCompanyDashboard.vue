@@ -1,51 +1,65 @@
-<!--Here we give form to the table of dashboard-->
-<script lang="ts" setup>
-  import { inject } from 'vue';
-  import type { Company } from '../../../types/company';
 
-  const company = inject('company') as Company[];
+<!--Here we give form to the table of dashboard-->
+<script setup lang="ts">
+  import { defineProps } from 'vue';
+  import type { CompanyWithCycles } from '../../../types/company';
+
+  const props = defineProps<{
+    companyData: CompanyWithCycles[];
+  }>();
 </script>
 
 <template>
-  <!--Here we give form to the table and call dates saved in data base-->
-  <div>
-    
-      <div
-        class="border-2 border-primary h-[920px] w-[75%] mb-[1px] mr-[1px] mt-[250px] ml-[25%] space-y-3 shadow-md z-2"
-      >
-        <table class="min-w-full divide-y divide-gray-200">
-          <thead
-            class="bg-primary text-white text-left uppercase tracking-wider font-bond text-2xs"
+  <div">
+    <div
+      class="border-2 border-primary h-[920px] w-[75%] mb-[1px] mr-[1px] mt-[250px] ml-[25%] space-y-3 shadow-md z-2"
+    >
+      <table class="min-w-full divide-y divide-gray-200">
+        <thead class="bg-primary text-white text-left uppercase tracking-wider font-bond text-2xs">
+          <tr>
+            <th class="px-6 py-3 text-left">Nombre</th>
+            <th class="px-6 py-3 text-left">CIF</th>
+            <th class="px-6 py-3 text-left">Dirección</th>
+            <th class="px-6 py-3 text-left">Contacto</th>
+            <th class="px-6 py-3 text-left">Estado</th>
+          </tr>
+        </thead>
+        <tbody class="bg-white divide-y divide-gray-200">
+          <tr
+            v-for="(companyItem, index) in props.companyData"
+            :key="index"
+            class="hover:bg-gray-100"
           >
-            <tr>
-              <th scope="col" class="px-6 py-3">Nombre</th>
-              <th scope="col" class="px-6 py-3">CIF</th>
-              <th scope="col" class="px-6 py-3">Dirección</th>
-              <th scope="col" class="px-6 py-3">Contacto</th>
-              <th scope="col" class="px-6 py-3">Estado</th>
-            </tr>
-          </thead>
-          <tbody class="bg-white divide-y divide-gray-200">
-            <tr v-for="(companies, index) in company" :key="index">
-              <td class="px-6 py-4 whitespace-nowrap">
-                <router-link :to="`/company/${companies.id}`">
-                  {{ companies.name }}
-                </router-link>
-              </td>
-              <td class="px-6 py-4 whitespace-nowrap">{{ companies.cif }}</td>
-              <td class="px-6 py-4 whitespace-nowrap">
-                {{ companies.address || 'Sin empresa' }}
-              </td>
-              <td class="px-6 py-4 whitespace-nowrap">
-                {{ companies.email }} <br />
-                {{ companies.phone }}
-              </td>
-              <td class="px-6 py-4 whitespace-nowrap">
-                {{ companies.active ? 'Activo' : 'Inactivo' }}
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
+            <td class="px-6 py-4 whitespace-nowrap">
+              <router-link
+                :to="`/company/${companyItem.id}`"
+                class="text-blue-600 hover:underline"
+              >
+                {{ companyItem.name }}
+              </router-link>
+            </td>
+            <td class="px-6 py-4">{{ companyItem.cif }}</td>
+            <td class="px-6 py-4">
+              {{ companyItem.address || 'Sin dirección' }}
+            </td>
+            <td class="px-6 py-4">
+              {{ companyItem.email }}<br />
+              {{ companyItem.phone }}
+            </td>
+            <td class="px-6 py-4">
+              <span
+                :class="
+                  companyItem.active
+                    ? 'text-green-600 font-semibold'
+                    : 'text-red-500 font-semibold'
+                "
+              >
+                {{ companyItem.active ? 'Disponible' : 'No disponible' }}
+              </span>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
   </div>
 </template>

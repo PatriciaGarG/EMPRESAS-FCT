@@ -9,23 +9,20 @@
   import AlumnForm from './AlumnForm.vue';
   import CompanyForm from './CompanyForm.vue';
   import DeleteAlumn from './DeleteAlumn.vue';
+  const modalCurrentCompany = ref();
+
+function openCurrentCompanyModal() {
+  modalCurrentCompany.value?.openModal();
+}
 
   const alumnData = inject('alumnData') as AlumnData;
 
   // Computed para manejar la reactividad de has_company
   const hasCompany = computed(() => alumnData.has_company);
 
-  const modalAlumn = ref();
-  const modalCompany = ref();
   const modalDelete = ref();
 
-  function openAlumnModal() {
-    modalAlumn.value?.openModal();
-  }
 
-  function openCompanyModal() {
-    modalCompany.value?.openModal();
-  }
   function openDeleteModal() {
     modalDelete.value?.openModal();
   }
@@ -35,7 +32,6 @@
     alumnData.has_company = newValue;
   };
 
-
   provide('updateHasCompany', updateHasCompany);
 </script>
 
@@ -44,7 +40,9 @@
     class="w-full p-10 grid grid-cols-[1fr_1fr] grid-rows-[auto_auto_auto] align-center gap-x-10 gap-y-5"
   >
     <section class="flex h-fit gap-6 items-center">
+      <router-link to="/dashboard/alumn">
       <div
+      @click="$router.back"
         class="relative min-w-[45px] min-h-[45px] bg-white rounded-full cursor-pointer hover:border-primary hover:bg-primary border-1 transition-all"
       >
         <img
@@ -54,6 +52,7 @@
           width="40"
         />
       </div>
+    </router-link>
       <div>
         <p class="bg-primary py-4 px-6 rounded-2xl text-2xl text-white">
           {{ alumnData.full_name }}
@@ -61,29 +60,35 @@
       </div>
     </section>
     <section class="flex gap-4 h-fit justify-end self-end">
-      <ActionButton @click="openAlumnModal"> Modificar alumn@ </ActionButton>
-      <ActionButton @click="openCompanyModal"> Modificar empresa </ActionButton>
       <ActionButton @click="openDeleteModal"> Eliminar alumn@ </ActionButton>
     </section>
     <AlumnInfo />
     <section
-      class="text-xl w-full max-w-full overflow-hidden"
-      id="synoptic_table"
+class="text-xl w-full max-w-full overflow-hidden"
+id="synoptic_table"
     >
       <CurrentCompany v-if="hasCompany" />
       <p v-else>
-        Aquí hay que ver que información poner cuando el alumno no tiene empresa
+        <h1 class="text-2xl font-bold text-gray-800">🏢 Empresa actual</h1>
+        <p class="mt-4 mb-10">{{ alumnData.full_name }} no tiene una empresa asignada en este momento</p>
+        <div
+    @click="openCurrentCompanyModal"
+    class="flex items-center justify-center p-2 rounded-2xl bg-gray-200 gap-2 cursor-pointer font-semibold hover:bg-gray-300"
+  >
+    <img
+      src="../../assets/add-icon.png"
+      alt="icono de editar"
+      class="size-6 cursor-pointer"
+    />
+    <button class="text-[0.9rem] cursor-pointer">Añadir empresa</button>
+  </div>
       </p>
     </section>
-    <ExtraInfo />
-    <Modal ref="modalAlumn" title="Modificar datos del alumn@">
-      <AlumnForm @close="modalAlumn?.closeModal()" />
-    </Modal>
-    <Modal ref="modalCompany" title="Modificar datos de la empresa actual">
-      <CompanyForm @close="modalCompany?.closeModal()" />
-    </Modal>
     <Modal ref="modalDelete" title="¿Seguro que quieres borrar este alumn@?">
       <DeleteAlumn @close="modalDelete?.closeModal()" />
     </Modal>
+    <Modal ref="modalCurrentCompany" title="Modificar datos del alumn@">
+    <CompanyForm @close="modalCurrentCompany?.closeModal()" />
+  </Modal>
   </main>
 </template>

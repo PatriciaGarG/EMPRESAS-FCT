@@ -20,5 +20,4 @@
     >
       Insertar alumn@
     </button>
- 
 </template>

@@ -46,7 +46,7 @@
 
   const companies = computed(() => [
     { id: 'null', name: 'Sin empresa' },
-    ...allCompanyOptions.value.map((a) => ({ id: a.id, name: a.name })),
+    ...allCompanyOptions.value.map((a) => ({ id: a.value, name: a.name })),
   ]);
 
   const modalities = computed(() =>
@@ -115,7 +115,7 @@
         @filterSearch="(val) => updateFilter('search', val)"
       />
     </div>
-    <div class="relative w-full ">
+    <div class="relative w-full">
       <div
         class="relative justify-center w-[7%] font-bold text-center bg-gray-300 ring-2 ring-primary p-2 rounded-2xl shadow-2xl hover:not-focus:bg-gray-400 hover:ring-3 mt-[1%] ml-[92%]"
       >
