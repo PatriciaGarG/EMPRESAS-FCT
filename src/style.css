@@ -11,8 +11,8 @@
     content: '';
     position: absolute;
     bottom: 0;
-    left: -10px; 
-    width: calc(100% + 20px); 
-    border-bottom: 2px solid #a0a4ac; 
+    left: -10px;
+    width: calc(100% + 20px);
+    border-bottom: 2px solid #a0a4ac;
   }
 }
