@@ -43,7 +43,7 @@
                 {{ companies.phone }}
               </td>
               <td class="px-6 py-4 whitespace-nowrap">
-                {{ companies.active ? 'Activo' : 'Inactivo' }}
+                {{ companies.active ? 'Disponible' : 'No Disponible' }}
               </td>
             </tr>
           </tbody>
